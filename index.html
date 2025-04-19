@@ -74,7 +74,35 @@
       fetch(scriptURL, {
         method: 'POST',
         body: formData,
-        mode: 'no-cors'
+        mode:<script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbyYCGbTc3_NFu_ljBR2a2yGJ_mBOkRfoDHPSvUonruRx4S3Df88W0eucQcJ3LdbGH2Dwg/exec';
+  const form = document.getElementById("form");
+  const successMsg = document.getElementById("success-message");
+  const errorMsg = document.getElementById("error-message");
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+
+    fetch(scriptURL, {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.text())
+    .then(text => {
+      console.log("Risposta dal server:", text);
+      form.reset();
+      successMsg.style.display = "block";
+      errorMsg.style.display = "none";
+    })
+    .catch(error => {
+      console.error("Errore nella fetch:", error);
+      successMsg.style.display = "none";
+      errorMsg.style.display = "block";
+    });
+  });
+</script>
+
       })
       .then(() => {
         form.reset();
