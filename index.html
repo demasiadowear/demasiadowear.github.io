@@ -54,8 +54,8 @@
 </head>
 <body>
   <img src="index.png" alt="Demasiado Under Construction" />
-  <form name="submit-to-google-sheet">
-    <input name="Email" type="email" placeholder="La tua email" required />
+  <form id="form">
+    <input name="email" type="email" placeholder="La tua email" required />
     <button type="submit">UNISCITI AL CODICE</button>
   </form>
   <div class="message success" id="success-message" style="display:none;">✅ Iscrizione completata!</div>
@@ -63,16 +63,18 @@
 
   <script>
     const scriptURL = 'https://script.google.com/macros/s/AKfycbys8ZRCN91hAvX6bCFSj22FZk0f5s2XgK08QJ97j6hC/exec';
-    const form = document.forms['submit-to-google-sheet'];
+    const form = document.getElementById("form");
     const successMsg = document.getElementById("success-message");
     const errorMsg = document.getElementById("error-message");
 
-    form.addEventListener('submit', e => {
+    form.addEventListener("submit", (e) => {
       e.preventDefault();
+      const formData = new FormData();
+      formData.append("email", form.email.value); // CAMPO NOME CORRETTO
+
       fetch(scriptURL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(new FormData(form))
+        body: formData
       })
       .then(() => {
         form.reset();
@@ -80,9 +82,9 @@
         errorMsg.style.display = "none";
       })
       .catch(error => {
-        console.error('Errore nella fetch:', error);
-        errorMsg.style.display = "block";
+        console.error("Errore nella fetch:", error);
         successMsg.style.display = "none";
+        errorMsg.style.display = "block";
       });
     });
   </script>
