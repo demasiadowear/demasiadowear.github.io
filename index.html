@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>D3MAS1ADØ WEAR – UNIDAD-31Ø</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #39FF14;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    .title {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: white;
+      margin-bottom: 2rem;
+    }
+
+    form {
+      width: 90%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    input[type="email"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: none;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #39FF14;
+      border: none;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      font-family: 'Courier New', monospace;
+      border-radius: 4px;
+    }
+
+    button:hover {
+      background-color: white;
+      color: #39FF14;
+    }
+
+    #msg {
+      margin-top: 10px;
+      color: white;
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.75rem;
+      color: #555;
+    }
+
+    @media (max-width: 600px) {
+      .title {
+        font-size: 1.6rem;
+      }
+
+      .subtitle {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="title">D3MAS1ADØ WEAR</div>
+  <div class="subtitle">"L'unico modo che conosciamo" <br> LA UNIDAD-31Ø</div>
+
+  <form name="submit-to-google-sheet">
+    <input name="email" type="email" placeholder="Inserisci la tua mail" required />
+    <button type="submit">ENTRA NELLA UNIDAD-31Ø</button>
+  </form>
+  <span id="msg"></span>
+
+  <footer>&copy; 2025 D3MAS1ADØ WEAR</footer>
+
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzRT2h4YkKav-iLGEdgzYHYxtVkBrcOACJiUJt7O5D1sSxCjL7KdoGzT5hDNcGkQtW7hQ/exec';
+    const form = document.forms['submit-to-google-sheet'];
+    const msg = document.getElementById('msg');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+        .then(response => {
+          msg.innerHTML = "✅ Sei dentro. Benvenuto nella UNIDAD-31Ø.";
+          setTimeout(() => msg.innerHTML = "", 6000);
+          form.reset();
+        })
+        .catch(error => {
+          msg.innerHTML = "💥 Errore nell’invio. Riprova.";
+          console.error('Errore!', error.message);
+        });
+    });
+  </script>
+</body>
+</html>
