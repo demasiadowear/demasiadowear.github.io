@@ -1,0 +1,17 @@
+
+body {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+.logo-container {
+    text-align: center;
+}
+h1 {
+    color: #39FF14;
+}
