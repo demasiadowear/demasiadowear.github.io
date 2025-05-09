@@ -25,23 +25,22 @@ body {
 }
 
 .container {
-    max-width: 1000px;
+    max-width: 800px;
     width: 90%;
     position: relative;
     z-index: 1;
-    padding: 20px;
+    padding: 30px 20px;
     margin: 0 auto;
+    text-align: center;
 }
-
 .logo {
-    max-width: 90%;
-    width: 720px;
+    max-width: 600px;
+    width: 90%;
     height: auto;
     display: block;
-    margin: 40px auto 50px;
+    margin: 30px auto 40px;
     animation: pulse 3s infinite ease-in-out;
 }
-
 .headline {
     font-size: 2.8em;
     font-weight: 800;
@@ -56,6 +55,7 @@ body {
     color: #39FF14;
     margin-bottom: 40px;
     font-style: italic;
+    opacity: 1 !important;
 }
 
 .subscribe-form input {
@@ -87,7 +87,7 @@ body {
 .footer {
     margin-top: 40px;
     font-size: 1em;
-    color: #aaa;
+    color: #BBB;
 }
 
 @keyframes pulse {
