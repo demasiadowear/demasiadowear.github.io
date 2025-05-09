@@ -37,8 +37,8 @@ body {
     height: auto;
     margin: 40px auto 50px;
     display: block;
-    filter: drop-shadow(0 0 16px #39FF14) drop-shadow(0 0 26px #39FF14);
-    animation: pulse 3.5s infinite ease-in-out;
+    filter: drop-shadow(0 0 6px #39FF14) drop-shadow(0 0 12px #39FF14);
+    animation: pulse 4s infinite ease-in-out;
 }
 
 
