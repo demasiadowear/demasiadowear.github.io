@@ -32,8 +32,11 @@ body {
 }
 
 .logo {
-    width: 320px;
-    margin-bottom: 40px;
+    width: 480px;
+    max-width: 90vw;
+    height: auto;
+    margin-bottom: 50px;
+    filter: drop-shadow(0 0 10px #39FF14);
 }
 
 .headline {
