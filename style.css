@@ -24,10 +24,11 @@ body {
 }
 
 .container {
-    max-width: 800px;
-    margin-top: -50px;
-    padding: 40px 20px;
+    max-width: 1200px;
+    width: 90%;
 }
+
+
 
 .logo {
     max-width: 100%;
@@ -93,4 +94,21 @@ body {
 
 .logo {
     animation: pulse 3s infinite ease-in-out;
+@media (min-width: 768px) {
+    .headline {
+        font-size: 3em;
+    }
+
+    .subtitle {
+        font-size: 1.5em;
+    }
+
+    .subscribe-form input {
+        font-size: 1.1em;
+    }
+
+    .subscribe-form button {
+        font-size: 1.1em;
+    }
+}
 
