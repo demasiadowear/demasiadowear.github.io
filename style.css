@@ -32,12 +32,12 @@ body {
 }
 
 .logo {
-    width: 70vw;
-    max-width: 720px;
+    width: 80vw;
+    max-width: 860px;
     height: auto;
-    margin: 40px auto 50px;
+    margin: 60px auto 60px;
     display: block;
-    filter: drop-shadow(0 0 3px #39FF14) drop-shadow(0 0 6px #39FF14);
+    filter: drop-shadow(0 0 1.5px #39FF14);
 }
 
 
@@ -91,3 +91,4 @@ body {
 .logo {
     animation: pulse 3s infinite ease-in-out;
 }
+filter: none;
