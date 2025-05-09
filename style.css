@@ -32,14 +32,15 @@ body {
 }
 
 .logo {
-    width: 1800px;
+    width: 100vw;
     max-width: 100vw;
     height: auto;
-    margin: 60px auto 80px;
+    margin: 50px auto 60px;
     display: block;
-    filter: drop-shadow(0 0 25px #39FF14) drop-shadow(0 0 40px #39FF14);
-    animation: pulse 5s infinite ease-in-out;
+    filter: drop-shadow(0 0 18px #39FF14) drop-shadow(0 0 28px #39FF14);
+    animation: pulse 4s infinite ease-in-out;
 }
+
 
 
 
