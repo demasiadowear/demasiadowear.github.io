@@ -13,6 +13,7 @@ body {
     background-size: cover;
     background-repeat: repeat;
     position: relative;
+    text-align: center;
 }
 
 .overlay {
@@ -24,24 +25,25 @@ body {
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1000px;
     width: 90%;
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    margin: 0 auto;
 }
-
-
 
 .logo {
-    max-width: 100%;
+    max-width: 90%;
+    width: 720px;
     height: auto;
-    width: auto;
     display: block;
     margin: 40px auto 50px;
-    filter: none;
+    animation: pulse 3s infinite ease-in-out;
 }
 
-
 .headline {
-    font-size: 2.6em;
+    font-size: 2.8em;
     font-weight: 800;
     line-height: 1.4;
     text-transform: uppercase;
@@ -49,14 +51,12 @@ body {
     margin-bottom: 20px;
 }
 
-
 .subtitle {
-    font-size: 1.3em;
+    font-size: 1.4em;
     color: #39FF14;
     margin-bottom: 40px;
     font-style: italic;
 }
-
 
 .subscribe-form input {
     padding: 14px;
@@ -66,6 +66,9 @@ body {
     border-radius: 4px;
     font-size: 1em;
     margin-bottom: 10px;
+    opacity: 1;
+    filter: grayscale(100%);
+    pointer-events: none;
 }
 
 .subscribe-form button {
@@ -77,38 +80,40 @@ body {
     font-weight: 600;
     letter-spacing: 1px;
     cursor: not-allowed;
+    opacity: 1;
+    filter: grayscale(100%);
 }
-
 
 .footer {
     margin-top: 40px;
-    font-size: 0.9em;
-    color: #888;
+    font-size: 1em;
+    color: #aaa;
 }
+
 @keyframes pulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.02); }
     100% { transform: scale(1); }
 }
 
+/* Responsive */
+@media (max-width: 768px) {
+    .logo {
+        width: 90%;
+    }
 
-.logo {
-    animation: pulse 3s infinite ease-in-out;
-@media (min-width: 768px) {
     .headline {
-        font-size: 3em;
+        font-size: 2em;
     }
 
     .subtitle {
-        font-size: 1.5em;
+        font-size: 1.2em;
     }
 
-    .subscribe-form input {
-        font-size: 1.1em;
-    }
-
+    .subscribe-form input,
     .subscribe-form button {
-        font-size: 1.1em;
+        font-size: 1em;
     }
 }
+
 
