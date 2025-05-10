@@ -1,19 +1,10 @@
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: white;
-    height: 100vh;
     background-image: url('000.png');
-    background-size: cover;
-    background-position: center;
+    background-size: contain;
     background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-position: top center;
     background-color: #000;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
+    background-attachment: fixed;
 }
 
 
