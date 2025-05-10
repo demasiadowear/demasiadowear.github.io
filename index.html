@@ -93,33 +93,34 @@
   <p id="message"></p>
 
   <script>
-    document.getElementById('subscribe-form').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
+  document.getElementById('subscribe-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
 
-      if (!email.includes('@')) {
-        document.getElementById("message").innerText = "Inserisci un'email valida.";
-        return;
-      }
+    if (!email.includes('@')) {
+      document.getElementById("message").innerText = "Inserisci un'email valida.";
+      return;
+    }
 
-      const url = "https://script.google.com/macros/s/AKfycbypK3BIhrF5uquhGc1FeDp0y4GC8e2dNmcPBsVC-_iaaE8veyJG4F_vxOkuBi6SWh-gMQ/exec";
+    const url = "https://script.google.com/macros/s/https://script.google.com/macros/s/AKfycbyKCxb9dAnxY8eVre_Pb-vjAjQmUunl20pITavXrmtO1628u4pLhA9i37WstQKpX3JoHA/exec";
 
-      try {
-        const res = await fetch(url, {
-          method: "POST",
-          body: new URLSearchParams({ email })
-        });
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        body: new URLSearchParams({ email })
+      });
 
-        const text = await res.text();
-        document.getElementById("message").innerText = 
-          text === "OK" 
-            ? "Iscrizione completata con successo!" 
-            : "Errore: " + text;
-      } catch {
-        document.getElementById("message").innerText = "Errore di rete. Riprova.";
-      }
-    });
-  </script>
+      const text = await res.text();
+      document.getElementById("message").innerText = 
+        text === "OK" 
+          ? "Iscrizione completata con successo!" 
+          : "Errore: " + text;
+    } catch {
+      document.getElementById("message").innerText = "Errore di rete. Riprova.";
+    }
+  });
+</script>
+
 
 </body>
 </html>
