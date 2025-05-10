@@ -2,105 +2,157 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ISCRIZIONE DEMAS1ADØ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>D3MAS1ADØ - Iscrizione</title>
+  <title>ISCRIZIONE DEMASIADØ</title>
   <style>
-    * { box-sizing: border-box; }
-    html, body {
+    body {
+      background: #000;
+      color: #fff;
       margin: 0;
-      padding: 0;
-      height: 100%;
       font-family: Arial, sans-serif;
-      background: black;
-      color: white;
+      color: #fff;
+      background-color: #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+      overflow: hidden;
     }
-    .bg {
+
+    img.bg {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      object-fit: contain; /* <-- ECCO il segreto per farla "stringere" senza tagliarla */
+      object-fit: cover;
       z-index: -1;
       filter: brightness(0.4);
     }
-    .container {
-      position: relative;
-      height: 100%;
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p.subtitle {
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+
+    form {
+      margin-top: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px;
+      gap: 10px;
     }
-    h1 {
-      font-size: 1.6em;
-      margin-bottom: 10px;
-    }
-    p {
-      font-size: 0.9em;
-      margin: 0 0 15px;
-    }
+
     input[type="email"] {
-      padding: 10px;
+      padding: 12px;
+      width: 280px;
       font-size: 1em;
-      width: 260px;
+      border: none;
+      padding: 10px;
+      width: 250px;
       border-radius: 4px;
       border: none;
-      margin-bottom: 10px;
+      font-size: 1rem;
     }
+
     button {
+      padding: 12px;
       padding: 10px 20px;
       background-color: #39FF14;
       color: black;
       font-weight: bold;
       border: none;
       border-radius: 4px;
+      font-weight: bold;
       cursor: pointer;
+      transition: 0.2s;
     }
+
+    #message {
+      margin-top: 15px;
+      font-size: 0.95em;
+      color: #39FF14;
+    button:hover {
+      background-color: #2be100;
+    }
+
+    img.bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      filter: brightness(0.4);
     #message {
       margin-top: 10px;
       color: #39FF14;
-      font-size: 0.9em;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
-  <img class="bg" src="001.png" alt="Background" />
-  <div class="container">
-    <h1>LA UNIDAD-310 STA ARRIVANDO</h1>
-    <p>Iscriviti per non restare fuori</p>
-    <form id="subscribe-form">
-      <input type="email" id="email" name="email" placeholder="Inserisci la tua email" required />
-      <button type="submit">Iscriviti</button>
-    </form>
-    <p id="message"></p>
-  </div>
+
+  <img class="bg" src="001.png" alt="background"/>
+  <img class="bg" src="001.png" alt="background" />
+
+  <h1>LA UNIDAD-310 STA ARRIVANDO</h1>
+  <p>Iscriviti per non restare fuori</p>
+  <p class="subtitle">Iscriviti per non restare fuori</p>
+
+  <form id="subscribe-form">
+    <input type="email" id="email" placeholder="Inserisci la tua email" required />
+    <input type="email" id="email" name="email" placeholder="Inserisci la tua email" required />
+    <button type="submit">Iscriviti</button>
+  </form>
+
+  <p id="message"></p>
 
   <script>
+    document.getElementById('subscribe-form').addEventListener('submit', async function(e) {
     document.getElementById('subscribe-form').addEventListener('submit', async function (e) {
       e.preventDefault();
       const email = document.getElementById('email').value;
-      const url = "https://script.google.com/macros/s/AKfycbypK3BIhrF5uquhGc1FeDp0y4GC8e2dNmcPBsVC-_iaaE8veyJG4F_vxOkuBi6SWh-gMQ/exec";
 
+      const url = "https://script.google.com/macros/s/AKfycbzbwuBMhDZE98syhTnNli3QkafWJzlBuLSIpRYkcKz9xkcZNYxiK3gJSTwUYZ3lw4L_zQ/exec" ; 
+      // Email valida
       if (!email.includes('@')) {
         document.getElementById("message").innerText = "Inserisci un'email valida.";
         return;
       }
+
+      const url = "https://script.google.com/macros/s/AKfycbypK3BIhrF5uquhGc1FeDp0y4GC8e2dNmcPBsVC-_iaaE8veyJG4F_vxOkuBi6SWh-gMQ/exec";
 
       try {
         const res = await fetch(url, {
           method: "POST",
           body: new URLSearchParams({ email })
         });
+
         const text = await res.text();
         document.getElementById("message").innerText = 
+          text === "OK" 
+            ? "Iscrizione completata con successo!" 
+            : "Errore: " + text;
+        document.getElementById("message").innerText =
           text === "OK" ? "Iscrizione completata con successo!" : "Errore: " + text;
       } catch {
         document.getElementById("message").innerText = "Errore di rete. Riprova.";
       }
     });
   </script>
+
 </body>
 </html>
