@@ -1,24 +1,92 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>D3MAS1ADØ – Urban Wear</title>
-    <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UNITAD-310 ISCRIZIONE</title>
+  <style>
+    body {
+      background: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    input[type="email"] {
+      padding: 12px;
+      width: 300px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 1em;
+      background-color: #39FF14;
+      color: black;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    #message {
+      margin-top: 15px;
+      color: #39FF14;
+      font-size: 0.95em;
+    }
+  </style>
 </head>
 <body>
-    <div class="overlay"></div>
-    <div class="container">
-        <h1 class="headline">LA UNIDAD-310 STA ARRIVANDO.</h1>
-        <p class="subtitle">Quando ti accorgerai di noi, saremo già dietro di te.</p>
+  <h1>LA UNIDAD-310 STA ARRIVANDO</h1>
+  <p>Iscriviti per non restare fuori</p>
 
-        <form class="subscribe-form" action="https://script.google.com/macros/s/AKfycbz1wdX6DF1yd9kRP_A8KZqa-TBgHGv2VGAwgH_YwkyvVCH84IrwMY9WUjQH4tsS4Xb2kQ/exec" method="POST">
-            <input type="email" name="email" placeholder="Inserisci la tua email" required />
-            <button type="submit">Coming Soon</button>
-        </form>
+  <form id="subscribe-form">
+    <input type="email" id="email" name="email" placeholder="Inserisci la tua email" required />
+    <button type="submit">Iscriviti</button>
+  </form>
 
-        <p class="footer">info@demasiadowear.com</p>
-    </div>
+  <p id="message"></p>
+
+  <script>
+    document.getElementById('subscribe-form').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const email = document.getElementById('email').value;
+      const url = "https://script.google.com/macros/s/AKfycbypK3BIhrF5uquhGc1FeDp0y4GC8e2dNmcPBsVC-_iaaE8veyJG4F_vxOkuBi6SWh-gMQ/exec";
+
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          body: new URLSearchParams({ email }),
+        });
+
+        const text = await res.text();
+        document.getElementById("message").innerText =
+          text === "OK" ? "Iscrizione completata con successo!" : "Errore: " + text;
+      } catch (err) {
+        document.getElementById("message").innerText = "Errore di rete. Riprova.";
+      }
+    });
+  </script>
 </body>
 </html>
-
