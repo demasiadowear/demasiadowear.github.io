@@ -4,20 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ISCRIZIONE DEMAS1ADØ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
+    * { box-sizing: border-box; }
     body {
       background: #000;
       color: #fff;
-      margin: 0;
       font-family: Arial, sans-serif;
-      color: #fff;
-      background-color: #000;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      justify-content: center;
       height: 100vh;
       margin: 0;
       text-align: center;
@@ -30,7 +26,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      object-fit: cover;
+      object-fit: contain; /* <-- NON TAGLIA L'IMMAGINE */
       z-index: -1;
       filter: brightness(0.4);
     }
@@ -54,47 +50,28 @@
     }
 
     input[type="email"] {
-      padding: 12px;
-      width: 280px;
-      font-size: 1em;
-      border: none;
       padding: 10px;
       width: 250px;
+      font-size: 1rem;
       border-radius: 4px;
       border: none;
-      font-size: 1rem;
     }
 
     button {
-      padding: 12px;
       padding: 10px 20px;
       background-color: #39FF14;
       color: black;
       font-weight: bold;
       border: none;
       border-radius: 4px;
-      font-weight: bold;
       cursor: pointer;
       transition: 0.2s;
     }
 
-    #message {
-      margin-top: 15px;
-      font-size: 0.95em;
-      color: #39FF14;
     button:hover {
       background-color: #2be100;
     }
 
-    img.bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -1;
-      filter: brightness(0.4);
     #message {
       margin-top: 10px;
       color: #39FF14;
@@ -107,7 +84,7 @@
   <img class="bg" src="001.png" alt="background"/>
 
   <h1>LA UNIDAD-310 STA ARRIVANDO</h1>
-  <p>Iscriviti per non restare fuori</p>
+  <p class="subtitle">Iscriviti per non restare fuori</p>
   <form id="subscribe-form">
     <input type="email" id="email" name="email" placeholder="Inserisci la tua email" required />
     <button type="submit">Iscriviti</button>
@@ -120,8 +97,6 @@
       e.preventDefault();
       const email = document.getElementById('email').value;
 
-      const url = "https://script.google.com/macros/s/AKfycbzbwuBMhDZE98syhTnNli3QkafWJzlBuLSIpRYkcKz9xkcZNYxiK3gJSTwUYZ3lw4L_zQ/exec" ; 
-      // Email valida
       if (!email.includes('@')) {
         document.getElementById("message").innerText = "Inserisci un'email valida.";
         return;
@@ -140,10 +115,8 @@
           text === "OK" 
             ? "Iscrizione completata con successo!" 
             : "Errore: " + text;
-        document.getElementById("message").innerText =
-          text === "OK" ? "Iscrizione completata con successo!" : "Errore: " + text;
       } catch {
-      
+        document.getElementById("message").innerText = "Errore di rete. Riprova.";
       }
     });
   </script>
