@@ -2,8 +2,8 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UNITAD-310 ISCRIZIONE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ISCRIZIONE DEMAS1ADØ</title>
   <style>
     body {
       background: #000;
@@ -18,75 +18,85 @@
       text-align: center;
     }
 
-    h1 {
-      font-size: 1.5em;
-      margin-bottom: 10px;
-    }
-
     form {
+      margin-top: 20px;
       display: flex;
       flex-direction: column;
-      align-items: center;
       gap: 10px;
     }
 
     input[type="email"] {
       padding: 12px;
-      width: 300px;
-      border: none;
-      border-radius: 6px;
+      width: 280px;
       font-size: 1em;
+      border: none;
+      border-radius: 4px;
     }
 
     button {
-      padding: 12px 24px;
-      font-size: 1em;
+      padding: 12px;
       background-color: #39FF14;
-      color: black;
-      font-weight: bold;
       border: none;
-      border-radius: 6px;
+      border-radius: 4px;
+      font-weight: bold;
       cursor: pointer;
     }
 
     #message {
       margin-top: 15px;
-      color: #39FF14;
       font-size: 0.95em;
+      color: #39FF14;
+    }
+
+    img.bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      filter: brightness(0.4);
     }
   </style>
 </head>
 <body>
+
+  <img class="bg" src="001.png" alt="background"/>
+
   <h1>LA UNIDAD-310 STA ARRIVANDO</h1>
   <p>Iscriviti per non restare fuori</p>
 
   <form id="subscribe-form">
-    <input type="email" id="email" name="email" placeholder="Inserisci la tua email" required />
+    <input type="email" id="email" placeholder="Inserisci la tua email" required />
     <button type="submit">Iscriviti</button>
   </form>
 
   <p id="message"></p>
 
   <script>
-    document.getElementById('subscribe-form').addEventListener('submit', async function (e) {
+    document.getElementById('subscribe-form').addEventListener('submit', async function(e) {
       e.preventDefault();
-
       const email = document.getElementById('email').value;
-      const url = "https://script.google.com/macros/s/AKfycbypK3BIhrF5uquhGc1FeDp0y4GC8e2dNmcPBsVC-_iaaE8veyJG4F_vxOkuBi6SWh-gMQ/exec";
+
+      const url = "https://script.google.com/macros/s/AKfycbyXwFFWgobkebg4KQzrYgMdn87veJjavW1dQzi73bqI7fIkf2tajFEqSTbu14R5R_n-2A/exec" ; 
 
       try {
         const res = await fetch(url, {
           method: "POST",
-          body: new URLSearchParams({ email }),
+          body: new URLSearchParams({ email })
         });
 
         const text = await res.text();
-        document.getElementById("message").innerText =
-          text === "OK" ? "Iscrizione completata con successo!" : "Errore: " + text;
-      } catch (err) {
+        document.getElementById("message").innerText = 
+          text === "OK" 
+            ? "Iscrizione completata con successo!" 
+            : "Errore: " + text;
+      } catch {
         document.getElementById("message").innerText = "Errore di rete. Riprova.";
       }
     });
   </script>
+
 </body>
 </html>
