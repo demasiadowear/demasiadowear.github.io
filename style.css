@@ -4,7 +4,7 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: white;
     background-color: #000;
-    background-image: url('001.png');
+    background-image:('001.png');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain; /* mantiene le proporzioni senza tagliarla */
