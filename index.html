@@ -3,17 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ISCRIZIONE DEMASIADO</title>
+  <title>D3MAS1ADØ - Iscrizione</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-    body, html {
+    * { box-sizing: border-box; }
+    html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       font-family: Arial, sans-serif;
-      background: #000;
+      background: black;
       color: white;
     }
     .bg {
@@ -22,25 +20,27 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      object-fit: cover;
+      object-fit: contain; /* <-- ECCO il segreto per farla "stringere" senza tagliarla */
       z-index: -1;
       filter: brightness(0.4);
     }
     .container {
+      position: relative;
+      height: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
       text-align: center;
+      padding: 20px;
     }
     h1 {
-      font-size: 1.5em;
-      margin-bottom: 5px;
+      font-size: 1.6em;
+      margin-bottom: 10px;
     }
     p {
       font-size: 0.9em;
-      margin-bottom: 15px;
+      margin: 0 0 15px;
     }
     input[type="email"] {
       padding: 10px;
@@ -60,14 +60,14 @@
       cursor: pointer;
     }
     #message {
+      margin-top: 10px;
       color: #39FF14;
-      margin-top: 15px;
       font-size: 0.9em;
     }
   </style>
 </head>
 <body>
-  <img class="bg" src="001.png" alt="background" />
+  <img class="bg" src="001.png" alt="Background" />
   <div class="container">
     <h1>LA UNIDAD-310 STA ARRIVANDO</h1>
     <p>Iscriviti per non restare fuori</p>
@@ -79,7 +79,7 @@
   </div>
 
   <script>
-    document.getElementById('subscribe-form').addEventListener('submit', async function(e) {
+    document.getElementById('subscribe-form').addEventListener('submit', async function (e) {
       e.preventDefault();
       const email = document.getElementById('email').value;
       const url = "https://script.google.com/macros/s/AKfycbypK3BIhrF5uquhGc1FeDp0y4GC8e2dNmcPBsVC-_iaaE8veyJG4F_vxOkuBi6SWh-gMQ/exec";
