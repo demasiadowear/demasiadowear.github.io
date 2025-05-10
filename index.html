@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ISCRIZIONE DEMAS1ADØ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ISCRIZIONE DEMASIADØ</title>
   <style>
     body {
       background: #000;
@@ -106,14 +105,12 @@
 <body>
 
   <img class="bg" src="001.png" alt="background"/>
-  <img class="bg" src="001.png" alt="background" />
 
   <h1>LA UNIDAD-310 STA ARRIVANDO</h1>
   <p>Iscriviti per non restare fuori</p>
   <p class="subtitle">Iscriviti per non restare fuori</p>
 
   <form id="subscribe-form">
-    <input type="email" id="email" placeholder="Inserisci la tua email" required />
     <input type="email" id="email" name="email" placeholder="Inserisci la tua email" required />
     <button type="submit">Iscriviti</button>
   </form>
@@ -122,7 +119,6 @@
 
   <script>
     document.getElementById('subscribe-form').addEventListener('submit', async function(e) {
-    document.getElementById('subscribe-form').addEventListener('submit', async function (e) {
       e.preventDefault();
       const email = document.getElementById('email').value;
 
@@ -149,7 +145,7 @@
         document.getElementById("message").innerText =
           text === "OK" ? "Iscrizione completata con successo!" : "Errore: " + text;
       } catch {
-        document.getElementById("message").innerText = "Errore di rete. Riprova.";
+      
       }
     });
   </script>
