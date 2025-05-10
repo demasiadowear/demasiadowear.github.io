@@ -5,12 +5,17 @@ body {
     color: white;
     height: 100vh;
     background-image: url('000.png');
-    body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    background-color: #000;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
 }
+
 
     background-color: #000;
     position: relative;
