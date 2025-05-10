@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ISCRIZIONE DEMAS1ADØ</title>
+  <title>ISCRIZIONE DEMASIADØ</title>
   <style>
     * { box-sizing: border-box; }
     body {
@@ -12,66 +12,57 @@
       font-family: Arial, sans-serif;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       height: 100vh;
+      padding-top: 15vh;
       margin: 0;
       text-align: center;
       overflow: hidden;
     }
-
     img.bg {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      object-fit: contain; /* <-- NON TAGLIA L'IMMAGINE */
+      object-fit: contain;
       z-index: -1;
       filter: brightness(0.4);
     }
-
     h1 {
       font-size: 1.5rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.3rem;
     }
-
     p.subtitle {
       font-size: 0.95rem;
       margin-bottom: 1rem;
     }
-
     form {
-      margin-top: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 10px;
+      width: 90%;
+      max-width: 320px;
     }
-
     input[type="email"] {
-      padding: 10px;
-      width: 250px;
-      font-size: 1rem;
-      border-radius: 4px;
+      padding: 12px;
+      width: 100%;
       border: none;
+      border-radius: 4px;
+      font-size: 1rem;
     }
-
     button {
-      padding: 10px 20px;
+      padding: 12px;
+      width: 100%;
       background-color: #39FF14;
       color: black;
       font-weight: bold;
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      transition: 0.2s;
     }
-
-    button:hover {
-      background-color: #2be100;
-    }
-
     #message {
       margin-top: 10px;
       color: #39FF14;
@@ -82,9 +73,9 @@
 <body>
 
   <img class="bg" src="001.png" alt="background"/>
-
   <h1>LA UNIDAD-310 STA ARRIVANDO</h1>
   <p class="subtitle">Iscriviti per non restare fuori</p>
+
   <form id="subscribe-form">
     <input type="email" id="email" name="email" placeholder="Inserisci la tua email" required />
     <button type="submit">Iscriviti</button>
@@ -93,34 +84,31 @@
   <p id="message"></p>
 
   <script>
-  document.getElementById('subscribe-form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const email = document.getElementById('email').value;
+    document.getElementById('subscribe-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
 
-    if (!email.includes('@')) {
-      document.getElementById("message").innerText = "Inserisci un'email valida.";
-      return;
-    }
+      if (!email.includes('@')) {
+        document.getElementById("message").innerText = "Inserisci un'email valida.";
+        return;
+      }
 
-    const url = "https://script.google.com/macros/s/AKfycbw4_iEXoUlYy2ztHWndnF0Ga_e94Gyv6WS7q6KqU5zpaOd9BQE9EY8TdELhH_74Fq0vSQ/exec";
+      const url = "https://script.google.com/macros/s/AKfycbw4_iEXoUlYy2ztHWndnF0Ga_e94Gyv6WS7q6KqU5zpaOd9BQE9EY8TdELhH_74Fq0vSQ/exec";
 
-    try {
-      const res = await fetch(url, {
-        method: "POST",
-        body: new URLSearchParams({ email })
-      });
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          body: new URLSearchParams({ email })
+        });
 
-      const text = await res.text();
-      document.getElementById("message").innerText = 
-        text === "OK" 
-          ? "Iscrizione completata con successo!" 
-          : "Errore: " + text;
-    } catch {
-      document.getElementById("message").innerText = "Errore di rete. Riprova.";
-    }
-  });
-</script>
-
+        const text = await res.text();
+        document.getElementById("message").innerText =
+          text === "OK" ? "Iscrizione completata con successo!" : "Errore: " + text;
+      } catch {
+        document.getElementById("message").innerText = "Errore di rete. Riprova.";
+      }
+    });
+  </script>
 
 </body>
 </html>
