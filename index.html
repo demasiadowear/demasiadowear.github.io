@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ISCRIZIONE DEMASIADØ</title>
+  <title>D3MAS1ADØ – L'unico modo che conosciamo</title>
   <style>
     * { box-sizing: border-box; }
     body {
@@ -12,13 +12,11 @@
       font-family: Arial, sans-serif;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
+      justify-content: space-between;
       align-items: center;
       height: 100vh;
-      padding-top: 15vh;
       margin: 0;
       text-align: center;
-      overflow: hidden;
     }
     img.bg {
       position: fixed;
@@ -28,15 +26,16 @@
       height: 100vh;
       object-fit: contain;
       z-index: -1;
-      filter: brightness(0.4);
+    }
+    img.logo {
+      width: 260px;
+      margin-top: 10vh;
     }
     h1 {
-      font-size: 1.5rem;
-      margin-bottom: 0.3rem;
-    }
-    p.subtitle {
-      font-size: 0.95rem;
+      font-size: 1rem;
+      font-weight: normal;
       margin-bottom: 1rem;
+      letter-spacing: 1px;
     }
     form {
       display: flex;
@@ -45,6 +44,7 @@
       gap: 10px;
       width: 90%;
       max-width: 320px;
+      margin-bottom: 5vh;
     }
     input[type="email"] {
       padding: 12px;
@@ -72,9 +72,9 @@
 </head>
 <body>
 
-  <img class="bg" src="001.png" alt="background"/>
-  <h1>LA UNIDAD-310 STA ARRIVANDO</h1>
-  <p class="subtitle">Iscriviti per non restare fuori</p>
+  <img class="bg" src="001.png" alt="background" />
+  <img class="logo" src="logo_dem_horizontal.png" alt="D3MAS1ADØ logo" />
+  <h1>L’UNICO MODO CHE CONOSCIAMO</h1>
 
   <form id="subscribe-form">
     <input type="email" id="email" name="email" placeholder="Inserisci la tua email" required />
