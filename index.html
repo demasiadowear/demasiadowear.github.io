@@ -29,8 +29,8 @@
       min-width: 100%;
       min-height: 100%;
       object-fit: cover;
-      z-index: -2;
-      opacity: 0.1;
+      z-index: -3;
+      opacity: 0.05;
     }
 
     .background-overlay {
@@ -39,7 +39,7 @@
       height: 100%;
       top: 0;
       left: 0;
-      z-index: -1;
+      z-index: -2;
       background: radial-gradient(circle at 30% 30%, rgba(57,255,20,0.15), transparent 70%),
                   radial-gradient(circle at 70% 70%, rgba(57,255,20,0.08), transparent 60%);
       animation: moveOverlay 15s linear infinite;
@@ -49,6 +49,16 @@
       0% { background-position: 30% 30%, 70% 70%; }
       50% { background-position: 35% 35%, 65% 65%; }
       100% { background-position: 30% 30%, 70% 70%; }
+    }
+
+    .matrix-stream {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
     }
 
     .logo {
@@ -137,20 +147,20 @@
   </style>
 </head>
 <body>
-
   <video autoplay muted loop id="bg-video">
     <source src="bg-glitch.mp4" type="video/mp4">
   </video>
   <div class="background-overlay"></div>
+  <canvas class="matrix-stream" id="matrixCanvas"></canvas>
 
   <img src="1.png" alt="Logo DEMAS1ADØ" class="logo" />
 
-  <div class="slogan" id="typed-slogan">L'unico modo che conosciamo</div>
+  <div class="slogan" id="typed-slogan">Entra nella UNIDAD-31Ø</div>
 
   <div class="form-wrapper">
     <form id="subscribe-form">
       <input type="email" id="email" name="email" placeholder="Inserisci la tua email" required />
-      <button type="submit">ENTRA NELLA UNIDAD-310 – Non perderti il primo drop</button>
+      <button type="submit">VOGLIO ESSERCI AL 1° DROP</button>
       <p id="message"></p>
     </form>
   </div>
@@ -175,7 +185,38 @@
         document.getElementById("message").innerText = "Errore di rete. Riprova.";
       }
     });
-  </script>
 
+    // Matrix effect
+    const canvas = document.getElementById("matrixCanvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    const letters = "01";
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const drops = Array.from({ length: columns }).fill(1);
+
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#39FF14";
+      ctx.font = `${fontSize}px monospace`;
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(drawMatrix, 35);
+  </script>
 </body>
 </html>
