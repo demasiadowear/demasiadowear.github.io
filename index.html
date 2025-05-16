@@ -3,102 +3,139 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>D3MAS1ADØ – Coming Soon</title>
+  <title>D3MAS1ADØ – The Revolution</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    html, body {
-      height: 100%;
-      background-color: #000;
+    body {
+      background: #000;
       color: #fff;
-      font-family: Arial, sans-serif;
+      font-family: 'Orbitron', Arial, sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px;
+      justify-content: flex-start;
+      padding: 60px 20px;
+      height: 100vh;
+      overflow-x: hidden;
     }
 
     .logo {
       max-width: 90vw;
-      width: 400px;
-      height: auto;
+      width: 600px;
+      opacity: 0;
+      transform: scale(0.8);
+      animation: fadeInUp 1s ease-out 0.3s forwards;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
     .slogan {
-      margin-top: 20px;
-      font-size: 1.2rem;
+      margin-top: 30px;
+      font-size: 1.6rem;
       color: #39FF14;
-      letter-spacing: 1px;
+      min-height: 1.6rem;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid #39FF14;
+      animation: typing 3.2s steps(40, end), blink 0.6s step-end infinite alternate;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent }
     }
 
     .form-wrapper {
-      margin-top: 30px;
+      margin-top: 40px;
       width: 100%;
-      max-width: 360px;
+      max-width: 420px;
     }
 
     input[type="email"] {
-      padding: 12px;
+      padding: 14px;
       width: 100%;
+      background: #111;
       border: none;
       border-radius: 4px;
-      background: #111;
+      font-size: 1.1rem;
       color: #fff;
-      font-size: 1rem;
-      margin-bottom: 10px;
     }
 
     input[type="email"]:focus {
       outline: none;
-      box-shadow: 0 0 5px #39FF14;
+      box-shadow: 0 0 6px #39FF14;
     }
 
     button {
+      padding: 14px;
       width: 100%;
-      padding: 12px;
       background-color: #39FF14;
       color: #000;
       font-weight: bold;
+      font-size: 1.1rem;
       border: none;
       border-radius: 4px;
+      margin-top: 10px;
       cursor: pointer;
-      font-size: 1rem;
-      transition: background 0.3s ease;
+      transition: all 0.3s ease;
     }
 
     button:hover {
       background-color: #2ecc71;
-    }
-
-    .sigillo {
-      margin-top: 50px;
-      width: 80px;
-      opacity: 0.5;
-    }
-
-    footer {
-      margin-top: 40px;
-      font-size: 0.7rem;
-      color: #555;
+      transform: scale(1.03);
+      box-shadow: 0 0 10px #39FF14;
     }
 
     #message {
-      font-size: 0.9rem;
       margin-top: 10px;
       color: #39FF14;
+      font-size: 0.9rem;
     }
 
+    .sigillo {
+      margin-top: 60px;
+      width: 100px;
+      opacity: 0;
+      animation: fadeIn 2s ease-in 3s forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 0.6;
+      }
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 0.75rem;
+      color: #444;
+    }
+
+    @media screen and (max-width: 480px) {
+      .logo {
+        width: 80vw;
+      }
+      .slogan {
+        font-size: 1.1rem;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <img src="1.png" alt="Logo D3MAS1ADØ" class="logo" />
+  <img src="1.png" alt="Logo DEMAS1ADØ" class="logo" />
 
   <div class="slogan">L'unico modo che conosciamo</div>
 
@@ -118,7 +155,6 @@
     document.getElementById("subscribe-form").addEventListener("submit", async function(e) {
       e.preventDefault();
       const email = document.getElementById("email").value;
-
       const url = "https://script.google.com/macros/s/AKfycbw4_iEXoUlYy2ztHWndnF0Ga_e94Gyv6WS7q6KqU5zpaOd9BQE9EY8TdELhH_74Fq0vSQ/exec";
 
       try {
