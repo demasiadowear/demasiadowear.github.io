@@ -16,51 +16,61 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      padding: 60px 20px;
+      justify-content: center;
       height: 100vh;
-      overflow-x: hidden;
+      overflow: hidden;
+      position: relative;
+    }
+
+    video#bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      opacity: 0.1;
     }
 
     .logo {
+      width: 1000px;
       max-width: 90vw;
-      width: 850px;
-      opacity: 0;
-      transform: scale(0.8);
-      animation: fadeInUp 1s ease-out 0.3s forwards;
+      animation: flicker 3s infinite;
     }
 
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+      20%, 24%, 55% { opacity: 0.3; }
     }
 
     .slogan {
-      margin-top: 30px;
-      font-size: 1.6rem;
+      margin-top: 20px;
+      font-size: 1.5rem;
       color: #39FF14;
-      min-height: 1.6rem;
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 2px solid #39FF14;
-      animation: typing 3.2s steps(40, end), blink 0.6s step-end infinite alternate;
+      text-align: center;
+      animation: fadeIn 3s ease forwards;
     }
 
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 100% }
-    }
-
-    @keyframes blink {
-      50% { border-color: transparent }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
 
     .form-wrapper {
-      margin-top: 40px;
-      width: 100%;
+      margin-top: 30px;
       max-width: 420px;
+      width: 100%;
+      animation: slideUp 2s ease-out forwards;
+      opacity: 0;
+      transform: translateY(50px);
+    }
+
+    @keyframes slideUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     input[type="email"] {
@@ -71,11 +81,6 @@
       border-radius: 4px;
       font-size: 1.1rem;
       color: #fff;
-    }
-
-    input[type="email"]:focus {
-      outline: none;
-      box-shadow: 0 0 6px #39FF14;
     }
 
     button {
@@ -94,7 +99,7 @@
 
     button:hover {
       background-color: #2ecc71;
-      transform: scale(1.03);
+      transform: scale(1.05);
       box-shadow: 0 0 10px #39FF14;
     }
 
@@ -102,54 +107,34 @@
       margin-top: 10px;
       color: #39FF14;
       font-size: 0.9rem;
-    }
-
-    .sigillo {
-      margin-top: 60px;
-      width: 100px;
-      opacity: 0;
-      animation: fadeIn 2s ease-in 3s forwards;
-    }
-
-    @keyframes fadeIn {
-      to {
-        opacity: 0.6;
-      }
+      text-align: center;
     }
 
     footer {
-      margin-top: 30px;
+      position: absolute;
+      bottom: 10px;
       font-size: 0.75rem;
       color: #444;
-    }
-
-    @media screen and (max-width: 480px) {
-      .logo {
-        width: 80vw;
-      }
-      .slogan {
-        font-size: 1.1rem;
-      }
     }
   </style>
 </head>
 <body>
 
+  <video autoplay muted loop id="bg-video">
+    <source src="bg-glitch.mp4" type="video/mp4">
+  </video>
+
   <img src="1.png" alt="Logo DEMAS1ADØ" class="logo" />
 
-  <div class="slogan">L'unico modo che conosciamo</div>
+  <div class="slogan" id="typed-slogan">L'unico modo che conosciamo</div>
 
   <div class="form-wrapper">
     <form id="subscribe-form">
       <input type="email" id="email" name="email" placeholder="Inserisci la tua email" required />
-     <button type="submit">
-  ENTRA NELLA UNIDAD-310 : ESCLUSIVA FIRST DROP
-</button>
+      <button type="submit">ENTRA NELLA UNIDAD-310 – Non perderti il primo drop</button>
       <p id="message"></p>
     </form>
   </div>
-
-  <img src="2.png" alt="Sigillo DEM" class="sigillo" />
 
   <footer>© 2025 D3MAS1ADØ — All Rights Reserved</footer>
 
