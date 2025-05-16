@@ -29,8 +29,8 @@
       min-width: 100%;
       min-height: 100%;
       object-fit: cover;
-      z-index: -3;
-      opacity: 0.05;
+      z-index: -1;
+      opacity: 0.08;
     }
 
     .background-overlay {
@@ -39,26 +39,8 @@
       height: 100%;
       top: 0;
       left: 0;
-      z-index: -2;
-      background: radial-gradient(circle at 30% 30%, rgba(57,255,20,0.15), transparent 70%),
-                  radial-gradient(circle at 70% 70%, rgba(57,255,20,0.08), transparent 60%);
-      animation: moveOverlay 15s linear infinite;
-    }
-
-    @keyframes moveOverlay {
-      0% { background-position: 30% 30%, 70% 70%; }
-      50% { background-position: 35% 35%, 65% 65%; }
-      100% { background-position: 30% 30%, 70% 70%; }
-    }
-
-    .matrix-stream {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
       z-index: -1;
-      pointer-events: none;
+      background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(0,0,0,0.8));
     }
 
     .logo {
@@ -152,7 +134,6 @@
     <source src="bg-glitch.mp4" type="video/mp4">
   </video>
   <div class="background-overlay"></div>
-  <canvas class="matrix-stream" id="matrixCanvas"></canvas>
 
   <img src="1014fef3-453b-4ceb-89e3-45de01776335.png" alt="Logo DEMAS1ADØ" class="logo" />
 
@@ -186,38 +167,6 @@
         document.getElementById("message").innerText = "Errore di rete. Riprova.";
       }
     });
-
-    // Matrix effect
-    const canvas = document.getElementById("matrixCanvas");
-    const ctx = canvas.getContext("2d");
-
-    canvas.height = window.innerHeight;
-    canvas.width = window.innerWidth;
-
-    const letters = "01";
-    const fontSize = 16;
-    const columns = canvas.width / fontSize;
-    const drops = Array.from({ length: columns }).fill(1);
-
-    function drawMatrix() {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.fillStyle = "#39FF14";
-      ctx.font = `${fontSize}px monospace`;
-
-      for (let i = 0; i < drops.length; i++) {
-        const text = letters[Math.floor(Math.random() * letters.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      }
-    }
-
-    setInterval(drawMatrix, 35);
   </script>
 </body>
 </html>
