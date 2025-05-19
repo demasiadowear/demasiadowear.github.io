@@ -1,503 +1,558 @@
 /**
- * D3MAS1ADØ - Galleria Lookbook Interattiva
+ * D3MAS1ADØ Lookbook Gallery Interactive
  * 
- * Questo script implementa una galleria interattiva per la sezione Lookbook
- * con effetti di transizione, zoom e navigazione avanzata.
+ * Script per la gestione della galleria lookbook interattiva
+ * con effetti di transizione, zoom e navigazione touch-friendly
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-  // Configurazione galleria
-  const lookbookConfig = {
-    containerId: 'lookbook-gallery',
-    images: [
-      {
-        src: 'images/lookbook/lookbook-1.jpg',
-        alt: 'D3MAS1ADØ Lookbook - Urban Attitude',
-        caption: 'Urban Attitude - D3MAS1ADØ FW25'
-      },
-      {
-        src: 'images/lookbook/lookbook-2.jpg',
-        alt: 'D3MAS1ADØ Lookbook - Street Culture',
-        caption: 'Street Culture - D3MAS1ADØ FW25'
-      },
-      {
-        src: 'images/lookbook/lookbook-3.jpg',
-        alt: 'D3MAS1ADØ Lookbook - Luxury Details',
-        caption: 'Luxury Details - D3MAS1ADØ FW25'
-      },
-      {
-        src: 'images/lookbook/lookbook-4.jpg',
-        alt: 'D3MAS1ADØ Lookbook - Urban Luxury',
-        caption: 'Urban Luxury - D3MAS1ADØ FW25'
-      },
-      {
-        src: 'images/lookbook/lookbook-5.jpg',
-        alt: 'D3MAS1ADØ Lookbook - Concrete Jungle',
-        caption: 'Concrete Jungle - D3MAS1ADØ FW25'
-      }
-    ],
-    autoplay: true,
-    autoplaySpeed: 5000,
-    showCaptions: true,
-    showControls: true,
-    showThumbnails: true,
-    enableZoom: true,
-    enableFullscreen: true
-  };
-  
-  /**
-   * Inizializza la galleria Lookbook
-   */
-  function initLookbookGallery() {
-    // Cerca la sezione Lookbook esistente
-    const lookbookSection = findLookbookSection();
+    // Riferimenti agli elementi
+    const lookbookSection = document.querySelector('#lookbook');
+    const lookbookSlider = document.querySelector('.lookbook-slider');
+    const lookbookCta = document.querySelector('.lookbook-cta');
     
-    if (!lookbookSection) {
-      console.warn('Sezione Lookbook non trovata. La galleria non può essere inizializzata.');
-      return;
-    }
+    // Configurazione lookbook
+    const lookbookConfig = {
+        collections: ['intifada', 'revolucion', 'land-of-smile'],
+        imagesPerCollection: 3,
+        transitionSpeed: 400, // ms
+        autoplaySpeed: 5000, // ms
+        enableZoom: true,
+        enableSwipe: true
+    };
     
-    // Crea il container della galleria se non esiste
-    let galleryContainer = document.getElementById(lookbookConfig.containerId);
-    if (!galleryContainer) {
-      galleryContainer = createGalleryContainer();
-      lookbookSection.appendChild(galleryContainer);
-    }
+    // Stato corrente
+    let currentSlide = 0;
+    let totalSlides = 0;
+    let autoplayInterval = null;
+    let isZoomed = false;
+    let touchStartX = 0;
+    let touchEndX = 0;
     
-    // Popola la galleria con le immagini
-    populateGallery(galleryContainer);
-    
-    // Aggiungi stili CSS
-    addGalleryStyles();
-    
-    // Inizializza funzionalità interattive
-    initGalleryInteractions(galleryContainer);
-  }
-  
-  /**
-   * Trova la sezione Lookbook esistente
-   */
-  function findLookbookSection() {
-    // Cerca per titolo
-    const lookbookHeadings = Array.from(document.querySelectorAll('h2, h3, h4')).filter(
-      heading => heading.textContent.toLowerCase().includes('lookbook')
-    );
-    
-    if (lookbookHeadings.length > 0) {
-      // Trova il container parent più appropriato
-      let section = lookbookHeadings[0].closest('section') || lookbookHeadings[0].parentElement;
-      return section;
-    }
-    
-    // Cerca per ID o classe
-    const lookbookByIdOrClass = document.querySelector('#lookbook, .lookbook, [data-section="lookbook"]');
-    if (lookbookByIdOrClass) {
-      return lookbookByIdOrClass;
-    }
-    
-    // Fallback: crea una nuova sezione
-    const newSection = document.createElement('section');
-    newSection.id = 'lookbook';
-    newSection.innerHTML = '<h2>LOOKBOOK</h2>';
-    
-    // Inserisci dopo la sezione Manifesto o prima di Unidad-31Ø
-    const manifestoSection = Array.from(document.querySelectorAll('h2, h3, h4')).find(
-      heading => heading.textContent.toLowerCase().includes('manifesto')
-    );
-    
-    if (manifestoSection) {
-      const parentSection = manifestoSection.closest('section') || manifestoSection.parentElement;
-      parentSection.parentNode.insertBefore(newSection, parentSection.nextSibling);
-    } else {
-      // Fallback: aggiungi alla fine del contenuto principale
-      const mainContent = document.querySelector('main') || document.querySelector('#root') || document.body;
-      mainContent.appendChild(newSection);
-    }
-    
-    return newSection;
-  }
-  
-  /**
-   * Crea il container della galleria
-   */
-  function createGalleryContainer() {
-    const container = document.createElement('div');
-    container.id = lookbookConfig.containerId;
-    container.className = 'lookbook-gallery';
-    return container;
-  }
-  
-  /**
-   * Popola la galleria con le immagini
-   */
-  function populateGallery(container) {
-    // Struttura base della galleria
-    container.innerHTML = `
-      <div class="gallery-main">
-        <div class="gallery-viewport">
-          <div class="gallery-slides"></div>
-          <div class="gallery-caption"></div>
-        </div>
-        <div class="gallery-controls">
-          <button class="gallery-prev" aria-label="Immagine precedente">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-              <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" fill="currentColor"/>
-            </svg>
-          </button>
-          <button class="gallery-next" aria-label="Immagine successiva">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-              <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" fill="currentColor"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div class="gallery-thumbnails"></div>
-    `;
-    
-    // Popola le slides
-    const slidesContainer = container.querySelector('.gallery-slides');
-    const thumbnailsContainer = container.querySelector('.gallery-thumbnails');
-    
-    lookbookConfig.images.forEach((image, index) => {
-      // Crea slide
-      const slide = document.createElement('div');
-      slide.className = 'gallery-slide';
-      slide.dataset.index = index;
-      if (index === 0) slide.classList.add('active');
-      
-      slide.innerHTML = `
-        <div class="slide-image-container">
-          <img src="${image.src}" alt="${image.alt}" class="slide-image" loading="lazy">
-        </div>
-      `;
-      
-      slidesContainer.appendChild(slide);
-      
-      // Crea thumbnail
-      if (lookbookConfig.showThumbnails) {
-        const thumbnail = document.createElement('div');
-        thumbnail.className = 'gallery-thumbnail';
-        thumbnail.dataset.index = index;
-        if (index === 0) thumbnail.classList.add('active');
+    // Funzione per inizializzare la galleria
+    function initLookbookGallery() {
+        if (!lookbookSlider) return;
         
-        thumbnail.innerHTML = `<img src="${image.src}" alt="${image.alt}" loading="lazy">`;
-        thumbnailsContainer.appendChild(thumbnail);
-      }
-    });
-    
-    // Imposta la prima caption
-    if (lookbookConfig.showCaptions) {
-      const captionContainer = container.querySelector('.gallery-caption');
-      captionContainer.textContent = lookbookConfig.images[0].caption;
-    }
-  }
-  
-  /**
-   * Aggiungi stili CSS per la galleria
-   */
-  function addGalleryStyles() {
-    const style = document.createElement('style');
-    style.textContent = `
-      .lookbook-gallery {
-        width: 100%;
-        max-width: 1200px;
-        margin: 2rem auto;
-        background-color: rgba(0, 0, 0, 0.8);
-        border: 1px solid rgba(57, 255, 20, 0.3);
-      }
-      
-      .gallery-main {
-        position: relative;
-        width: 100%;
-        height: 0;
-        padding-bottom: 56.25%; /* 16:9 aspect ratio */
-        overflow: hidden;
-      }
-      
-      .gallery-viewport {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
-      
-      .gallery-slides {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
-      
-      .gallery-slide {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        transition: opacity 0.5s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      
-      .gallery-slide.active {
-        opacity: 1;
-        z-index: 1;
-      }
-      
-      .slide-image-container {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      
-      .slide-image {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-      }
-      
-      .gallery-caption {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        padding: 1rem;
-        background-color: rgba(0, 0, 0, 0.7);
-        color: white;
-        font-family: 'Orbitron', sans-serif;
-        transform: translateY(100%);
-        transition: transform 0.3s ease;
-        z-index: 2;
-      }
-      
-      .gallery-viewport:hover .gallery-caption {
-        transform: translateY(0);
-      }
-      
-      .gallery-controls {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        z-index: 3;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-      }
-      
-      .gallery-main:hover .gallery-controls {
-        opacity: 1;
-      }
-      
-      .gallery-prev,
-      .gallery-next {
-        background-color: rgba(0, 0, 0, 0.5);
-        border: none;
-        color: white;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        margin: 0 1rem;
-        transition: background-color 0.3s ease, transform 0.3s ease;
-      }
-      
-      .gallery-prev:hover,
-      .gallery-next:hover {
-        background-color: rgba(57, 255, 20, 0.7);
-        color: black;
-        transform: scale(1.1);
-      }
-      
-      .gallery-thumbnails {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.5rem;
-        padding: 1rem;
-        background-color: rgba(0, 0, 0, 0.8);
-      }
-      
-      .gallery-thumbnail {
-        width: 80px;
-        height: 60px;
-        cursor: pointer;
-        border: 2px solid transparent;
-        transition: border-color 0.3s ease, transform 0.3s ease;
-        overflow: hidden;
-      }
-      
-      .gallery-thumbnail.active {
-        border-color: #39FF14;
-      }
-      
-      .gallery-thumbnail:hover {
-        transform: scale(1.05);
-      }
-      
-      .gallery-thumbnail img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-      
-      /* Responsive */
-      @media (max-width: 768px) {
-        .gallery-thumbnails {
-          gap: 0.25rem;
-          padding: 0.5rem;
+        // Pulire il contenuto esistente
+        lookbookSlider.innerHTML = '';
+        
+        // Creare gli elementi della galleria
+        lookbookConfig.collections.forEach(collection => {
+            for (let i = 1; i <= lookbookConfig.imagesPerCollection; i++) {
+                createSlide(collection, i);
+            }
+        });
+        
+        // Aggiornare il conteggio totale delle slide
+        totalSlides = lookbookSlider.children.length;
+        
+        // Aggiungere i controlli di navigazione
+        createNavigation();
+        
+        // Impostare la prima slide come attiva
+        if (totalSlides > 0) {
+            lookbookSlider.children[0].classList.add('active');
         }
         
-        .gallery-thumbnail {
-          width: 60px;
-          height: 45px;
-        }
-        
-        .gallery-prev,
-        .gallery-next {
-          width: 32px;
-          height: 32px;
-          margin: 0 0.5rem;
-        }
-      }
-      
-      /* Zoom effect */
-      .slide-image.zoomed {
-        cursor: zoom-out;
-        transform: scale(1.5);
-        transition: transform 0.3s ease;
-      }
-      
-      .slide-image:not(.zoomed) {
-        cursor: zoom-in;
-        transition: transform 0.3s ease;
-      }
-    `;
-    
-    document.head.appendChild(style);
-  }
-  
-  /**
-   * Inizializza le interazioni della galleria
-   */
-  function initGalleryInteractions(container) {
-    const slides = container.querySelectorAll('.gallery-slide');
-    const thumbnails = container.querySelectorAll('.gallery-thumbnail');
-    const prevButton = container.querySelector('.gallery-prev');
-    const nextButton = container.querySelector('.gallery-next');
-    const captionContainer = container.querySelector('.gallery-caption');
-    
-    let currentIndex = 0;
-    let autoplayInterval;
-    
-    // Funzione per mostrare una slide specifica
-    function showSlide(index) {
-      // Normalizza l'indice
-      if (index < 0) index = slides.length - 1;
-      if (index >= slides.length) index = 0;
-      
-      // Aggiorna slide attiva
-      slides.forEach(slide => slide.classList.remove('active'));
-      slides[index].classList.add('active');
-      
-      // Aggiorna thumbnail attiva
-      thumbnails.forEach(thumb => thumb.classList.remove('active'));
-      if (thumbnails[index]) thumbnails[index].classList.add('active');
-      
-      // Aggiorna caption
-      if (lookbookConfig.showCaptions && captionContainer) {
-        captionContainer.textContent = lookbookConfig.images[index].caption;
-      }
-      
-      currentIndex = index;
-    }
-    
-    // Event listeners per i controlli
-    if (prevButton) {
-      prevButton.addEventListener('click', () => {
-        showSlide(currentIndex - 1);
-        resetAutoplay();
-      });
-    }
-    
-    if (nextButton) {
-      nextButton.addEventListener('click', () => {
-        showSlide(currentIndex + 1);
-        resetAutoplay();
-      });
-    }
-    
-    // Event listeners per le thumbnails
-    thumbnails.forEach(thumbnail => {
-      thumbnail.addEventListener('click', () => {
-        const index = parseInt(thumbnail.dataset.index);
-        showSlide(index);
-        resetAutoplay();
-      });
-    });
-    
-    // Zoom sulle immagini
-    if (lookbookConfig.enableZoom) {
-      slides.forEach(slide => {
-        const image = slide.querySelector('.slide-image');
-        if (image) {
-          image.addEventListener('click', () => {
-            image.classList.toggle('zoomed');
-          });
-        }
-      });
-    }
-    
-    // Autoplay
-    function startAutoplay() {
-      if (lookbookConfig.autoplay && slides.length > 1) {
-        autoplayInterval = setInterval(() => {
-          showSlide(currentIndex + 1);
-        }, lookbookConfig.autoplaySpeed);
-      }
-    }
-    
-    function resetAutoplay() {
-      if (autoplayInterval) {
-        clearInterval(autoplayInterval);
+        // Avviare l'autoplay
         startAutoplay();
-      }
+        
+        // Aggiungere event listeners per swipe su mobile
+        if (lookbookConfig.enableSwipe) {
+            setupSwipeListeners();
+        }
     }
     
-    // Keyboard navigation
-    document.addEventListener('keydown', event => {
-      if (container.closest('body')) { // Check if gallery is in DOM
-        if (event.key === 'ArrowLeft') {
-          showSlide(currentIndex - 1);
-          resetAutoplay();
-        } else if (event.key === 'ArrowRight') {
-          showSlide(currentIndex + 1);
-          resetAutoplay();
+    // Funzione per creare una slide
+    function createSlide(collection, index) {
+        const slide = document.createElement('div');
+        slide.className = 'lookbook-slide';
+        slide.setAttribute('data-collection', collection);
+        
+        const img = document.createElement('img');
+        img.className = 'lookbook-img';
+        img.src = `images/lookbook/${collection}-${index}.webp`;
+        img.alt = `D3MAS1ADØ ${collection.toUpperCase()} Lookbook`;
+        img.loading = 'lazy';
+        
+        // Fallback per browser che non supportano WebP
+        img.onerror = function() {
+            this.src = `images/lookbook/${collection}-${index}.jpg`;
+        };
+        
+        slide.appendChild(img);
+        
+        // Aggiungere overlay con info
+        const overlay = document.createElement('div');
+        overlay.className = 'lookbook-overlay';
+        
+        const info = document.createElement('div');
+        info.className = 'lookbook-info';
+        
+        const title = document.createElement('h3');
+        title.className = 'lookbook-title';
+        title.textContent = formatCollectionName(collection);
+        
+        info.appendChild(title);
+        overlay.appendChild(info);
+        slide.appendChild(overlay);
+        
+        // Aggiungere event listener per zoom
+        if (lookbookConfig.enableZoom) {
+            slide.addEventListener('click', function(e) {
+                if (!isZoomed) {
+                    zoomIn(this);
+                } else {
+                    zoomOut();
+                }
+            });
         }
-      }
-    });
+        
+        lookbookSlider.appendChild(slide);
+    }
     
-    // Start autoplay
-    startAutoplay();
-  }
-  
-  // Inizializza la galleria
-  initLookbookGallery();
-  
-  // Esponi API pubblica
-  window.D3MASIADO_LOOKBOOK = {
-    init: initLookbookGallery
-  };
+    // Funzione per formattare il nome della collezione
+    function formatCollectionName(collection) {
+        switch(collection) {
+            case 'intifada':
+                return 'INTIFADA';
+            case 'revolucion':
+                return 'REVOLUCIÓN';
+            case 'land-of-smile':
+                return 'LAND OF SMILE';
+            default:
+                return collection.toUpperCase();
+        }
+    }
+    
+    // Funzione per creare i controlli di navigazione
+    function createNavigation() {
+        // Creare container per i controlli
+        const navContainer = document.createElement('div');
+        navContainer.className = 'lookbook-nav';
+        
+        // Pulsante precedente
+        const prevButton = document.createElement('button');
+        prevButton.className = 'lookbook-nav-btn prev';
+        prevButton.setAttribute('aria-label', 'Slide precedente');
+        prevButton.innerHTML = '&lt;';
+        prevButton.addEventListener('click', function() {
+            goToSlide(currentSlide - 1);
+        });
+        
+        // Pulsante successivo
+        const nextButton = document.createElement('button');
+        nextButton.className = 'lookbook-nav-btn next';
+        nextButton.setAttribute('aria-label', 'Slide successiva');
+        nextButton.innerHTML = '&gt;';
+        nextButton.addEventListener('click', function() {
+            goToSlide(currentSlide + 1);
+        });
+        
+        // Indicatori
+        const indicators = document.createElement('div');
+        indicators.className = 'lookbook-indicators';
+        
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('button');
+            dot.className = 'lookbook-indicator';
+            dot.setAttribute('aria-label', `Vai alla slide ${i + 1}`);
+            dot.addEventListener('click', function() {
+                goToSlide(i);
+            });
+            indicators.appendChild(dot);
+        }
+        
+        // Aggiungere elementi al container
+        navContainer.appendChild(prevButton);
+        navContainer.appendChild(indicators);
+        navContainer.appendChild(nextButton);
+        
+        // Aggiungere il container dopo lo slider
+        if (lookbookSlider.parentNode) {
+            lookbookSlider.parentNode.insertBefore(navContainer, lookbookSlider.nextSibling);
+        }
+    }
+    
+    // Funzione per andare a una slide specifica
+    function goToSlide(index) {
+        // Fermare l'autoplay
+        stopAutoplay();
+        
+        // Gestire l'indice circolare
+        if (index < 0) {
+            index = totalSlides - 1;
+        } else if (index >= totalSlides) {
+            index = 0;
+        }
+        
+        // Rimuovere la classe active dalla slide corrente
+        if (lookbookSlider.children[currentSlide]) {
+            lookbookSlider.children[currentSlide].classList.remove('active');
+        }
+        
+        // Aggiungere la classe active alla nuova slide
+        if (lookbookSlider.children[index]) {
+            lookbookSlider.children[index].classList.add('active');
+        }
+        
+        // Aggiornare l'indice corrente
+        currentSlide = index;
+        
+        // Aggiornare gli indicatori
+        updateIndicators();
+        
+        // Riavviare l'autoplay
+        startAutoplay();
+    }
+    
+    // Funzione per aggiornare gli indicatori
+    function updateIndicators() {
+        const indicators = document.querySelectorAll('.lookbook-indicator');
+        
+        indicators.forEach((indicator, index) => {
+            if (index === currentSlide) {
+                indicator.classList.add('active');
+            } else {
+                indicator.classList.remove('active');
+            }
+        });
+    }
+    
+    // Funzione per avviare l'autoplay
+    function startAutoplay() {
+        if (autoplayInterval) {
+            clearInterval(autoplayInterval);
+        }
+        
+        autoplayInterval = setInterval(function() {
+            goToSlide(currentSlide + 1);
+        }, lookbookConfig.autoplaySpeed);
+    }
+    
+    // Funzione per fermare l'autoplay
+    function stopAutoplay() {
+        if (autoplayInterval) {
+            clearInterval(autoplayInterval);
+            autoplayInterval = null;
+        }
+    }
+    
+    // Funzione per zoom in
+    function zoomIn(slide) {
+        if (isZoomed) return;
+        
+        // Creare container per lo zoom
+        const zoomContainer = document.createElement('div');
+        zoomContainer.className = 'lookbook-zoom-container';
+        
+        // Clonare l'immagine
+        const img = slide.querySelector('.lookbook-img');
+        const zoomImg = document.createElement('img');
+        zoomImg.src = img.src;
+        zoomImg.alt = img.alt;
+        zoomImg.className = 'lookbook-zoom-img';
+        
+        // Aggiungere pulsante di chiusura
+        const closeButton = document.createElement('button');
+        closeButton.className = 'lookbook-zoom-close';
+        closeButton.innerHTML = '&times;';
+        closeButton.setAttribute('aria-label', 'Chiudi zoom');
+        closeButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            zoomOut();
+        });
+        
+        // Aggiungere elementi al container
+        zoomContainer.appendChild(zoomImg);
+        zoomContainer.appendChild(closeButton);
+        
+        // Aggiungere il container al body
+        document.body.appendChild(zoomContainer);
+        
+        // Aggiungere classe per prevenire lo scroll
+        document.body.classList.add('no-scroll');
+        
+        // Aggiungere event listener per chiudere con Escape
+        document.addEventListener('keydown', handleEscapeKey);
+        
+        // Aggiungere event listener per chiudere con click fuori
+        zoomContainer.addEventListener('click', function(e) {
+            if (e.target === this) {
+                zoomOut();
+            }
+        });
+        
+        // Impostare lo stato
+        isZoomed = true;
+        
+        // Fermare l'autoplay
+        stopAutoplay();
+    }
+    
+    // Funzione per zoom out
+    function zoomOut() {
+        if (!isZoomed) return;
+        
+        // Rimuovere il container dello zoom
+        const zoomContainer = document.querySelector('.lookbook-zoom-container');
+        if (zoomContainer) {
+            zoomContainer.remove();
+        }
+        
+        // Rimuovere classe per prevenire lo scroll
+        document.body.classList.remove('no-scroll');
+        
+        // Rimuovere event listener per Escape
+        document.removeEventListener('keydown', handleEscapeKey);
+        
+        // Impostare lo stato
+        isZoomed = false;
+        
+        // Riavviare l'autoplay
+        startAutoplay();
+    }
+    
+    // Funzione per gestire il tasto Escape
+    function handleEscapeKey(e) {
+        if (e.key === 'Escape') {
+            zoomOut();
+        }
+    }
+    
+    // Funzione per impostare i listener per swipe
+    function setupSwipeListeners() {
+        if (!lookbookSlider) return;
+        
+        lookbookSlider.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        
+        lookbookSlider.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+    }
+    
+    // Funzione per gestire lo swipe
+    function handleSwipe() {
+        const swipeThreshold = 50; // px
+        
+        if (touchEndX < touchStartX - swipeThreshold) {
+            // Swipe a sinistra -> slide successiva
+            goToSlide(currentSlide + 1);
+        } else if (touchEndX > touchStartX + swipeThreshold) {
+            // Swipe a destra -> slide precedente
+            goToSlide(currentSlide - 1);
+        }
+    }
+    
+    // Funzione per aprire il lookbook completo
+    function openFullLookbook() {
+        // Qui si potrebbe implementare l'apertura di una versione più completa
+        // del lookbook, magari in una nuova pagina o in un overlay
+        console.log('Opening full lookbook');
+        
+        // Per ora, simuliamo un'apertura con un alert
+        alert('Lookbook completo in fase di sviluppo');
+    }
+    
+    // Event listener per il pulsante CTA
+    if (lookbookCta) {
+        lookbookCta.addEventListener('click', function(e) {
+            e.preventDefault();
+            openFullLookbook();
+        });
+    }
+    
+    // Inizializzare la galleria
+    initLookbookGallery();
+    
+    // Stili CSS per la galleria
+    const styleSheet = document.createElement('style');
+    styleSheet.textContent = `
+        .lookbook-slider {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+            border: 1px solid #00ff14;
+            box-shadow: 0 0 20px rgba(0, 255, 20, 0.3);
+        }
+        
+        .lookbook-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity ${lookbookConfig.transitionSpeed}ms ease;
+            cursor: pointer;
+        }
+        
+        .lookbook-slide.active {
+            opacity: 1;
+            z-index: 1;
+        }
+        
+        .lookbook-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        
+        .lookbook-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+            color: #fff;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .lookbook-slide:hover .lookbook-overlay,
+        .lookbook-slide.active .lookbook-overlay {
+            opacity: 1;
+        }
+        
+        .lookbook-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            margin: 0;
+            color: #00ff14;
+            text-shadow: 0 0 10px rgba(0, 255, 20, 0.7);
+        }
+        
+        .lookbook-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .lookbook-nav-btn {
+            background-color: #000;
+            color: #00ff14;
+            border: 1px solid #00ff14;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .lookbook-nav-btn:hover {
+            background-color: #00ff14;
+            color: #000;
+            box-shadow: 0 0 15px rgba(0, 255, 20, 0.7);
+        }
+        
+        .lookbook-indicators {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .lookbook-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #333;
+            border: 1px solid #00ff14;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .lookbook-indicator.active {
+            background-color: #00ff14;
+            box-shadow: 0 0 10px rgba(0, 255, 20, 0.7);
+        }
+        
+        .lookbook-cta {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 25px;
+            background-color: transparent;
+            color: #00ff14;
+            border: 1px solid #00ff14;
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .lookbook-cta:hover {
+            background-color: #00ff14;
+            color: #000;
+            box-shadow: 0 0 15px rgba(0, 255, 20, 0.7);
+        }
+        
+        .lookbook-zoom-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            cursor: zoom-out;
+        }
+        
+        .lookbook-zoom-img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+        
+        .lookbook-zoom-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: transparent;
+            color: #00ff14;
+            border: none;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        
+        .no-scroll {
+            overflow: hidden;
+        }
+        
+        @media (max-width: 768px) {
+            .lookbook-slider {
+                height: 350px;
+            }
+            
+            .lookbook-title {
+                font-size: 18px;
+            }
+            
+            .lookbook-nav-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 14px;
+            }
+            
+            .lookbook-indicator {
+                width: 8px;
+                height: 8px;
+            }
+        }
+    `;
+    document.head.appendChild(styleSheet);
 });

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D3MAS1ADØ - Preorder Form</title>
+    <style>
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .preorder-container {
+            width: 100%;
+            max-width: 600px;
+            padding: 30px;
+            border: 1px solid #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+        
+        .preorder-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .preorder-title {
+            font-size: 28px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            color: #00ff00;
+        }
+        
+        .preorder-subtitle {
+            font-size: 16px;
+            opacity: 0.8;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            background-color: #111;
+            border: 1px solid #333;
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+        }
+        
+        input:focus, select:focus {
+            border-color: #00ff00;
+            outline: none;
+            box-shadow: 0 0 8px rgba(0, 255, 0, 0.5);
+        }
+        
+        .size-helper {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #111;
+            border-left: 3px solid #00ff00;
+        }
+        
+        .size-helper-title {
+            font-size: 14px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        .size-helper-question {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .size-helper-question label {
+            margin-bottom: 0;
+            margin-right: 10px;
+        }
+        
+        .size-helper-question select {
+            width: auto;
+        }
+        
+        .size-helper-result {
+            font-size: 14px;
+            color: #00ff00;
+            margin: 10px 0 0;
+        }
+        
+        .submit-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #00ff00;
+            color: #000;
+            border: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-button:hover {
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.7);
+            transform: translateY(-2px);
+        }
+        
+        .form-footer {
+            margin-top: 30px;
+            font-size: 14px;
+            text-align: center;
+            opacity: 0.8;
+        }
+        
+        .form-footer p {
+            margin: 5px 0;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo img {
+            max-width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="preorder-container">
+        <div class="logo">
+            <h1>D3MAS1ADØ</h1>
+        </div>
+        
+        <div class="preorder-header">
+            <h2 class="preorder-title">Preorder Now</h2>
+            <p class="preorder-subtitle">Accesso anticipato alle nuove collezioni</p>
+        </div>
+        
+        <form id="preorder-form">
+            <div class="form-group">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" placeholder="Il tuo nome" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="La tua email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="prodotto">Prodotto</label>
+                <select id="prodotto" name="prodotto" required>
+                    <option value="">Seleziona un prodotto</option>
+                    <option value="intifada-hoodie">INTIFADA Hoodie - €120</option>
+                    <option value="revolucion-crop-top">REVOLUCIÓN Crop Top - €89</option>
+                    <option value="land-of-smile-tshirt">LAND OF SMILE T-shirt - €75</option>
+                    <option value="unidad-310-pants">Unidad-31Ø Pants - €110</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="taglia">Taglia</label>
+                <select id="taglia" name="taglia" required>
+                    <option value="">Seleziona una taglia</option>
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                    <option value="XXL">XXL</option>
+                </select>
+                
+                <div class="size-helper">
+                    <p class="size-helper-title">Non sei sicuro della taglia?</p>
+                    <div class="size-helper-question">
+                        <label for="zara-size">Che taglia porti in Zara?</label>
+                        <select id="zara-size">
+                            <option value="">Seleziona...</option>
+                            <option value="S">XS</option>
+                            <option value="M">S</option>
+                            <option value="L">M</option>
+                            <option value="XL">L</option>
+                            <option value="XXL">XL</option>
+                        </select>
+                    </div>
+                    <p class="size-helper-result" id="size-result"></p>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="pagamento">Metodo di pagamento</label>
+                <select id="pagamento" name="pagamento" required>
+                    <option value="">Seleziona un metodo</option>
+                    <option value="paypal">PayPal</option>
+                    <option value="revolut">Revolut</option>
+                    <option value="bonifico">Bonifico</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="submit-button">Preordina ora</button>
+            
+            <div class="form-footer">
+                <p>Riceverai una mail con le istruzioni per completare l'acquisto.</p>
+                <p>Ogni capo D3MAS1ADØ è parte di una rivoluzione. Tu ci sei dentro?</p>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configuratore di taglia
+            const zaraSelector = document.getElementById('zara-size');
+            const tagliaSelector = document.getElementById('taglia');
+            const sizeResult = document.getElementById('size-result');
+            
+            zaraSelector.addEventListener('change', function() {
+                const selectedSize = this.value;
+                if (selectedSize) {
+                    sizeResult.textContent = `Per D3MAS1ADØ ti consigliamo la taglia ${selectedSize}`;
+                    tagliaSelector.value = selectedSize;
+                } else {
+                    sizeResult.textContent = '';
+                }
+            });
+            
+            // Form submission
+            const form = document.getElementById('preorder-form');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Qui andrebbe l'integrazione con Tally.so
+                alert('Grazie per il tuo preordine! Riceverai presto una email con le istruzioni per completare l\'acquisto.');
+                
+                // Redirect alla pagina di conferma
+                // window.location.href = 'https://www.demasiadowear.com/preorder-confirmation';
+            });
+        });
+    </script>
+</body>
+</html>

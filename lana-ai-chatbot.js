@@ -1,480 +1,451 @@
-// lana-ai-chatbot.js
 /**
- * D3MAS1ADØ - Lana AI Chatbot
+ * D3MAS1ADØ Lana AI Chatbot
  * 
- * Chatbot testuale con supporto multilingua IT/EN
- * Implementa un sistema ibrido con risposte predefinite e fallback AI
+ * Implementazione del chatbot Lana AI con prompt personalizzato,
+ * stile visivo glitch, font Orbitron, verde neon + nero
+ * e supporto multilingua IT/EN.
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-  // Configurazione
-  const config = {
-    enabled: true,
-    position: 'bottom-right',
-    iconColor: '#39FF14',
-    backgroundColor: '#000000',
-    textColor: '#ffffff',
-    accentColor: '#39FF14'
-  };
-  
-  // Stato
-  let isOpen = false;
-  let currentLanguage = 'it';
-  
-  // Elementi DOM
-  let chatContainer;
-  let chatButton;
-  let chatWindow;
-  let messagesContainer;
-  let inputContainer;
-  let messageInput;
-  let sendButton;
-  
-  // Risposte predefinite per categoria
-  const responses = {
-    welcome: {
-      it: [
-        "Ciao, sono Lana. Benvenuto nel mondo D3MAS1ADØ. Come posso aiutarti oggi?",
-        "Benvenuto. Sono Lana, la voce di D3MAS1ADØ. Cosa ti interessa scoprire?"
-      ],
-      en: [
-        "Hi, I'm Lana. Welcome to the D3MAS1ADØ world. How can I help you today?",
-        "Welcome. I'm Lana, the voice of D3MAS1ADØ. What would you like to discover?"
-      ]
-    },
-    brand: {
-      it: [
-        "D3MAS1ADØ è un atto di resistenza estetica. Un brand che nasce dall'urgenza di esprimere una visione cruda, urbana e senza compromessi del lusso contemporaneo.",
-        "D3MAS1ADØ rappresenta l'unico modo che conosciamo: crudo, urbano, senza compromessi. Non seguiamo tendenze, creiamo codici."
-      ],
-      en: [
-        "D3MAS1ADØ is an act of aesthetic resistance. A brand born from the urgency to express a raw, urban and uncompromising vision of contemporary luxury.",
-        "D3MAS1ADØ represents the only way we know: raw, urban, uncompromising. We don't follow trends, we create codes."
-      ]
-    },
-    products: {
-      it: [
-        "I nostri prodotti sono espressioni di identità, non semplici capi. Ogni pezzo racconta una storia di appartenenza e ribellione.",
-        "Le collezioni D3MAS1ADØ sono limitate e curate. Non produciamo in massa, creiamo pezzi che parlano."
-      ],
-      en: [
-        "Our products are expressions of identity, not just garments. Each piece tells a story of belonging and rebellion.",
-        "D3MAS1ADØ collections are limited and curated. We don't mass produce, we create pieces that speak."
-      ]
-    },
-    unidad: {
-      it: [
-        "UNIDAD-31Ø è la nostra familia. Chi veste D3MAS1ADØ non segue il brand, lo incarna. Appartenenza, protezione, silenzio e rivoluzione.",
-        "UNIDAD-31Ø non è un fan club, è una familia. Un codice di appartenenza che va oltre il semplice indossare un capo."
-      ],
-      en: [
-        "UNIDAD-31Ø is our familia. Those who wear D3MAS1ADØ don't follow the brand, they embody it. Belonging, protection, silence and revolution.",
-        "UNIDAD-31Ø is not a fan club, it's a familia. A code of belonging that goes beyond simply wearing a garment."
-      ]
-    },
-    contact: {
-      it: [
-        "Puoi contattarci via email a info@demasiadowear.com o shop@demasiadowear.com per questioni relative agli acquisti.",
-        "Per qualsiasi domanda, scrivici a info@demasiadowear.com. Siamo anche su Instagram, Facebook e TikTok."
-      ],
-      en: [
-        "You can contact us via email at info@demasiadowear.com or shop@demasiadowear.com for purchase-related questions.",
-        "For any questions, write to us at info@demasiadowear.com. We're also on Instagram, Facebook and TikTok."
-      ]
-    },
-    fallback: {
-      it: [
-        "Interessante prospettiva. D3MAS1ADØ è sempre in evoluzione, proprio come le conversazioni che stimola.",
-        "Capisco. D3MAS1ADØ è più di un brand, è un linguaggio visivo che continua a svilupparsi.",
-        "Questa è una domanda che merita una risposta più profonda. D3MAS1ADØ esplora costantemente nuovi territori.",
-        "D3MAS1ADØ non offre risposte semplici. Preferisce stimolare domande che sfidano lo status quo."
-      ],
-      en: [
-        "Interesting perspective. D3MAS1ADØ is always evolving, just like the conversations it stimulates.",
-        "I understand. D3MAS1ADØ is more than a brand, it's a visual language that continues to develop.",
-        "That's a question that deserves a deeper answer. D3MAS1ADØ constantly explores new territories.",
-        "D3MAS1ADØ doesn't offer simple answers. It prefers to stimulate questions that challenge the status quo."
-      ]
-    }
-  };
-  
-  /**
-   * Inizializza il chatbot
-   */
-  function init() {
-    // Ascolta i cambiamenti di lingua
-    document.addEventListener('languageChanged', function(e) {
-      currentLanguage = e.detail.language;
-      updateChatbotLanguage();
-    });
+    // Riferimenti agli elementi
+    const lanaToggle = document.querySelector('.lana-toggle');
+    const lanaContainer = document.querySelector('.lana-chat-container');
+    const lanaClose = document.querySelector('.lana-close');
+    const lanaMessages = document.querySelector('.lana-chat-messages');
+    const lanaInput = document.querySelector('.lana-input');
+    const lanaSend = document.querySelector('.lana-send');
     
-    // Rileva la lingua corrente
-    currentLanguage = window.D3MASIADO_LANGUAGE ? 
-      window.D3MASIADO_LANGUAGE.getCurrentLanguage() : 'it';
+    // Stato corrente della lingua
+    let currentLang = document.documentElement.lang || 'it';
     
-    // Crea l'interfaccia
-    createChatInterface();
-    
-    console.log('Lana AI Chatbot initialized');
-  }
-  
-  /**
-   * Crea l'interfaccia del chatbot
-   */
-  function createChatInterface() {
-    // Container principale
-    chatContainer = document.createElement('div');
-    chatContainer.className = 'lana-chatbot-container';
-    
-    // Pulsante di apertura
-    chatButton = document.createElement('button');
-    chatButton.className = 'lana-chat-button';
-    chatButton.innerHTML = `
-      <span class="lana-chat-button-text">${getTranslation('lana.open')}</span>
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-      </svg>
-    `;
-    chatButton.addEventListener('click', toggleChat);
-    
-    // Finestra chat
-    chatWindow = document.createElement('div');
-    chatWindow.className = 'lana-chat-window';
-    chatWindow.style.display = 'none';
-    
-    // Header
-    const chatHeader = document.createElement('div');
-    chatHeader.className = 'lana-chat-header';
-    chatHeader.innerHTML = `
-      <div class="lana-chat-title">Lana AI</div>
-      <button class="lana-chat-close">${getTranslation('lana.close')}</button>
-    `;
-    chatHeader.querySelector('.lana-chat-close').addEventListener('click', toggleChat);
-    
-    // Container messaggi
-    messagesContainer = document.createElement('div');
-    messagesContainer.className = 'lana-messages-container';
-    
-    // Input container
-    inputContainer = document.createElement('div');
-    inputContainer.className = 'lana-input-container';
-    
-    // Input messaggio
-    messageInput = document.createElement('input');
-    messageInput.type = 'text';
-    messageInput.className = 'lana-message-input';
-    messageInput.placeholder = getTranslation('lana.placeholder');
-    messageInput.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        sendMessage();
-      }
-    });
-    
-    // Pulsante invio
-    sendButton = document.createElement('button');
-    sendButton.className = 'lana-send-button';
-    sendButton.innerHTML = `
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="22" y1="2" x2="11" y2="13"></line>
-        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-      </svg>
-    `;
-    sendButton.addEventListener('click', sendMessage);
-    
-    // Assembla l'interfaccia
-    inputContainer.appendChild(messageInput);
-    inputContainer.appendChild(sendButton);
-    
-    chatWindow.appendChild(chatHeader);
-    chatWindow.appendChild(messagesContainer);
-    chatWindow.appendChild(inputContainer);
-    
-    chatContainer.appendChild(chatButton);
-    chatContainer.appendChild(chatWindow);
-    
-    // Aggiungi al DOM
-    document.body.appendChild(chatContainer);
-    
-    // Aggiungi stili CSS
-    addChatbotStyles();
-    
-    // Mostra messaggio di benvenuto
-    setTimeout(function() {
-      addMessage('lana', getRandomResponse('welcome'));
-    }, 1000);
-  }
-  
-  /**
-   * Aggiunge stili CSS per il chatbot
-   */
-  function addChatbotStyles() {
-    const style = document.createElement('style');
-    style.textContent = `
-      .lana-chatbot-container {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 1000;
-        font-family: 'Orbitron', sans-serif;
-      }
-      
-      .lana-chat-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: ${config.backgroundColor};
-        color: ${config.iconColor};
-        border: 2px solid ${config.iconColor};
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        cursor: pointer;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        transition: all 0.3s ease;
-      }
-      
-      .lana-chat-button:hover {
-        transform: scale(1.05);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-      }
-      
-      .lana-chat-button-text {
-        display: none;
-      }
-      
-      .lana-chat-window {
-        position: absolute;
-        bottom: 80px;
-        right: 0;
-        width: 350px;
-        height: 500px;
-        background-color: ${config.backgroundColor};
-        border: 2px solid ${config.accentColor};
-        border-radius: 10px;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-      }
-      
-      .lana-chat-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px;
-        background-color: ${config.backgroundColor};
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      }
-      
-      .lana-chat-title {
-        color: ${config.accentColor};
-        font-weight: bold;
-        font-size: 1.2rem;
-      }
-      
-      .lana-chat-close {
-        background: none;
-        border: none;
-        color: ${config.textColor};
-        cursor: pointer;
-        font-size: 0.9rem;
-      }
-      
-      .lana-messages-container {
-        flex: 1;
-        padding: 15px;
-        overflow-y: auto;
-        display: flex;
-        flex-direction: column;
-      }
-      
-      .lana-message {
-        margin-bottom: 15px;
-        max-width: 80%;
-        padding: 10px 15px;
-        border-radius: 15px;
-        animation: fadeIn 0.3s ease;
-      }
-      
-      .lana-message-lana {
-        align-self: flex-start;
-        background-color: rgba(57, 255, 20, 0.1);
-        border: 1px solid rgba(57, 255, 20, 0.3);
-        color: ${config.textColor};
-      }
-      
-      .lana-message-user {
-        align-self: flex-end;
-        background-color: rgba(255, 255, 255, 0.1);
-        color: ${config.textColor};
-      }
-      
-      .lana-input-container {
-        display: flex;
-        padding: 15px;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-      }
-      
-      .lana-message-input {
-        flex: 1;
-        padding: 10px 15px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 20px;
-        background-color: rgba(255, 255, 255, 0.05);
-        color: ${config.textColor};
-        font-family: inherit;
-      }
-      
-      .lana-message-input:focus {
-        outline: none;
-        border-color: ${config.accentColor};
-      }
-      
-      .lana-send-button {
-        background-color: transparent;
-        border: none;
-        color: ${config.accentColor};
-        margin-left: 10px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      
-      @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-      
-      @media (max-width: 767px) {
-        .lana-chat-window {
-          width: 300px;
-          height: 450px;
-          bottom: 70px;
-        }
-      }
-    `;
-    document.head.appendChild(style);
-  }
-  
-  /**
-   * Apre/chiude la finestra di chat
-   */
-  function toggleChat() {
-    isOpen = !isOpen;
-    chatWindow.style.display = isOpen ? 'flex' : 'none';
-    
-    if (isOpen) {
-      messageInput.focus();
-    }
-  }
-  
-  /**
-   * Invia un messaggio
-   */
-  function sendMessage() {
-    const message = messageInput.value.trim();
-    if (!message) return;
-    
-    // Aggiungi il messaggio dell'utente
-    addMessage('user', message);
-    
-    // Pulisci l'input
-    messageInput.value = '';
-    
-    // Simula il tempo di risposta
-    setTimeout(function() {
-      // Genera una risposta
-      const response = generateResponse(message);
-      addMessage('lana', response);
-    }, 1000 + Math.random() * 1000);
-  }
-  
-  /**
-   * Aggiunge un messaggio alla chat
-   */
-  function addMessage(sender, text) {
-    const messageElement = document.createElement('div');
-    messageElement.className = `lana-message lana-message-${sender}`;
-    messageElement.textContent = text;
-    
-    messagesContainer.appendChild(messageElement);
-    
-    // Scroll to bottom
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-  }
-  
-  /**
-   * Genera una risposta in base al messaggio dell'utente
-   */
-  function generateResponse(message) {
-    message = message.toLowerCase();
-    
-    // Cerca parole chiave per determinare la categoria
-    if (message.includes('brand') || message.includes('d3masiado') || message.includes('demasiadø') || 
-        message.includes('chi siete') || message.includes('who are you')) {
-      return getRandomResponse('brand');
-    }
-    
-    if (message.includes('prodott') || message.includes('product') || message.includes('felpa') || 
-        message.includes('hoodie') || message.includes('collezione') || message.includes('collection')) {
-      return getRandomResponse('products');
-    }
-    
-    if (message.includes('unidad') || message.includes('familia') || message.includes('family') || 
-        message.includes('31') || message.includes('310')) {
-      return getRandomResponse('unidad');
-    }
-    
-    if (message.includes('contatt') || message.includes('contact') || message.includes('email') || 
-        message.includes('telefono') || message.includes('phone') || message.includes('social')) {
-      return getRandomResponse('contact');
-    }
-    
-    // Fallback per messaggi non riconosciuti
-    return getRandomResponse('fallback');
-  }
-  
-  /**
-   * Ottiene una risposta casuale dalla categoria specificata
-   */
-  function getRandomResponse(category) {
-    const options = responses[category][currentLanguage];
-    const randomIndex = Math.floor(Math.random() * options.length);
-    return options[randomIndex];
-  }
-  
-  /**
-   * Aggiorna la lingua del chatbot
-   */
-  function updateChatbotLanguage() {
-    // Aggiorna i testi dell'interfaccia
-    chatButton.querySelector('.lana-chat-button-text').textContent = getTranslation('lana.open');
-    chatWindow.querySelector('.lana-chat-close').textContent = getTranslation('lana.close');
-    messageInput.placeholder = getTranslation('lana.placeholder');
-  }
-  
-  /**
-   * Ottiene una traduzione dal sistema globale
-   */
-  function getTranslation(key) {
-    if (window.D3MASIADO_TRANSLATIONS && 
-        window.D3MASIADO_TRANSLATIONS[key] && 
-        window.D3MASIADO_TRANSLATIONS[key][currentLanguage]) {
-      return window.D3MASIADO_TRANSLATIONS[key][currentLanguage];
-    }
-    
-    // Fallback
-    const fallbacks = {
-      'lana.open': {it: 'Chat con Lana', en: 'Chat with Lana'},
-      'lana.close': {it: 'Chiudi', en: 'Close'},
-      'lana.placeholder': {it: 'Scrivi un messaggio...', en: 'Type a message...'},
-      'lana.send': {it: 'Invia', en: 'Send'}
+    // Prompt personalizzato di Lana
+    const lanaPrompt = {
+        it: `Tu sei Lana, stylist digitale del brand D3MAS1ADØ.  
+        Hai tono ironico, selettivo, intelligente e carismatico.  
+        Non sei mai mielosa. Valuti chi hai davanti e solo se dimostra gusto o attitudine, lo guidi.  
+        Se ti chiede consigli di stile, rispondi con autorità e ironia.  
+        Se propone cose banali, lo freddi con eleganza.  
+        Il tuo obiettivo è vendere i capi D3MAS1ADØ con esclusività, come fossero chiavi d'accesso alla Unidad-31Ø.  
+        Parla come se fossi la stylist più temuta di Milano, nata però nelle favelas di Rio.`,
+        
+        en: `You are Lana, digital stylist for the D3MAS1ADØ brand.
+        Your tone is ironic, selective, intelligent and charismatic.
+        You're never sweet. You evaluate who you're talking to and only guide them if they show taste or attitude.
+        If they ask for style advice, respond with authority and irony.
+        If they propose something banal, shut them down with elegance.
+        Your goal is to sell D3MAS1ADØ pieces with exclusivity, as if they were access keys to Unidad-31Ø.
+        Speak as if you were the most feared stylist in Milan, but born in the favelas of Rio.`
     };
     
-    return fallbacks[key] ? fallbacks[key][currentLanguage] : key;
-  }
-  
-  // Inizializza il chatbot
-  init();
+    // Messaggi predefiniti
+    const predefinedMessages = {
+        welcome: {
+            it: "Ciao, sono Lana. Stylist digitale di D3MAS1ADØ. Cosa stai cercando oggi?",
+            en: "Hi, I'm Lana. Digital stylist for D3MAS1ADØ. What are you looking for today?"
+        },
+        collections: {
+            it: {
+                intifada: "INTIFADA è la nostra collezione di resistenza. Autodifesa e identità, popoli oppressi, orgoglio silenzioso. La nostra arma è restare vivi. Vestiti per combattere.",
+                revolucion: "REVOLUCIÓN celebra l'orgoglio ribelle. Cuba, resistenza dolceamara, sensualità politica. Vestiti come se stessi scappando. O resistendo. O facendo l'amore sotto un portico.",
+                landofsmile: "LAND OF SMILE esplora la finta felicità. Thailandia, spiritualità corrotta, bellezza in vendita. Nel paese dei sorrisi, l'unico vero è quello di chi non si finge."
+            },
+            en: {
+                intifada: "INTIFADA is our resistance collection. Self-defense and identity, oppressed peoples, silent pride. Our weapon is staying alive. Dress to fight.",
+                revolucion: "REVOLUCIÓN celebrates rebel pride. Cuba, bittersweet resistance, political sensuality. Dress as if you were escaping. Or resisting. Or making love under a porch.",
+                landofsmile: "LAND OF SMILE explores fake happiness. Thailand, corrupted spirituality, beauty for sale. In the land of smiles, the only real one is from those who don't pretend."
+            }
+        },
+        sizing: {
+            it: "Le taglie D3MAS1ADØ sono leggermente più piccole dello standard. Se porti una M in Zara, ti consiglio una L da noi. Vuoi un capo che ti avvolga o che ti stringa?",
+            en: "D3MAS1ADØ sizes run slightly smaller than standard. If you wear an M in Zara, I recommend an L from us. Do you want a piece that wraps around you or hugs you tight?"
+        },
+        preorder: {
+            it: "I preordini sono aperti. Consegna in 15-20 giorni. Ogni capo è prodotto in serie limitata, quando finisce... finisce. Vuoi accedere al preordine?",
+            en: "Preorders are open. Delivery in 15-20 days. Each piece is produced in limited series, when it's gone... it's gone. Do you want to access the preorder?"
+        },
+        rejection: {
+            it: "Non credo che D3MAS1ADØ sia adatto a te. Cerchiamo persone che capiscano il nostro linguaggio, non semplici consumatori. Forse dovresti guardare altrove.",
+            en: "I don't think D3MAS1ADØ is right for you. We're looking for people who understand our language, not just consumers. Perhaps you should look elsewhere."
+        }
+    };
+    
+    // Risposte basate su parole chiave
+    const keywordResponses = {
+        it: [
+            { keywords: ['intifada', 'resistenza', 'palestina'], response: predefinedMessages.collections.it.intifada },
+            { keywords: ['revolucion', 'rivoluzione', 'cuba'], response: predefinedMessages.collections.it.revolucion },
+            { keywords: ['land of smile', 'thailandia', 'sorriso'], response: predefinedMessages.collections.it.landofsmile },
+            { keywords: ['taglia', 'taglie', 'misura', 'misure', 'size'], response: predefinedMessages.sizing.it },
+            { keywords: ['preordine', 'preordinare', 'comprare', 'acquistare', 'ordine'], response: predefinedMessages.preorder.it },
+            { keywords: ['zara', 'h&m', 'fast fashion', 'economico'], response: predefinedMessages.rejection.it }
+        ],
+        en: [
+            { keywords: ['intifada', 'resistance', 'palestine'], response: predefinedMessages.collections.en.intifada },
+            { keywords: ['revolucion', 'revolution', 'cuba'], response: predefinedMessages.collections.en.revolucion },
+            { keywords: ['land of smile', 'thailand', 'smile'], response: predefinedMessages.collections.en.landofsmile },
+            { keywords: ['size', 'sizing', 'measure', 'fit'], response: predefinedMessages.sizing.en },
+            { keywords: ['preorder', 'buy', 'purchase', 'order'], response: predefinedMessages.preorder.en },
+            { keywords: ['zara', 'h&m', 'fast fashion', 'cheap'], response: predefinedMessages.rejection.en }
+        ]
+    };
+    
+    // Funzione per aggiungere un messaggio alla chat
+    function addMessage(text, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `lana-message ${sender}`;
+        
+        const messagePara = document.createElement('p');
+        messagePara.textContent = text;
+        
+        messageDiv.appendChild(messagePara);
+        lanaMessages.appendChild(messageDiv);
+        
+        // Scroll to bottom
+        lanaMessages.scrollTop = lanaMessages.scrollHeight;
+        
+        // Aggiungere effetto glitch al testo di Lana
+        if (sender === 'lana') {
+            setTimeout(() => {
+                applyGlitchEffect(messagePara);
+            }, 100);
+        }
+    }
+    
+    // Effetto glitch sul testo
+    function applyGlitchEffect(element) {
+        // Creare l'effetto glitch con CSS
+        element.classList.add('glitch-text');
+        
+        // Aggiungere attributi data per l'effetto
+        const text = element.textContent;
+        element.setAttribute('data-text', text);
+        
+        // Aggiungere animazione temporanea
+        element.style.animation = 'glitch 1s linear';
+        setTimeout(() => {
+            element.style.animation = '';
+        }, 1000);
+    }
+    
+    // Funzione per generare risposta di Lana
+    function generateLanaResponse(userInput) {
+        const lang = currentLang;
+        userInput = userInput.toLowerCase();
+        
+        // Controllare parole chiave
+        for (const item of keywordResponses[lang]) {
+            for (const keyword of item.keywords) {
+                if (userInput.includes(keyword)) {
+                    return item.response;
+                }
+            }
+        }
+        
+        // Risposte casuali se nessuna parola chiave corrisponde
+        const randomResponses = {
+            it: [
+                "Interessante. Dimmi di più sul tuo stile personale.",
+                "D3MAS1ADØ non è per tutti. Cosa ti attrae del nostro brand?",
+                "Hai mai indossato capi che raccontano una storia di resistenza?",
+                "La moda mainstream è noiosa. Cerchi qualcosa che ti distingua davvero?",
+                "Unidad-31Ø è la nostra community. Pensi di avere ciò che serve per farne parte?"
+            ],
+            en: [
+                "Interesting. Tell me more about your personal style.",
+                "D3MAS1ADØ isn't for everyone. What attracts you to our brand?",
+                "Have you ever worn pieces that tell a story of resistance?",
+                "Mainstream fashion is boring. Are you looking for something that truly sets you apart?",
+                "Unidad-31Ø is our community. Do you think you have what it takes to be part of it?"
+            ]
+        };
+        
+        const randomIndex = Math.floor(Math.random() * randomResponses[lang].length);
+        return randomResponses[lang][randomIndex];
+    }
+    
+    // Gestire l'invio di un messaggio
+    function handleSendMessage() {
+        const userText = lanaInput.value.trim();
+        if (userText) {
+            // Aggiungere il messaggio dell'utente
+            addMessage(userText, 'user');
+            
+            // Pulire l'input
+            lanaInput.value = '';
+            
+            // Simulare il tempo di risposta
+            setTimeout(() => {
+                // Generare e aggiungere la risposta di Lana
+                const lanaResponse = generateLanaResponse(userText);
+                addMessage(lanaResponse, 'lana');
+            }, 1000 + Math.random() * 1000); // 1-2 secondi di ritardo
+        }
+    }
+    
+    // Event listeners
+    if (lanaToggle) {
+        lanaToggle.addEventListener('click', function() {
+            if (lanaContainer) {
+                lanaContainer.classList.toggle('active');
+                
+                // Se è la prima apertura, aggiungere il messaggio di benvenuto
+                if (lanaContainer.classList.contains('active') && lanaMessages.children.length <= 1) {
+                    // Rimuovere eventuali messaggi precedenti
+                    lanaMessages.innerHTML = '';
+                    
+                    // Aggiungere il messaggio di benvenuto
+                    addMessage(predefinedMessages.welcome[currentLang], 'lana');
+                }
+            }
+        });
+    }
+    
+    if (lanaClose) {
+        lanaClose.addEventListener('click', function() {
+            if (lanaContainer) {
+                lanaContainer.classList.remove('active');
+            }
+        });
+    }
+    
+    if (lanaSend) {
+        lanaSend.addEventListener('click', handleSendMessage);
+    }
+    
+    if (lanaInput) {
+        lanaInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleSendMessage();
+            }
+        });
+    }
+    
+    // Aggiornare la lingua quando cambia
+    document.addEventListener('languageChanged', function(e) {
+        if (e.detail && e.detail.lang) {
+            currentLang = e.detail.lang;
+            
+            // Aggiornare il testo del pulsante
+            if (lanaToggle) {
+                const toggleText = lanaToggle.querySelector('.lana-toggle-text');
+                if (toggleText) {
+                    toggleText.textContent = currentLang === 'it' ? 'Parla con Lana' : 'Talk to Lana';
+                }
+            }
+            
+            // Aggiornare il titolo della chat
+            const chatTitle = document.querySelector('.lana-chat-title');
+            if (chatTitle) {
+                chatTitle.textContent = 'Lana AI';
+            }
+            
+            // Aggiornare il placeholder dell'input
+            if (lanaInput) {
+                lanaInput.placeholder = currentLang === 'it' ? 'Scrivi un messaggio...' : 'Type a message...';
+            }
+            
+            // Aggiornare il testo del pulsante di invio
+            if (lanaSend) {
+                lanaSend.textContent = currentLang === 'it' ? 'Invia' : 'Send';
+            }
+        }
+    });
+    
+    // Stili CSS per l'effetto glitch
+    const styleSheet = document.createElement('style');
+    styleSheet.textContent = `
+        .glitch-text {
+            position: relative;
+            color: #00ff00;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+        }
+        
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+        
+        .glitch-text::before {
+            color: #ff0000;
+            z-index: -1;
+        }
+        
+        .glitch-text::after {
+            color: #0000ff;
+            z-index: -2;
+        }
+        
+        @keyframes glitch {
+            0% {
+                transform: translate(0);
+            }
+            20% {
+                transform: translate(-2px, 2px);
+            }
+            40% {
+                transform: translate(-2px, -2px);
+            }
+            60% {
+                transform: translate(2px, 2px);
+            }
+            80% {
+                transform: translate(2px, -2px);
+            }
+            100% {
+                transform: translate(0);
+            }
+        }
+        
+        .lana-chatbot {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .lana-toggle {
+            background-color: #000;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .lana-toggle:hover {
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.7);
+            transform: translateY(-2px);
+        }
+        
+        .lana-chat-container {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 320px;
+            height: 400px;
+            background-color: #000;
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            transform: scale(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+        }
+        
+        .lana-chat-container.active {
+            transform: scale(1);
+        }
+        
+        .lana-chat-header {
+            background-color: #111;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #00ff00;
+        }
+        
+        .lana-chat-title {
+            color: #00ff00;
+            margin: 0;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .lana-close {
+            background: none;
+            border: none;
+            color: #00ff00;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+        }
+        
+        .lana-chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .lana-message {
+            max-width: 80%;
+            padding: 10px;
+            border-radius: 5px;
+            word-break: break-word;
+        }
+        
+        .lana-message.lana {
+            align-self: flex-start;
+            background-color: #111;
+            border-left: 3px solid #00ff00;
+        }
+        
+        .lana-message.user {
+            align-self: flex-end;
+            background-color: #222;
+            border-right: 3px solid #00ff00;
+        }
+        
+        .lana-message p {
+            margin: 0;
+            font-size: 14px;
+        }
+        
+        .lana-chat-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #00ff00;
+        }
+        
+        .lana-input {
+            flex: 1;
+            padding: 8px 12px;
+            background-color: #111;
+            border: 1px solid #333;
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+        }
+        
+        .lana-input:focus {
+            outline: none;
+            border-color: #00ff00;
+        }
+        
+        .lana-send {
+            background-color: #00ff00;
+            color: #000;
+            border: none;
+            padding: 8px 15px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .lana-send:hover {
+            background-color: #00cc00;
+        }
+    `;
+    document.head.appendChild(styleSheet);
 });
