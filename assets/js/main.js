@@ -1,332 +1,243 @@
-/**
- * D3MAS1ADØ - Main JavaScript
- * 
- * Funzioni principali per il sito D3MAS1ADØ
- * Gestisce preloader, navigazione, animazioni e interazioni UI
- */
+// JavaScript per D3MAS1ADØ - Funzioni principali
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Riferimenti agli elementi DOM
-    const preloader = document.querySelector('.preloader');
-    const preloaderBar = document.querySelector('.preloader-bar');
+    // Rimuovi preloader
+    setTimeout(function() {
+        document.body.classList.remove('preload');
+        document.getElementById('preloader').style.display = 'none';
+    }, 1500);
+
+    // Header scroll
+    let lastScrollTop = 0;
     const header = document.querySelector('.site-header');
-    const menuToggle = document.querySelector('.menu-toggle');
-    const mobileMenu = document.querySelector('.mobile-menu');
-    const scrollIndicator = document.querySelector('.scroll-indicator');
-    const sections = document.querySelectorAll('section');
-    const adminLink = document.querySelector('.admin-link');
-    const adminModal = document.querySelector('.admin-modal');
-    const adminModalClose = document.querySelector('.admin-modal-close');
-    const adminForm = document.querySelector('.admin-form');
     
-    // Configurazione
-    const config = {
-        preloaderDuration: 2000,
-        scrollOffset: 100,
-        animationDelay: 300
-    };
-    
-    // Rimuovi immediatamente la classe preload dal body
-    document.body.classList.remove('preload');
-    
-    // Inizializzazione
-    initPreloader();
-    initNavigation();
-    initScrollEffects();
-    initLazyLoading();
-    initAdminPanel();
-    
-    /**
-     * Inizializza il preloader
-     */
-    function initPreloader() {
-        console.log("Inizializzazione preloader...");
-        // Simula caricamento
-        let progress = 0;
-        const interval = setInterval(() => {
-            progress += 5;
-            if (preloaderBar) {
-                preloaderBar.style.width = `${progress}%`;
-                console.log(`Preloader progress: ${progress}%`);
-            }
+    window.addEventListener('scroll', function() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > 100) {
+            header.classList.add('scrolled');
             
-            if (progress >= 100) {
-                clearInterval(interval);
-                console.log("Preloader completato, nascondendo...");
-                
-                // Nascondi preloader dopo il completamento
-                setTimeout(() => {
-                    if (preloader) {
-                        preloader.classList.add('fade-out');
-                        document.body.classList.remove('loading');
-                        console.log("Preloader fade-out applicato");
-                        
-                        // Rimuovi completamente dopo l'animazione
-                        setTimeout(() => {
-                            if (preloader) {
-                                preloader.style.display = 'none';
-                                console.log("Preloader nascosto completamente");
-                            }
-                        }, 500);
-                    }
-                }, 500);
+            if (scrollTop > lastScrollTop && scrollTop > 300) {
+                header.classList.add('hidden');
+            } else {
+                header.classList.remove('hidden');
             }
-        }, config.preloaderDuration / 20);
-    }
-    
-    /**
-     * Inizializza la navigazione e il menu mobile
-     */
-    function initNavigation() {
-        // Toggle menu mobile
-        if (menuToggle) {
-            menuToggle.addEventListener('click', function() {
-                if (mobileMenu) {
-                    if (mobileMenu.classList.contains('active')) {
-                        mobileMenu.classList.remove('active');
-                        mobileMenu.classList.add('inactive');
-                        document.body.classList.remove('no-scroll');
-                    } else {
-                        mobileMenu.classList.remove('inactive');
-                        mobileMenu.classList.add('active');
-                        document.body.classList.add('no-scroll');
-                    }
-                }
-            });
+        } else {
+            header.classList.remove('scrolled');
         }
         
-        // Smooth scroll per link interni
-        const navLinks = document.querySelectorAll('a[href^="#"]');
-        navLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                const targetId = this.getAttribute('href');
-                
-                // Ignora se è solo "#"
-                if (targetId === '#') return;
-                
-                e.preventDefault();
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    // Chiudi menu mobile se aperto
-                    if (mobileMenu && mobileMenu.classList.contains('active')) {
-                        mobileMenu.classList.remove('active');
-                        mobileMenu.classList.add('inactive');
-                        document.body.classList.remove('no-scroll');
-                    }
-                    
-                    // Scroll to target
-                    window.scrollTo({
-                        top: targetElement.offsetTop - (header ? header.offsetHeight : 0),
-                        behavior: 'smooth'
-                    });
-                }
-            });
+        lastScrollTop = scrollTop;
+    });
+
+    // Modal Manifesto
+    const openManifestoBtn = document.getElementById('open-manifesto');
+    const manifestoModal = document.getElementById('manifesto-modal');
+    const closeManifestoBtn = document.querySelector('.manifesto-modal-close');
+    
+    if (openManifestoBtn && manifestoModal && closeManifestoBtn) {
+        openManifestoBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            manifestoModal.classList.add('active');
+            document.body.classList.add('no-scroll');
         });
         
-        // Gestione scroll indicator
-        if (scrollIndicator) {
-            scrollIndicator.addEventListener('click', function() {
-                const firstSection = document.querySelector('section');
-                if (firstSection) {
-                    window.scrollTo({
-                        top: firstSection.offsetTop - (header ? header.offsetHeight : 0),
-                        behavior: 'smooth'
-                    });
+        closeManifestoBtn.addEventListener('click', function() {
+            manifestoModal.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+        });
+        
+        window.addEventListener('click', function(e) {
+            if (e.target === manifestoModal) {
+                manifestoModal.classList.remove('active');
+                document.body.classList.remove('no-scroll');
+            }
+        });
+    }
+
+    // Lana AI Chatbot
+    const lanaToggle = document.querySelector('.lana-toggle');
+    const lanaWindow = document.querySelector('.lana-chat-window');
+    const lanaClose = document.querySelector('.lana-close');
+    const lanaInput = document.querySelector('.lana-input input');
+    const lanaSend = document.querySelector('.lana-send');
+    const lanaMessages = document.querySelector('.lana-messages');
+    
+    if (lanaToggle && lanaWindow && lanaClose) {
+        lanaToggle.addEventListener('click', function() {
+            lanaWindow.classList.toggle('active');
+            if (lanaInput) {
+                setTimeout(() => lanaInput.focus(), 300);
+            }
+        });
+        
+        lanaClose.addEventListener('click', function() {
+            lanaWindow.classList.remove('active');
+        });
+        
+        if (lanaSend && lanaInput && lanaMessages) {
+            lanaSend.addEventListener('click', sendLanaMessage);
+            lanaInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendLanaMessage();
                 }
             });
         }
     }
     
-    /**
-     * Inizializza effetti di scroll
-     */
-    function initScrollEffects() {
-        // Header sticky al scroll
-        let lastScrollTop = 0;
-        
-        window.addEventListener('scroll', function() {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    function sendLanaMessage() {
+        const message = lanaInput.value.trim();
+        if (message) {
+            // Aggiungi messaggio utente
+            const userMessageEl = document.createElement('div');
+            userMessageEl.className = 'lana-message user';
+            userMessageEl.innerHTML = `<p>${message}</p>`;
+            lanaMessages.appendChild(userMessageEl);
             
-            // Header sticky
-            if (header) {
-                if (scrollTop > 50) {
-                    header.classList.add('sticky');
-                    
-                    // Nascondi header quando si scrolla verso il basso
-                    if (scrollTop > lastScrollTop && scrollTop > 200) {
-                        header.classList.add('hidden');
-                    } else {
-                        header.classList.remove('hidden');
+            // Pulisci input
+            lanaInput.value = '';
+            
+            // Scroll to bottom
+            lanaMessages.scrollTop = lanaMessages.scrollHeight;
+            
+            // Simula risposta di Lana (in un'app reale, qui ci sarebbe una chiamata API)
+            setTimeout(function() {
+                const lanaResponse = getLanaResponse(message);
+                const lanaMessageEl = document.createElement('div');
+                lanaMessageEl.className = 'lana-message lana';
+                lanaMessageEl.innerHTML = `<p>${lanaResponse}</p>`;
+                lanaMessages.appendChild(lanaMessageEl);
+                
+                // Scroll to bottom
+                lanaMessages.scrollTop = lanaMessages.scrollHeight;
+            }, 1000);
+        }
+    }
+    
+    function getLanaResponse(message) {
+        message = message.toLowerCase();
+        
+        if (message.includes('ciao') || message.includes('salve') || message.includes('hey')) {
+            return "Ciao! Sono Lana, l'assistente AI di D3MAS1ADØ. Come posso aiutarti oggi?";
+        } else if (message.includes('collezione') || message.includes('intifada') || message.includes('revolucion') || message.includes('land of smile')) {
+            return "Le nostre collezioni INTIFADA, REVOLUCIÓN e LAND OF SMILE rappresentano la nostra visione di lusso urbano. Ogni capo è prodotto in edizione limitata con materiali di alta qualità. Vuoi saperne di più su una collezione specifica?";
+        } else if (message.includes('prezzo') || message.includes('costo') || message.includes('quanto costa')) {
+            return "I nostri capi hanno prezzi variabili in base alla collezione e al tipo di prodotto. Ti consiglio di visitare la sezione SHOP o fare un preordine per ricevere informazioni dettagliate sui prezzi.";
+        } else if (message.includes('spedizione') || message.includes('consegna')) {
+            return "Effettuiamo spedizioni in tutto il mondo. I tempi di consegna variano da 3-5 giorni lavorativi per l'Italia a 7-14 giorni per le spedizioni internazionali. Tutte le spedizioni sono tracciabili.";
+        } else if (message.includes('reso') || message.includes('rimborso') || message.includes('cambio')) {
+            return "Accettiamo resi entro 14 giorni dalla ricezione del prodotto. Il capo deve essere in condizioni perfette con etichette ancora attaccate. Contatta il nostro servizio clienti per avviare la procedura di reso.";
+        } else if (message.includes('manifesto')) {
+            return "Il nostro manifesto rappresenta la filosofia di D3MAS1ADØ: un lusso urbano autentico che non scende a compromessi. Puoi leggere il manifesto completo cliccando sul link nella sezione dedicata del sito.";
+        } else if (message.includes('grazie') || message.includes('thank')) {
+            return "Figurati! Sono qui per aiutarti. C'è altro di cui hai bisogno?";
+        } else {
+            return "Interessante! Posso aiutarti con informazioni sulle nostre collezioni, spedizioni, resi o preordini. Fammi sapere cosa ti interessa.";
+        }
+    }
+
+    // Admin Panel
+    const adminLink = document.querySelector('.admin-link');
+    const adminModal = document.getElementById('admin-modal');
+    const closeAdminModal = document.querySelector('.close-modal');
+    const loginBtn = document.getElementById('login-btn');
+    const adminDashboard = document.getElementById('admin-dashboard');
+    const closeDashboard = document.querySelector('.close-dashboard');
+    
+    if (adminLink && adminModal && closeAdminModal) {
+        adminLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            adminModal.style.display = 'flex';
+        });
+        
+        closeAdminModal.addEventListener('click', function() {
+            adminModal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', function(e) {
+            if (e.target === adminModal) {
+                adminModal.style.display = 'none';
+            }
+        });
+        
+        if (loginBtn) {
+            loginBtn.addEventListener('click', function() {
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                const loginError = document.getElementById('login-error');
+                
+                if (username === 'admin' && password === 'd3masiado2025') {
+                    adminModal.style.display = 'none';
+                    if (adminDashboard) {
+                        adminDashboard.style.display = 'flex';
                     }
                 } else {
-                    header.classList.remove('sticky');
-                }
-            }
-            
-            // Nascondi scroll indicator
-            if (scrollIndicator && scrollTop > 100) {
-                scrollIndicator.classList.add('hidden');
-            } else if (scrollIndicator) {
-                scrollIndicator.classList.remove('hidden');
-            }
-            
-            // Animazioni al scroll
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.offsetHeight;
-                
-                if (scrollTop > sectionTop - window.innerHeight + config.scrollOffset && 
-                    scrollTop < sectionTop + sectionHeight) {
-                    section.classList.add('in-view');
-                    
-                    // Elementi con animazione fade-in
-                    const fadeElements = section.querySelectorAll('.fade-in-scroll');
-                    fadeElements.forEach(el => {
-                        el.classList.add('visible');
-                    });
-                    
-                    // Elementi con animazione staggered
-                    const staggeredElements = section.querySelectorAll('.staggered-item');
-                    staggeredElements.forEach(el => {
-                        el.classList.add('visible');
-                    });
+                    if (loginError) {
+                        loginError.textContent = 'Username o password non validi';
+                    }
                 }
             });
+        }
+        
+        if (closeDashboard) {
+            closeDashboard.addEventListener('click', function() {
+                adminDashboard.style.display = 'none';
+            });
             
-            lastScrollTop = scrollTop;
+            window.addEventListener('click', function(e) {
+                if (e.target === adminDashboard) {
+                    adminDashboard.style.display = 'none';
+                }
+            });
+        }
+    }
+
+    // Sanity CMS Integration
+    // Nota: questa è una simulazione dell'integrazione con Sanity
+    // In un'implementazione reale, qui ci sarebbero le chiamate API a Sanity
+    const editHomepage = document.getElementById('edit-homepage');
+    const editCollections = document.getElementById('edit-collections');
+    const editLookbook = document.getElementById('edit-lookbook');
+    const editManifesto = document.getElementById('edit-manifesto');
+    
+    if (editHomepage) {
+        editHomepage.addEventListener('click', function() {
+            alert('Funzione di modifica homepage in sviluppo. Connessione a Sanity CMS (ID: yy05mm62)');
         });
     }
     
-    /**
-     * Inizializza lazy loading per immagini
-     */
-    function initLazyLoading() {
-        if ('IntersectionObserver' in window) {
-            const lazyImages = document.querySelectorAll('img[loading="lazy"]');
-            
-            const imageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        const src = img.getAttribute('data-src');
-                        
-                        if (src) {
-                            img.src = src;
-                            img.removeAttribute('data-src');
-                        }
-                        
-                        imageObserver.unobserve(img);
-                    }
-                });
-            });
-            
-            lazyImages.forEach(img => {
-                imageObserver.observe(img);
-            });
-        }
+    if (editCollections) {
+        editCollections.addEventListener('click', function() {
+            alert('Funzione di modifica collezioni in sviluppo. Connessione a Sanity CMS (ID: yy05mm62)');
+        });
     }
     
-    /**
-     * Inizializza il pannello admin
-     */
-    function initAdminPanel() {
-        if (adminLink && adminModal) {
-            // Apri modal al click sul link admin
-            adminLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                adminModal.classList.add('active');
-                document.body.classList.add('no-scroll');
-            });
-            
-            // Chiudi modal
-            if (adminModalClose) {
-                adminModalClose.addEventListener('click', function() {
-                    adminModal.classList.remove('active');
-                    document.body.classList.remove('no-scroll');
-                });
-            }
-            
-            // Click fuori dal modal per chiudere
-            adminModal.addEventListener('click', function(e) {
-                if (e.target === adminModal) {
-                    adminModal.classList.remove('active');
-                    document.body.classList.remove('no-scroll');
-                }
-            });
-            
-            // Gestione form admin
-            if (adminForm) {
-                adminForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    const username = document.getElementById('admin-username').value;
-                    const password = document.getElementById('admin-password').value;
-                    
-                    // Verifica credenziali (esempio)
-                    if (username === 'admin' && password === 'demasiadoadmin') {
-                        // Reindirizza all'area admin o mostra pannello
-                        alert('Login effettuato con successo!');
-                        // Qui puoi reindirizzare o mostrare il pannello admin
-                    } else {
-                        alert('Credenziali non valide');
-                    }
-                });
-            }
-        }
+    if (editLookbook) {
+        editLookbook.addEventListener('click', function() {
+            alert('Funzione di modifica lookbook in sviluppo. Connessione a Sanity CMS (ID: yy05mm62)');
+        });
     }
     
-    /**
-     * Gestione WebP fallback
-     */
-    function supportsWebP() {
-        const elem = document.createElement('canvas');
-        if (elem.getContext && elem.getContext('2d')) {
-            return elem.toDataURL('image/webp').indexOf('data:image/webp') === 0;
-        }
-        return false;
+    if (editManifesto) {
+        editManifesto.addEventListener('click', function() {
+            alert('Funzione di modifica manifesto in sviluppo. Connessione a Sanity CMS (ID: yy05mm62)');
+        });
     }
-    
-    // Aggiungi classe al body se WebP non è supportato
-    if (!supportsWebP()) {
-        document.body.classList.add('no-webp');
-    }
-    
-    /**
-     * Gestione cookie consent
-     */
-    function checkCookieConsent() {
-        const cookieConsent = localStorage.getItem('d3masiado_cookie_consent');
-        const cookieBanner = document.querySelector('.cookie-banner');
-        
-        if (!cookieConsent && cookieBanner) {
-            cookieBanner.classList.add('active');
-            
-            const acceptButton = cookieBanner.querySelector('.cookie-accept');
-            if (acceptButton) {
-                acceptButton.addEventListener('click', function() {
-                    localStorage.setItem('d3masiado_cookie_consent', 'accepted');
-                    cookieBanner.classList.remove('active');
-                });
-            }
-        }
-    }
-    
-    // Controlla cookie consent
-    setTimeout(checkCookieConsent, 2000);
-    
-    // Log di inizializzazione
-    console.log('D3MAS1ADØ website initialized');
-});
 
-// Assicurati che il preloader venga rimosso anche se ci sono errori
-window.addEventListener('load', function() {
-    setTimeout(function() {
-        const preloader = document.querySelector('.preloader');
-        if (preloader && preloader.style.display !== 'none') {
-            console.log('Rimozione forzata del preloader dopo caricamento completo');
-            preloader.style.display = 'none';
-            document.body.classList.remove('preload');
-        }
-    }, 3000);
+    // Animazioni al scroll
+    const fadeElements = document.querySelectorAll('.fade-in-scroll');
+    
+    const fadeInOnScroll = function() {
+        fadeElements.forEach(function(element) {
+            const elementTop = element.getBoundingClientRect().top;
+            const elementBottom = element.getBoundingClientRect().bottom;
+            const isVisible = (elementTop < window.innerHeight) && (elementBottom > 0);
+            
+            if (isVisible) {
+                element.classList.add('visible');
+            }
+        });
+    };
+    
+    window.addEventListener('scroll', fadeInOnScroll);
+    fadeInOnScroll(); // Esegui al caricamento
 });

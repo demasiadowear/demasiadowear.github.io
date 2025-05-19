@@ -1,0 +1,246 @@
+/* Manifesto Modal CSS */
+.manifesto-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.manifesto-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.manifesto-modal-content {
+  width: 90%;
+  max-width: 800px;
+  max-height: 80vh;
+  background-color: #1a1a1a;
+  border: 2px solid #39FF14;
+  border-radius: 5px;
+  padding: 30px;
+  overflow-y: auto;
+  position: relative;
+}
+
+.manifesto-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: #39FF14;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.manifesto-modal-close:hover {
+  color: #ffffff;
+}
+
+.manifesto-modal-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #39FF14;
+  text-align: center;
+}
+
+.manifesto-modal-text {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+/* Recensioni Section CSS */
+.recensioni-section {
+  padding: 100px 0;
+  background-color: #000000;
+}
+
+.recensioni-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.recensioni-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.recensione-item {
+  background-color: #1a1a1a;
+  border-radius: 5px;
+  padding: 25px;
+  transition: transform 0.3s ease;
+}
+
+.recensione-item:hover {
+  transform: translateY(-5px);
+}
+
+.recensione-stars {
+  color: #39FF14;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.recensione-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.recensione-author {
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.recensione-date {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin-top: 5px;
+}
+
+/* Lana AI Micro-text */
+.lana-info {
+  position: fixed;
+  bottom: 95px;
+  right: 30px;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  max-width: 200px;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 899;
+}
+
+.lana-toggle:hover + .lana-info {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Header Scroll Fix */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 0;
+  z-index: 1000;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.site-header.scrolled {
+  background-color: rgba(0, 0, 0, 0.9);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.site-header.hidden {
+  transform: translateY(-100%);
+}
+
+/* Admin Panel Fix */
+.admin-toggle {
+  position: relative;
+}
+
+.admin-panel {
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  background-color: #1a1a1a;
+  border: 2px solid #39FF14;
+  border-radius: 5px;
+  padding: 20px;
+  width: 300px;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+.admin-panel.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.admin-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.admin-panel-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #39FF14;
+  text-transform: uppercase;
+}
+
+.admin-panel-close {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.admin-panel-close:hover {
+  color: #39FF14;
+}
+
+.admin-panel-content {
+  margin-bottom: 15px;
+}
+
+.admin-panel-item {
+  margin-bottom: 10px;
+}
+
+.admin-panel-button {
+  background-color: transparent;
+  border: 1px solid #39FF14;
+  color: #39FF14;
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  text-align: left;
+}
+
+.admin-panel-button:hover {
+  background-color: #39FF14;
+  color: #000000;
+}
+
+.admin-panel-footer {
+  text-align: center;
+  font-size: 0.8rem;
+  opacity: 0.7;
+}

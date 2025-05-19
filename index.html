@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="assets/css/animations.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
     <link rel="stylesheet" href="assets/css/logo-animation.css">
+    <link rel="stylesheet" href="assets/css/buttons.css">
+    <link rel="stylesheet" href="assets/css/components.css">
     
     <!-- Preload -->
     <link rel="preload" href="assets/images/logo/logo-main.png" as="image">
@@ -45,12 +47,6 @@
                         <a href="#" class="lang-en">EN</a>
                     </div>
                     
-                    <div class="theme-toggle">
-                        <button class="theme-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"></path></svg>
-                        </button>
-                    </div>
-                    
                     <div class="admin-toggle">
                         <a href="#admin" class="admin-link">Admin</a>
                     </div>
@@ -74,8 +70,6 @@
                 <div class="logo-container">
                     <img src="assets/images/logo/logo-main.png" alt="D3MAS1ADØ Logo" class="main-logo">
                 </div>
-                
-                <h1 class="hero-title">L'unico modo che conosciamo</h1>
                 
                 <div class="hero-buttons">
                     <a href="#shop" class="hero-button">SHOP</a>
@@ -149,10 +143,31 @@
                     
                     <p class="manifesto-text fade-in-scroll">Le nostre collezioni raccontano storie di resistenza culturale, di identità fluide, di orgoglio per le proprie radici. Ogni capo è un manifesto, ogni design una dichiarazione di intenti.</p>
                     
-                    <a href="#manifesto/full" class="manifesto-link">LEGGI IL MANIFESTO COMPLETO</a>
+                    <a href="#" class="manifesto-link" id="open-manifesto">LEGGI IL MANIFESTO COMPLETO</a>
                 </div>
             </div>
         </section>
+        
+        <!-- Manifesto Modal -->
+        <div class="manifesto-modal" id="manifesto-modal">
+            <div class="manifesto-modal-content">
+                <button class="manifesto-modal-close">&times;</button>
+                <h2 class="manifesto-modal-title">MANIFESTO D3MAS1ADØ</h2>
+                <div class="manifesto-modal-text">
+                    <p>D3MAS1ADØ nasce come risposta alla standardizzazione della moda contemporanea. Siamo un collettivo di designer, artisti e attivisti uniti dalla visione di un lusso urbano autentico, che non scende a compromessi.</p>
+                    
+                    <p>Le nostre collezioni raccontano storie di resistenza culturale, di identità fluide, di orgoglio per le proprie radici. Ogni capo è un manifesto, ogni design una dichiarazione di intenti.</p>
+                    
+                    <p>Crediamo in un lusso che non sia esclusione ma inclusione consapevole. Un lusso che parla il linguaggio della strada ma che non rinuncia alla qualità artigianale e alla ricerca estetica. Un lusso che non è ostentazione ma espressione autentica di sé.</p>
+                    
+                    <p>Le nostre collezioni sono limitate, prodotte con materiali selezionati e processi che rispettano l'ambiente e le persone. Non seguiamo le stagioni della moda tradizionale, ma il ritmo delle nostre ispirazioni e delle storie che vogliamo raccontare.</p>
+                    
+                    <p>D3MAS1ADØ è più di un brand, è un movimento culturale che celebra l'eccesso come forma di resistenza, la diversità come ricchezza, l'autenticità come lusso supremo.</p>
+                    
+                    <p>Siamo troppo. Siamo D3MAS1ADØ.</p>
+                </div>
+            </div>
+        </div>
 
         <!-- Preorder Section -->
         <section class="preorder-section" id="preorder">
@@ -174,6 +189,37 @@
                 
                 <div class="unidad-content">
                     <p class="unidad-text">Instagram & TikTok feed coming soon</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Recensioni Section -->
+        <section class="recensioni-section" id="recensioni">
+            <div class="container">
+                <h2 class="section-title">Recensioni</h2>
+                <p class="section-subtitle">Cosa dicono di noi</p>
+                
+                <div class="recensioni-grid">
+                    <div class="recensione-item">
+                        <div class="recensione-stars">★★★★★</div>
+                        <p class="recensione-text">"Qualità incredibile, design unico. D3MAS1ADØ è molto più di un brand, è un'esperienza. La felpa che ho acquistato è diventata il mio capo preferito."</p>
+                        <p class="recensione-author">Marco R.</p>
+                        <p class="recensione-date">15/05/2025</p>
+                    </div>
+                    
+                    <div class="recensione-item">
+                        <div class="recensione-stars">★★★★★</div>
+                        <p class="recensione-text">"Finalmente un brand che non scende a compromessi. I materiali sono eccezionali e il design è provocatorio ma raffinato. Vale ogni centesimo."</p>
+                        <p class="recensione-author">Alessia M.</p>
+                        <p class="recensione-date">10/05/2025</p>
+                    </div>
+                    
+                    <div class="recensione-item">
+                        <div class="recensione-stars">★★★★★</div>
+                        <p class="recensione-text">"Ho preordinato la collezione INTIFADA e non potrei essere più soddisfatto. Spedizione veloce, packaging curato nei minimi dettagli. Tornerò sicuramente."</p>
+                        <p class="recensione-author">Luca T.</p>
+                        <p class="recensione-date">08/05/2025</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -296,6 +342,10 @@
         <button class="lana-toggle">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
         </button>
+        
+        <div class="lana-info">
+            Hai domande? Chiedi a Lana, la nostra AI brasitaliana ti risponde h24.
+        </div>
         
         <div class="lana-chat-window">
             <div class="lana-header">
