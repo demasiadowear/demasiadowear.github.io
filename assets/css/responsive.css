@@ -1,0 +1,170 @@
+/* Responsive styles for D3MAS1ADØ website */
+
+/* Base responsive settings */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+/* Mobile first approach */
+@media screen and (max-width: 480px) {
+    html {
+        font-size: 14px;
+    }
+    
+    .hero-content {
+        padding: 2rem 1rem;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .section-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .collection-item {
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+    
+    .footer-nav {
+        flex-direction: column;
+    }
+    
+    .footer-nav-column {
+        width: 100%;
+        margin-bottom: 1.5rem;
+    }
+    
+    .mobile-menu {
+        width: 100%;
+    }
+}
+
+/* Tablet */
+@media screen and (min-width: 481px) and (max-width: 768px) {
+    .hero-content {
+        padding: 3rem 2rem;
+    }
+    
+    .hero-title {
+        font-size: 3rem;
+    }
+    
+    .collection-item {
+        width: 48%;
+    }
+    
+    .footer-nav-column {
+        width: 48%;
+    }
+}
+
+/* Small desktop */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .hero-content {
+        padding: 4rem 3rem;
+    }
+    
+    .collection-item {
+        width: 31%;
+    }
+}
+
+/* Large desktop */
+@media screen and (min-width: 1025px) {
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .hero-content {
+        padding: 5rem 4rem;
+    }
+}
+
+/* Specific responsive adjustments */
+@media screen and (max-width: 768px) {
+    .main-nav {
+        display: none;
+    }
+    
+    .menu-toggle {
+        display: block;
+    }
+    
+    .lookbook-slider {
+        height: 350px;
+    }
+    
+    .preorder-form {
+        padding: 1.5rem;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .main-nav {
+        display: flex;
+    }
+    
+    .menu-toggle {
+        display: none;
+    }
+    
+    .mobile-menu {
+        display: none;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) {
+    .nav-link, .footer-nav-link, .social-link, .lookbook-cta, .preorder-cta {
+        padding: 0.8rem;
+    }
+    
+    .collection-overlay {
+        opacity: 0.8;
+    }
+}
+
+/* High-DPI screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .logo img, .hero-bg {
+        image-rendering: -webkit-optimize-contrast;
+    }
+}
+
+/* Print styles */
+@media print {
+    .preloader, .site-header, .mobile-menu, .hero-cta, .footer {
+        display: none;
+    }
+    
+    body {
+        color: #000;
+        background: #fff;
+    }
+    
+    a {
+        text-decoration: underline;
+        color: #000;
+    }
+    
+    .container {
+        width: 100%;
+        max-width: none;
+    }
+}

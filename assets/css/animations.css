@@ -1,0 +1,200 @@
+/* Animations CSS for D3MAS1ADØ website */
+
+/* Preloader Animation */
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+}
+
+@keyframes loadingBar {
+    0% { width: 0; }
+    100% { width: 100%; }
+}
+
+/* Logo Animation */
+@keyframes logoGlitch {
+    0% {
+        text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
+                    -0.05em -0.025em 0 rgba(0, 255, 0, 0.75),
+                    -0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+    }
+    14% {
+        text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
+                    -0.05em -0.025em 0 rgba(0, 255, 0, 0.75),
+                    -0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+    }
+    15% {
+        text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75),
+                    0.025em 0.025em 0 rgba(0, 255, 0, 0.75),
+                    -0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
+    }
+    49% {
+        text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75),
+                    0.025em 0.025em 0 rgba(0, 255, 0, 0.75),
+                    -0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
+    }
+    50% {
+        text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75),
+                    0.05em 0 0 rgba(0, 255, 0, 0.75),
+                    0 -0.05em 0 rgba(0, 0, 255, 0.75);
+    }
+    99% {
+        text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75),
+                    0.05em 0 0 rgba(0, 255, 0, 0.75),
+                    0 -0.05em 0 rgba(0, 0, 255, 0.75);
+    }
+    100% {
+        text-shadow: -0.025em 0 0 rgba(255, 0, 0, 0.75),
+                    -0.025em -0.025em 0 rgba(0, 255, 0, 0.75),
+                    -0.025em -0.05em 0 rgba(0, 0, 255, 0.75);
+    }
+}
+
+@keyframes logoPulse {
+    0% { transform: scale(1); filter: brightness(1); }
+    50% { transform: scale(1.05); filter: brightness(1.2); }
+    100% { transform: scale(1); filter: brightness(1); }
+}
+
+@keyframes neonFlicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        text-shadow: 0 0 5px #39FF14,
+                    0 0 10px #39FF14,
+                    0 0 15px #39FF14,
+                    0 0 20px #39FF14;
+    }
+    20%, 24%, 55% {
+        text-shadow: none;
+    }
+}
+
+/* Hero Section Animations */
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes slideUp {
+    0% { transform: translateY(50px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideDown {
+    0% { transform: translateY(-50px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideLeft {
+    0% { transform: translateX(50px); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideRight {
+    0% { transform: translateX(-50px); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+/* Collection Hover Animations */
+@keyframes overlayFadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Button Animations */
+@keyframes buttonGlow {
+    0% { box-shadow: 0 0 5px rgba(57, 255, 20, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(57, 255, 20, 0.8); }
+    100% { box-shadow: 0 0 5px rgba(57, 255, 20, 0.5); }
+}
+
+/* Mobile Menu Animations */
+@keyframes menuSlideIn {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes menuSlideOut {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(100%); }
+}
+
+/* Lookbook Gallery Animations */
+@keyframes zoomIn {
+    0% { transform: scale(0.9); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Application of animations */
+.preloader.fade-out {
+    animation: fadeOut 0.5s ease forwards;
+}
+
+.preloader-bar::after {
+    animation: loadingBar 3s ease forwards;
+}
+
+.logo-main {
+    animation: logoGlitch 2s infinite alternate-reverse, logoPulse 4s infinite;
+}
+
+.hero-title {
+    animation: fadeIn 1s ease, neonFlicker 5s infinite;
+}
+
+.hero-subtitle {
+    animation: slideUp 1s ease 0.3s forwards;
+    opacity: 0;
+}
+
+.hero-cta {
+    animation: fadeIn 1s ease 0.6s forwards;
+    opacity: 0;
+}
+
+.section-title {
+    animation: slideDown 0.8s ease;
+}
+
+.collection-item:hover .collection-overlay {
+    animation: overlayFadeIn 0.3s ease forwards;
+}
+
+.cta-button:hover {
+    animation: buttonGlow 1.5s infinite;
+}
+
+.mobile-menu.active {
+    animation: menuSlideIn 0.3s ease forwards;
+}
+
+.mobile-menu.inactive {
+    animation: menuSlideOut 0.3s ease forwards;
+}
+
+.lookbook-slide.active {
+    animation: zoomIn 0.5s ease forwards;
+}
+
+/* Scroll animations */
+.fade-in-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered animations for lists */
+.staggered-item {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.staggered-item.visible:nth-child(1) { animation: slideUp 0.5s ease 0.1s forwards; }
+.staggered-item.visible:nth-child(2) { animation: slideUp 0.5s ease 0.2s forwards; }
+.staggered-item.visible:nth-child(3) { animation: slideUp 0.5s ease 0.3s forwards; }
+.staggered-item.visible:nth-child(4) { animation: slideUp 0.5s ease 0.4s forwards; }
+.staggered-item.visible:nth-child(5) { animation: slideUp 0.5s ease 0.5s forwards; }
