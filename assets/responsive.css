@@ -1,0 +1,246 @@
+
+    /* D3MAS1ADØ Responsive CSS */
+    
+    /* Variabili CSS */
+    :root {
+      --color-black: #000000;
+      --color-neon-green: #39FF14;
+      --font-primary: 'Orbitron', sans-serif;
+      --font-secondary: 'Arial', sans-serif;
+      --header-height-mobile: 60px;
+      --header-height-tablet: 70px;
+      --header-height-desktop: 80px;
+      --transition-fast: 0.2s ease;
+      --transition-normal: 0.3s ease;
+      --transition-slow: 0.5s ease;
+    }
+    
+    /* Reset e base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      font-family: var(--font-primary);
+      color: white;
+      background-color: var(--color-black);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    /* Grid system responsive */
+    .container {
+      width: 100%;
+      padding-right: 15px;
+      padding-left: 15px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+    
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      margin-right: -15px;
+      margin-left: -15px;
+    }
+    
+    .col {
+      position: relative;
+      width: 100%;
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+    
+    /* Classi di utilità responsive */
+    .d-none {
+      display: none !important;
+    }
+    
+    .d-block {
+      display: block !important;
+    }
+    
+    .d-flex {
+      display: flex !important;
+    }
+    
+    /* Spaziatura responsive */
+    .mt-1 { margin-top: 0.25rem !important; }
+    .mt-2 { margin-top: 0.5rem !important; }
+    .mt-3 { margin-top: 1rem !important; }
+    .mt-4 { margin-top: 1.5rem !important; }
+    .mt-5 { margin-top: 3rem !important; }
+    
+    .mb-1 { margin-bottom: 0.25rem !important; }
+    .mb-2 { margin-bottom: 0.5rem !important; }
+    .mb-3 { margin-bottom: 1rem !important; }
+    .mb-4 { margin-bottom: 1.5rem !important; }
+    .mb-5 { margin-bottom: 3rem !important; }
+    
+    .py-1 { padding-top: 0.25rem !important; padding-bottom: 0.25rem !important; }
+    .py-2 { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
+    .py-3 { padding-top: 1rem !important; padding-bottom: 1rem !important; }
+    .py-4 { padding-top: 1.5rem !important; padding-bottom: 1.5rem !important; }
+    .py-5 { padding-top: 3rem !important; padding-bottom: 3rem !important; }
+    
+    .px-1 { padding-left: 0.25rem !important; padding-right: 0.25rem !important; }
+    .px-2 { padding-left: 0.5rem !important; padding-right: 0.5rem !important; }
+    .px-3 { padding-left: 1rem !important; padding-right: 1rem !important; }
+    .px-4 { padding-left: 1.5rem !important; padding-right: 1.5rem !important; }
+    .px-5 { padding-left: 3rem !important; padding-right: 3rem !important; }
+    
+    /* Breakpoint specifici */
+    @media (min-width: 576px) {
+      .container {
+        max-width: 540px;
+      }
+      
+      .d-sm-none {
+        display: none !important;
+      }
+      
+      .d-sm-block {
+        display: block !important;
+      }
+      
+      .d-sm-flex {
+        display: flex !important;
+      }
+      
+      .col-sm-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+      }
+      
+      .col-sm-12 {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+    }
+    
+    @media (min-width: 768px) {
+      .container {
+        max-width: 720px;
+      }
+      
+      .d-md-none {
+        display: none !important;
+      }
+      
+      .d-md-block {
+        display: block !important;
+      }
+      
+      .d-md-flex {
+        display: flex !important;
+      }
+      
+      .col-md-4 {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+      }
+      
+      .col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+      }
+      
+      .col-md-8 {
+        flex: 0 0 66.666667%;
+        max-width: 66.666667%;
+      }
+      
+      .col-md-12 {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+    }
+    
+    @media (min-width: 992px) {
+      .container {
+        max-width: 960px;
+      }
+      
+      .d-lg-none {
+        display: none !important;
+      }
+      
+      .d-lg-block {
+        display: block !important;
+      }
+      
+      .d-lg-flex {
+        display: flex !important;
+      }
+      
+      .col-lg-3 {
+        flex: 0 0 25%;
+        max-width: 25%;
+      }
+      
+      .col-lg-4 {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+      }
+      
+      .col-lg-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+      }
+      
+      .col-lg-8 {
+        flex: 0 0 66.666667%;
+        max-width: 66.666667%;
+      }
+      
+      .col-lg-9 {
+        flex: 0 0 75%;
+        max-width: 75%;
+      }
+    }
+    
+    @media (min-width: 1200px) {
+      .container {
+        max-width: 1140px;
+      }
+    }
+    
+    /* Ottimizzazioni touch */
+    @media (hover: none) {
+      /* Stili specifici per dispositivi touch */
+      .touch-target {
+        min-height: 44px;
+        min-width: 44px;
+      }
+      
+      /* Aumenta dimensione pulsanti per facilità di tocco */
+      button, 
+      .btn,
+      .nav-link,
+      .touch-target {
+        padding: 0.75rem 1rem;
+      }
+    }
+    
+    /* Ottimizzazioni per orientamento */
+    @media (orientation: landscape) and (max-height: 500px) {
+      /* Stili per dispositivi mobili in landscape con altezza ridotta */
+      .header {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+      }
+      
+      .section {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+      }
+    }
+    
