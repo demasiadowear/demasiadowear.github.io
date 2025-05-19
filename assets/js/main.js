@@ -14,6 +14,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileMenu = document.querySelector('.mobile-menu');
     const scrollIndicator = document.querySelector('.scroll-indicator');
     const sections = document.querySelectorAll('section');
+    const adminLink = document.querySelector('.admin-link');
+    const adminModal = document.querySelector('.admin-modal');
+    const adminModalClose = document.querySelector('.admin-modal-close');
+    const adminForm = document.querySelector('.admin-form');
     
     // Configurazione
     const config = {
@@ -22,37 +26,46 @@ document.addEventListener('DOMContentLoaded', function() {
         animationDelay: 300
     };
     
+    // Rimuovi immediatamente la classe preload dal body
+    document.body.classList.remove('preload');
+    
     // Inizializzazione
     initPreloader();
     initNavigation();
     initScrollEffects();
     initLazyLoading();
+    initAdminPanel();
     
     /**
      * Inizializza il preloader
      */
     function initPreloader() {
+        console.log("Inizializzazione preloader...");
         // Simula caricamento
         let progress = 0;
         const interval = setInterval(() => {
             progress += 5;
             if (preloaderBar) {
                 preloaderBar.style.width = `${progress}%`;
+                console.log(`Preloader progress: ${progress}%`);
             }
             
             if (progress >= 100) {
                 clearInterval(interval);
+                console.log("Preloader completato, nascondendo...");
                 
                 // Nascondi preloader dopo il completamento
                 setTimeout(() => {
                     if (preloader) {
                         preloader.classList.add('fade-out');
                         document.body.classList.remove('loading');
+                        console.log("Preloader fade-out applicato");
                         
                         // Rimuovi completamente dopo l'animazione
                         setTimeout(() => {
                             if (preloader) {
                                 preloader.style.display = 'none';
+                                console.log("Preloader nascosto completamente");
                             }
                         }, 500);
                     }
@@ -215,6 +228,55 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     /**
+     * Inizializza il pannello admin
+     */
+    function initAdminPanel() {
+        if (adminLink && adminModal) {
+            // Apri modal al click sul link admin
+            adminLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                adminModal.classList.add('active');
+                document.body.classList.add('no-scroll');
+            });
+            
+            // Chiudi modal
+            if (adminModalClose) {
+                adminModalClose.addEventListener('click', function() {
+                    adminModal.classList.remove('active');
+                    document.body.classList.remove('no-scroll');
+                });
+            }
+            
+            // Click fuori dal modal per chiudere
+            adminModal.addEventListener('click', function(e) {
+                if (e.target === adminModal) {
+                    adminModal.classList.remove('active');
+                    document.body.classList.remove('no-scroll');
+                }
+            });
+            
+            // Gestione form admin
+            if (adminForm) {
+                adminForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const username = document.getElementById('admin-username').value;
+                    const password = document.getElementById('admin-password').value;
+                    
+                    // Verifica credenziali (esempio)
+                    if (username === 'admin' && password === 'demasiadoadmin') {
+                        // Reindirizza all'area admin o mostra pannello
+                        alert('Login effettuato con successo!');
+                        // Qui puoi reindirizzare o mostrare il pannello admin
+                    } else {
+                        alert('Credenziali non valide');
+                    }
+                });
+            }
+        }
+    }
+    
+    /**
      * Gestione WebP fallback
      */
     function supportsWebP() {
@@ -255,4 +317,16 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Log di inizializzazione
     console.log('D3MAS1ADØ website initialized');
+});
+
+// Assicurati che il preloader venga rimosso anche se ci sono errori
+window.addEventListener('load', function() {
+    setTimeout(function() {
+        const preloader = document.querySelector('.preloader');
+        if (preloader && preloader.style.display !== 'none') {
+            console.log('Rimozione forzata del preloader dopo caricamento completo');
+            preloader.style.display = 'none';
+            document.body.classList.remove('preload');
+        }
+    }, 3000);
 });

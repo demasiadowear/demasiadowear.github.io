@@ -1,260 +1,221 @@
-// language-switch.js
 /**
- * D3MAS1ADØ - Sistema di gestione multilingua IT/EN
+ * D3MAS1ADØ - Language Switch
  * 
- * Questo script gestisce:
- * - Rilevamento automatico della lingua preferita dell'utente
- * - Switch manuale tra italiano e inglese
- * - Persistenza della scelta lingua tramite localStorage
- * - Aggiornamento dinamico dei contenuti localizzati
- * - Gestione corretta di SEO (lang, hreflang)
+ * Gestisce il cambio di lingua del sito (IT/EN)
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-  // Configurazione lingue supportate
-  const SUPPORTED_LANGUAGES = ['it', 'en'];
-  const DEFAULT_LANGUAGE = 'it';
-  
-  // Elementi DOM per lo switch lingua
-  let languageSwitch;
-  let languageButtons = {};
-  
-  // Stato corrente
-  let currentLanguage = DEFAULT_LANGUAGE;
-  
-  /**
-   * Rileva la lingua preferita dell'utente
-   * Priorità: 1. localStorage, 2. browser language, 3. default (it)
-   */
-  function detectPreferredLanguage() {
-    // Controlla se c'è una preferenza salvata
-    const savedLanguage = localStorage.getItem('d3masiado_language');
-    if (savedLanguage && SUPPORTED_LANGUAGES.includes(savedLanguage)) {
-      return savedLanguage;
-    }
+    // Riferimenti agli elementi DOM
+    const langOptions = document.querySelectorAll('.lang-option');
+    const mobileLangOptions = document.querySelectorAll('.mobile-lang-option');
     
-    // Controlla la lingua del browser
-    const browserLanguage = navigator.language.split('-')[0];
-    if (browserLanguage === 'it') {
-      return 'it';
-    }
+    // Contenuti multilingua
+    const translations = {
+        'it': {
+            'hero-title': 'L\'unico modo che conosciamo',
+            'shop-button': 'SHOP',
+            'lookbook-button': 'LOOKBOOK',
+            'collections-title': 'Collezioni',
+            'collections-subtitle': 'Tre mondi. Tre storie. Un\'identità.',
+            'intifada-tagline': 'La nostra arma è restare vivi. Vestiti per combattere.',
+            'revolucion-tagline': 'Vestiti come se stessi scappando. O resistendo. O facendo l\'amore sotto un portico.',
+            'landofsmile-tagline': 'Nel paese dei sorrisi, l\'unico vero è quello di chi non si finge.',
+            'explore': 'Esplora',
+            'lookbook-title': 'Lookbook',
+            'lookbook-subtitle': 'Stile urbano. Attitudine globale.',
+            'explore-lookbook': 'Esplora il lookbook completo',
+            'manifesto-text-1': 'D3MAS1ADØ non è solo un brand. È un movimento culturale che nasce dalle strade, dalle periferie, dai margini.',
+            'manifesto-text-2': 'Creiamo capi che raccontano storie di resistenza, di orgoglio, di identità.',
+            'manifesto-text-3': 'Unidad-31Ø è la nostra community. Un rifugio per chi cerca autenticità in un mondo di apparenze.',
+            'read-manifesto': 'Leggi il manifesto completo',
+            'unidad-title': '#Unidad310',
+            'unidad-subtitle': 'La nostra community. Il nostro movimento.',
+            'preorder-title': 'Preorder Now',
+            'preorder-subtitle': 'Accesso anticipato alle nuove collezioni',
+            'preorder-cta': 'Preordina ora',
+            'nav-shop': 'Shop',
+            'nav-manifesto': 'Manifesto',
+            'nav-lookbook': 'Lookbook',
+            'nav-unidad': 'Unidad-310',
+            'nav-about': 'About',
+            'footer-nav': 'Naviga',
+            'footer-legal': 'Legal',
+            'footer-social': 'Social',
+            'footer-terms': 'Termini e Condizioni',
+            'footer-cookies': 'Cookie Policy',
+            'footer-join': 'Join Us',
+            'lana-greeting': 'Ciao, sono Lana. Stylist digitale di D3MAS1ADØ. Cosa stai cercando oggi?',
+            'lana-placeholder': 'Scrivi un messaggio...',
+            'lana-send': 'Invia',
+            'admin-title': 'Admin Login',
+            'admin-username': 'Username',
+            'admin-password': 'Password',
+            'admin-login': 'Login'
+        },
+        'en': {
+            'hero-title': 'The only way we know',
+            'shop-button': 'SHOP',
+            'lookbook-button': 'LOOKBOOK',
+            'collections-title': 'Collections',
+            'collections-subtitle': 'Three worlds. Three stories. One identity.',
+            'intifada-tagline': 'Our weapon is staying alive. Dress to fight.',
+            'revolucion-tagline': 'Dress like you\'re running away. Or resisting. Or making love under a porch.',
+            'landofsmile-tagline': 'In the land of smiles, the only real one is from those who don\'t pretend.',
+            'explore': 'Explore',
+            'lookbook-title': 'Lookbook',
+            'lookbook-subtitle': 'Urban style. Global attitude.',
+            'explore-lookbook': 'Explore the full lookbook',
+            'manifesto-text-1': 'D3MAS1ADØ is not just a brand. It\'s a cultural movement born from the streets, the outskirts, the margins.',
+            'manifesto-text-2': 'We create garments that tell stories of resistance, pride, and identity.',
+            'manifesto-text-3': 'Unidad-31Ø is our community. A refuge for those seeking authenticity in a world of appearances.',
+            'read-manifesto': 'Read the full manifesto',
+            'unidad-title': '#Unidad310',
+            'unidad-subtitle': 'Our community. Our movement.',
+            'preorder-title': 'Preorder Now',
+            'preorder-subtitle': 'Early access to new collections',
+            'preorder-cta': 'Preorder now',
+            'nav-shop': 'Shop',
+            'nav-manifesto': 'Manifesto',
+            'nav-lookbook': 'Lookbook',
+            'nav-unidad': 'Unidad-310',
+            'nav-about': 'About',
+            'footer-nav': 'Navigate',
+            'footer-legal': 'Legal',
+            'footer-social': 'Social',
+            'footer-terms': 'Terms & Conditions',
+            'footer-cookies': 'Cookie Policy',
+            'footer-join': 'Join Us',
+            'lana-greeting': 'Hi, I\'m Lana. D3MAS1ADØ\'s digital stylist. What are you looking for today?',
+            'lana-placeholder': 'Type a message...',
+            'lana-send': 'Send',
+            'admin-title': 'Admin Login',
+            'admin-username': 'Username',
+            'admin-password': 'Password',
+            'admin-login': 'Login'
+        }
+    };
     
-    // Default: inglese per tutti gli altri
-    return 'en';
-  }
-  
-  /**
-   * Cambia la lingua corrente
-   */
-  function switchLanguage(lang) {
-    if (!SUPPORTED_LANGUAGES.includes(lang)) {
-      console.error(`Lingua non supportata: ${lang}`);
-      return;
-    }
+    // Inizializzazione
+    initLanguageSwitch();
     
-    // Aggiorna lo stato corrente
-    currentLanguage = lang;
-    
-    // Salva la preferenza
-    localStorage.setItem('d3masiado_language', lang);
-    
-    // Aggiorna l'attributo lang dell'HTML
-    document.documentElement.lang = lang;
-    
-    // Aggiorna lo stato visivo dei pulsanti
-    updateLanguageButtons();
-    
-    // Aggiorna tutti i contenuti localizzati
-    updateLocalizedContent();
-    
-    // Aggiorna i meta tag hreflang
-    updateHreflangTags();
-    
-    // Evento personalizzato per altri componenti (es. Lana AI)
-    const event = new CustomEvent('languageChanged', { detail: { language: lang } });
-    document.dispatchEvent(event);
-  }
-  
-  /**
-   * Aggiorna lo stato visivo dei pulsanti lingua
-   */
-  function updateLanguageButtons() {
-    Object.keys(languageButtons).forEach(lang => {
-      if (lang === currentLanguage) {
-        languageButtons[lang].classList.add('active');
-      } else {
-        languageButtons[lang].classList.remove('active');
-      }
-    });
-  }
-  
-  /**
-   * Aggiorna tutti i contenuti localizzati nella pagina
-   */
-  function updateLocalizedContent() {
-    // Seleziona tutti gli elementi con attributo data-i18n
-    const elements = document.querySelectorAll('[data-i18n]');
-    
-    elements.forEach(element => {
-      const key = element.getAttribute('data-i18n');
-      const translations = window.D3MASIADO_TRANSLATIONS || {};
-      
-      if (translations[key] && translations[key][currentLanguage]) {
-        element.innerHTML = translations[key][currentLanguage];
-      }
-    });
-  }
-  
-  /**
-   * Aggiorna i meta tag hreflang per SEO
-   */
-  function updateHreflangTags() {
-    // Rimuovi eventuali tag hreflang esistenti
-    const existingTags = document.querySelectorAll('link[rel="alternate"][hreflang]');
-    existingTags.forEach(tag => tag.remove());
-    
-    // Crea i nuovi tag hreflang
-    const head = document.head;
-    const currentUrl = window.location.href.split('?')[0]; // URL base senza parametri
-    
-    SUPPORTED_LANGUAGES.forEach(lang => {
-      const link = document.createElement('link');
-      link.rel = 'alternate';
-      link.hreflang = lang;
-      link.href = `${currentUrl}${lang === DEFAULT_LANGUAGE ? '' : `?lang=${lang}`}`;
-      head.appendChild(link);
-    });
-    
-    // Aggiungi anche il tag x-default
-    const defaultLink = document.createElement('link');
-    defaultLink.rel = 'alternate';
-    defaultLink.hreflang = 'x-default';
-    defaultLink.href = currentUrl;
-    head.appendChild(defaultLink);
-  }
-  
-  /**
-   * Crea lo switch lingua nell'interfaccia
-   */
-  function createLanguageSwitch() {
-    // Crea il container per lo switch
-    languageSwitch = document.createElement('div');
-    languageSwitch.className = 'language-switch';
-    
-    // Crea i pulsanti per ogni lingua
-    SUPPORTED_LANGUAGES.forEach(lang => {
-      const button = document.createElement('button');
-      button.className = 'language-button';
-      button.setAttribute('data-lang', lang);
-      button.textContent = lang.toUpperCase();
-      
-      // Aggiungi evento click
-      button.addEventListener('click', () => switchLanguage(lang));
-      
-      // Salva il riferimento
-      languageButtons[lang] = button;
-      
-      // Aggiungi al container
-      languageSwitch.appendChild(button);
-      
-      // Aggiungi separatore (tranne dopo l'ultimo)
-      if (lang !== SUPPORTED_LANGUAGES[SUPPORTED_LANGUAGES.length - 1]) {
-        const separator = document.createElement('span');
-        separator.className = 'language-separator';
-        separator.textContent = '|';
-        languageSwitch.appendChild(separator);
-      }
-    });
-    
-    // Aggiungi lo switch al DOM
-    const header = document.querySelector('header');
-    if (header) {
-      header.appendChild(languageSwitch);
-    } else {
-      // Fallback: aggiungi all'inizio del body
-      document.body.insertBefore(languageSwitch, document.body.firstChild);
-    }
-    
-    // Aggiungi stili CSS
-    addLanguageSwitchStyles();
-  }
-  
-  /**
-   * Aggiungi stili CSS per lo switch lingua
-   */
-  function addLanguageSwitchStyles() {
-    const style = document.createElement('style');
-    style.textContent = `
-      .language-switch {
-        display: flex;
-        align-items: center;
-        margin-left: auto;
-        padding: 0.5rem;
-      }
-      
-      .language-button {
-        background: none;
-        border: none;
-        color: white;
-        font-family: 'Orbitron', sans-serif;
-        font-size: 0.875rem;
-        cursor: pointer;
-        padding: 0.25rem 0.5rem;
-        transition: color 0.3s ease;
-      }
-      
-      .language-button:hover {
-        color: #39FF14;
-      }
-      
-      .language-button.active {
-        color: #39FF14;
-        font-weight: bold;
-      }
-      
-      .language-separator {
-        color: rgba(255, 255, 255, 0.5);
-        margin: 0 0.25rem;
-      }
-      
-      @media (max-width: 767px) {
-        .language-switch {
-          position: absolute;
-          top: 0.5rem;
-          right: 0.5rem;
+    /**
+     * Inizializza il cambio lingua
+     */
+    function initLanguageSwitch() {
+        // Determina lingua iniziale
+        let currentLang = getBrowserLanguage();
+        setActiveLanguage(currentLang);
+        
+        // Event listener per opzioni lingua desktop
+        if (langOptions) {
+            langOptions.forEach(option => {
+                option.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const lang = this.getAttribute('data-lang');
+                    setActiveLanguage(lang);
+                });
+            });
         }
         
-        .language-button {
-          font-size: 0.75rem;
-          padding: 0.25rem;
+        // Event listener per opzioni lingua mobile
+        if (mobileLangOptions) {
+            mobileLangOptions.forEach(option => {
+                option.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const lang = this.getAttribute('data-lang');
+                    setActiveLanguage(lang);
+                });
+            });
         }
-      }
-    `;
-    document.head.appendChild(style);
-  }
-  
-  /**
-   * Inizializza il sistema multilingua
-   */
-  function init() {
-    // Rileva la lingua preferita
-    currentLanguage = detectPreferredLanguage();
+    }
     
-    // Crea lo switch lingua
-    createLanguageSwitch();
+    /**
+     * Imposta la lingua attiva
+     */
+    function setActiveLanguage(lang) {
+        // Salva la lingua nelle preferenze
+        localStorage.setItem('d3masiado_lang', lang);
+        
+        // Aggiorna classi attive
+        updateActiveClasses(lang);
+        
+        // Traduci contenuti
+        translateContent(lang);
+    }
     
-    // Imposta la lingua iniziale
-    switchLanguage(currentLanguage);
+    /**
+     * Aggiorna classi attive per le opzioni lingua
+     */
+    function updateActiveClasses(lang) {
+        // Desktop
+        if (langOptions) {
+            langOptions.forEach(option => {
+                if (option.getAttribute('data-lang') === lang) {
+                    option.classList.add('active');
+                } else {
+                    option.classList.remove('active');
+                }
+            });
+        }
+        
+        // Mobile
+        if (mobileLangOptions) {
+            mobileLangOptions.forEach(option => {
+                if (option.getAttribute('data-lang') === lang) {
+                    option.classList.add('active');
+                } else {
+                    option.classList.remove('active');
+                }
+            });
+        }
+    }
     
-    console.log(`D3MAS1ADØ language system initialized: ${currentLanguage}`);
-  }
-  
-  // Avvia il sistema
-  init();
-  
-  // Esponi API pubblica
-  window.D3MASIADO_LANGUAGE = {
-    getCurrentLanguage: () => currentLanguage,
-    switchLanguage: switchLanguage
-  };
+    /**
+     * Traduci i contenuti del sito
+     */
+    function translateContent(lang) {
+        if (!translations[lang]) return;
+        
+        // Traduci elementi con attributo data-translate
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.getAttribute('data-translate');
+            if (translations[lang][key]) {
+                el.textContent = translations[lang][key];
+            }
+        });
+        
+        // Traduci elementi specifici per ID
+        for (const key in translations[lang]) {
+            const el = document.getElementById(key);
+            if (el) {
+                el.textContent = translations[lang][key];
+            }
+        }
+        
+        // Traduci placeholder
+        document.querySelectorAll('[data-translate-placeholder]').forEach(el => {
+            const key = el.getAttribute('data-translate-placeholder');
+            if (translations[lang][key]) {
+                el.placeholder = translations[lang][key];
+            }
+        });
+        
+        // Aggiorna attributo lang dell'html
+        document.documentElement.lang = lang;
+    }
+    
+    /**
+     * Ottieni la lingua del browser
+     */
+    function getBrowserLanguage() {
+        // Controlla se c'è una preferenza salvata
+        const savedLang = localStorage.getItem('d3masiado_lang');
+        if (savedLang) return savedLang;
+        
+        // Altrimenti usa la lingua del browser
+        const browserLang = navigator.language || navigator.userLanguage;
+        
+        // Default a italiano se la lingua del browser è italiano, altrimenti inglese
+        return browserLang.startsWith('it') ? 'it' : 'en';
+    }
 });
