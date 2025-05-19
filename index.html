@@ -1,312 +1,47 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>D3MAS1ADØ - Lusso Urbano. Non per tutti.</title>
-    <meta name="description" content="D3MAS1ADØ - Brand urban-luxury multiculturale. Collezioni Intifada, Revolución, Land of Smile. Lusso Urbano. Non per tutti.">
-    <meta property="og:title" content="D3MAS1ADØ - Lusso Urbano. Non per tutti.">
-    <meta property="og:description" content="D3MAS1ADØ - Brand urban-luxury multiculturale. Collezioni Intifada, Revolución, Land of Smile.">
-    <meta property="og:image" content="https://www.demasiadowear.com/images/og-image.jpg">
-    <meta property="og:url" content="https://www.demasiadowear.com">
-    <meta name="twitter:card" content="summary_large_image">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="D3MAS1ADØ - Urban-luxury multiculturale. L'unico modo che conosciamo." />
+    <title>D3MAS1ADØ - Urban-luxury</title>
+    <link rel="stylesheet" href="assets/index-Cm5uA9xI.css">
+    <link rel="stylesheet" href="assets/responsive.css">
+    <!-- Font Awesome per icone social -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  </head>
+  <body>
+    <div id="root"></div>
     
-    <!-- Favicon -->
-    <link rel="icon" href="favicon.ico">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Script principali -->
+    <script src="assets/index-B_JaY9Qo.js"></script>
     
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Script ottimizzati -->
+    <script src="webp-loader.js"></script>
+    <script src="translations.js"></script>
+    <script src="language-switch.js"></script>
+    <script src="animations.js"></script>
+    <script src="shop-integration.js"></script>
+    <script src="product-catalog.js"></script>
+    <script src="stripe-config.js"></script>
+    <script src="analytics.js"></script>
+    <script src="service-worker.js"></script>
     
-    <!-- CSS -->
-    <link rel="stylesheet" href="assets/css/reset.css">
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/animations.css">
-    <link rel="stylesheet" href="assets/css/responsive.css">
+    <!-- Social Links e Attivazione Bottoni -->
+    <script src="social-links.js"></script>
     
-    <!-- Preload Video -->
-    <link rel="preload" href="assets/videos/hero-video.mp4" as="video" type="video/mp4">
-</head>
-<body class="preload">
-    <!-- Preloader -->
-    <div class="preloader">
-        <div class="preloader-logo">D3MAS1ADØ</div>
-        <div class="preloader-bar"></div>
-    </div>
-
-    <!-- Header -->
-    <header class="site-header">
-        <div class="header-container">
-            <div class="logo">
-                <a href="index.html" class="logo-link">D3MAS1ADØ</a>
-            </div>
-            <nav class="main-nav">
-                <ul class="nav-list">
-                    <li class="nav-item"><a href="#collections" class="nav-link">Collezioni</a></li>
-                    <li class="nav-item"><a href="#lookbook" class="nav-link">Lookbook</a></li>
-                    <li class="nav-item"><a href="#manifesto" class="nav-link">Manifesto</a></li>
-                    <li class="nav-item"><a href="#preorder" class="nav-link preorder-link">Preorder</a></li>
-                </ul>
-            </nav>
-            <div class="header-actions">
-                <div class="language-switch">
-                    <a href="#" class="lang-option active" data-lang="it">IT</a>
-                    <span class="lang-separator">|</span>
-                    <a href="#" class="lang-option" data-lang="en">EN</a>
-                </div>
-                <button class="menu-toggle" aria-label="Toggle menu">
-                    <span class="menu-bar"></span>
-                    <span class="menu-bar"></span>
-                    <span class="menu-bar"></span>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu">
-        <div class="mobile-menu-container">
-            <ul class="mobile-nav-list">
-                <li class="mobile-nav-item"><a href="#collections" class="mobile-nav-link">Collezioni</a></li>
-                <li class="mobile-nav-item"><a href="#lookbook" class="mobile-nav-link">Lookbook</a></li>
-                <li class="mobile-nav-item"><a href="#manifesto" class="mobile-nav-link">Manifesto</a></li>
-                <li class="mobile-nav-item"><a href="#preorder" class="mobile-nav-link preorder-link">Preorder</a></li>
-                <li class="mobile-nav-item">
-                    <div class="mobile-language-switch">
-                        <a href="#" class="mobile-lang-option active" data-lang="it">IT</a>
-                        <span class="mobile-lang-separator">|</span>
-                        <a href="#" class="mobile-lang-option" data-lang="en">EN</a>
-                    </div>
-                </li>
-            </ul>
-            <div class="mobile-social">
-                <a href="https://www.instagram.com/demasiadowear" target="_blank" class="social-link">Instagram</a>
-                <a href="https://www.tiktok.com/@demasiadowear" target="_blank" class="social-link">TikTok</a>
-                <a href="https://www.facebook.com/profile.php?id=61576386110261" target="_blank" class="social-link">Facebook</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <main>
-        <!-- Hero Section -->
-        <section class="hero-section">
-            <div class="hero-video-container">
-                <video class="hero-video" autoplay loop muted playsinline>
-                    <source src="assets/videos/hero-video.mp4" type="video/mp4">
-                    <source src="assets/videos/hero-video.webm" type="video/webm">
-                </video>
-                <div class="hero-overlay"></div>
-            </div>
-            <div class="hero-content">
-                <h1 class="hero-title glitch" data-text="Lusso Urbano. Non per tutti.">Lusso Urbano. Non per tutti.</h1>
-                <a href="#manifesto" class="hero-cta">Scopri il culto</a>
-            </div>
-            <div class="scroll-indicator">
-                <span class="scroll-text">Scroll</span>
-                <span class="scroll-arrow"></span>
-            </div>
-        </section>
-
-        <!-- Collections Preview -->
-        <section id="collections" class="collections-preview">
-            <div class="section-header">
-                <h2 class="section-title">Collezioni</h2>
-                <p class="section-subtitle">Tre mondi. Tre storie. Un'identità.</p>
-            </div>
-            <div class="collections-grid">
-                <!-- Intifada Collection -->
-                <div class="collection-item intifada">
-                    <div class="collection-image">
-                        <img src="images/lana/41c7bf47-0325-476f-af39-f6601b34b24d-1_all_275993.jpg" alt="Collezione Intifada" class="collection-img">
-                        <div class="collection-overlay"></div>
-                    </div>
-                    <div class="collection-info">
-                        <h3 class="collection-title">Intifada</h3>
-                        <p class="collection-tagline">La nostra arma è restare vivi. Vestiti per combattere.</p>
-                        <a href="#intifada" class="collection-link">Esplora</a>
-                    </div>
-                </div>
-                
-                <!-- Revolución Collection -->
-                <div class="collection-item revolucion">
-                    <div class="collection-image">
-                        <img src="images/lana/1000261293.jpg" alt="Collezione Revolución" class="collection-img">
-                        <div class="collection-overlay"></div>
-                    </div>
-                    <div class="collection-info">
-                        <h3 class="collection-title">Revolución</h3>
-                        <p class="collection-tagline">Vestiti come se stessi scappando. O resistendo. O facendo l'amore sotto un portico.</p>
-                        <a href="#revolucion" class="collection-link">Esplora</a>
-                    </div>
-                </div>
-                
-                <!-- Land of Smile Collection -->
-                <div class="collection-item land-of-smile">
-                    <div class="collection-image">
-                        <img src="images/lana/1000261401.png" alt="Collezione Land of Smile" class="collection-img">
-                        <div class="collection-overlay"></div>
-                    </div>
-                    <div class="collection-info">
-                        <h3 class="collection-title">Land of Smile</h3>
-                        <p class="collection-tagline">Nel paese dei sorrisi, l'unico vero è quello di chi non si finge.</p>
-                        <a href="#land-of-smile" class="collection-link">Esplora</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Featured Product -->
-        <section class="featured-product">
-            <div class="featured-container">
-                <div class="featured-image">
-                    <img src="images/lana/1000263208.png" alt="D3MAS1ADØ Featured Product" class="featured-img">
-                </div>
-                <div class="featured-content">
-                    <div class="featured-label">In evidenza</div>
-                    <h2 class="featured-title">Crop Top 310</h2>
-                    <p class="featured-description">Edizione limitata. Solo 10 pezzi disponibili.</p>
-                    <div class="featured-price">€89.00</div>
-                    <a href="#preorder" class="featured-cta">Preordina ora</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Lookbook Preview -->
-        <section id="lookbook" class="lookbook-preview">
-            <div class="section-header">
-                <h2 class="section-title">Lookbook</h2>
-                <p class="section-subtitle">Stile urbano. Attitudine globale.</p>
-            </div>
-            <div class="lookbook-slider">
-                <div class="lookbook-slide">
-                    <img src="images/lana/41c7bf47-0325-476f-af39-f6601b34b24d-1_all_275994.jpg" alt="D3MAS1ADØ Lookbook" class="lookbook-img">
-                </div>
-                <!-- More slides would be added here -->
-            </div>
-            <a href="#lookbook-full" class="lookbook-cta">Esplora il lookbook completo</a>
-        </section>
-
-        <!-- Manifesto Teaser -->
-        <section id="manifesto" class="manifesto-teaser">
-            <div class="manifesto-container">
-                <div class="manifesto-content">
-                    <h2 class="manifesto-title">Manifesto</h2>
-                    <div class="manifesto-text">
-                        <p>D3MAS1ADØ non è solo un brand. È un movimento culturale che nasce dalle strade, dalle periferie, dai margini.</p>
-                        <p>Creiamo capi che raccontano storie di resistenza, di orgoglio, di identità.</p>
-                        <p>Unidad-31Ø è la nostra community. Un rifugio per chi cerca autenticità in un mondo di apparenze.</p>
-                    </div>
-                    <a href="#manifesto-full" class="manifesto-cta">Leggi il manifesto completo</a>
-                </div>
-                <div class="manifesto-image">
-                    <img src="images/textures/concrete-texture.jpg" alt="D3MAS1ADØ Texture" class="manifesto-texture">
-                    <div class="manifesto-overlay"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- UGC Preview -->
-        <section class="ugc-preview">
-            <div class="section-header">
-                <h2 class="section-title">#Unidad310</h2>
-                <p class="section-subtitle">La nostra community. Il nostro movimento.</p>
-            </div>
-            <div class="ugc-grid">
-                <!-- UGC items would be populated dynamically -->
-                <div class="ugc-placeholder">Instagram & TikTok feed coming soon</div>
-            </div>
-        </section>
-
-        <!-- Preorder CTA -->
-        <section id="preorder" class="preorder-section">
-            <div class="preorder-container">
-                <h2 class="preorder-title">Preorder Now</h2>
-                <p class="preorder-subtitle">Accesso anticipato alle nuove collezioni</p>
-                <a href="#preorder-form" class="preorder-cta">Preordina ora</a>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="site-footer">
-        <div class="footer-container">
-            <div class="footer-logo">
-                <a href="index.html" class="footer-logo-link">D3MAS1ADØ</a>
-            </div>
-            <div class="footer-nav">
-                <div class="footer-nav-column">
-                    <h3 class="footer-nav-title">Naviga</h3>
-                    <ul class="footer-nav-list">
-                        <li class="footer-nav-item"><a href="#collections" class="footer-nav-link">Collezioni</a></li>
-                        <li class="footer-nav-item"><a href="#lookbook" class="footer-nav-link">Lookbook</a></li>
-                        <li class="footer-nav-item"><a href="#manifesto" class="footer-nav-link">Manifesto</a></li>
-                        <li class="footer-nav-item"><a href="#preorder" class="footer-nav-link">Preorder</a></li>
-                    </ul>
-                </div>
-                <div class="footer-nav-column">
-                    <h3 class="footer-nav-title">Legal</h3>
-                    <ul class="footer-nav-list">
-                        <li class="footer-nav-item"><a href="#privacy" class="footer-nav-link">Privacy Policy</a></li>
-                        <li class="footer-nav-item"><a href="#terms" class="footer-nav-link">Termini e Condizioni</a></li>
-                        <li class="footer-nav-item"><a href="#cookies" class="footer-nav-link">Cookie Policy</a></li>
-                    </ul>
-                </div>
-                <div class="footer-nav-column">
-                    <h3 class="footer-nav-title">Social</h3>
-                    <ul class="footer-nav-list">
-                        <li class="footer-nav-item"><a href="https://www.instagram.com/demasiadowear" target="_blank" class="footer-nav-link">Instagram</a></li>
-                        <li class="footer-nav-item"><a href="https://www.tiktok.com/@demasiadowear" target="_blank" class="footer-nav-link">TikTok</a></li>
-                        <li class="footer-nav-item"><a href="https://www.facebook.com/profile.php?id=61576386110261" target="_blank" class="footer-nav-link">Facebook</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-contact">
-                <a href="mailto:info@demasiadowear.com" class="footer-contact-link">info@demasiadowear.com</a>
-                <a href="#join-us" class="footer-contact-link">Join Us</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="footer-copyright">
-                &copy; 2025 D3MAS1ADØ. All rights reserved.
-            </div>
-        </div>
-    </footer>
-
-    <!-- Lana AI Chatbot -->
-    <div class="lana-chatbot">
-        <button class="lana-toggle" aria-label="Chat with Lana">
-            <span class="lana-toggle-text">Parla con Lana</span>
-        </button>
-        <div class="lana-chat-container">
-            <div class="lana-chat-header">
-                <h3 class="lana-chat-title">Lana AI</h3>
-                <button class="lana-close" aria-label="Close chat">&times;</button>
-            </div>
-            <div class="lana-chat-messages">
-                <div class="lana-message lana">
-                    <p>Ciao, sono Lana. Stylist digitale di D3MAS1ADØ. Cosa stai cercando oggi?</p>
-                </div>
-            </div>
-            <div class="lana-chat-input">
-                <input type="text" class="lana-input" placeholder="Scrivi un messaggio...">
-                <button class="lana-send" aria-label="Send message">Invia</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Sticky Banner -->
-    <div class="sticky-banner">
-        <p class="banner-text">Spedizione gratuita sopra €70</p>
-        <button class="banner-close" aria-label="Close banner">&times;</button>
-    </div>
-
-    <!-- Scripts -->
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/animations.js"></script>
-    <script src="assets/js/lana-ai-evolved.js"></script>
-    <script src="assets/js/language-switch.js"></script>
-</body>
+    <!-- Galleria Lookbook Interattiva -->
+    <script src="lookbook-gallery.js"></script>
+    <script src="lookbook-placeholder.js"></script>
+    
+    <!-- Lana AI Chatbot Evoluto -->
+    <script src="lana-ai-evolved.js"></script>
+    
+    <!-- Backend CMS per Gestione Autonoma Shop -->
+    <script src="cms-backend.js"></script>
+    
+    <!-- Admin Guide e Documentazione Tecnica -->
+    <script src="admin-guide.js"></script>
+  </body>
 </html>
