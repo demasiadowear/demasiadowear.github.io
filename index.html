@@ -4,20 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>D3MAS1ADØ - Lusso Urbano. Non per tutti.</title>
-    <meta name="description" content="D3MAS1ADØ - Brand urban-luxury multiculturale. Collezioni Intifada, Revolución, Land of Smile. Lusso Urbano. Non per tutti.">
-    <meta property="og:title" content="D3MAS1ADØ - Lusso Urbano. Non per tutti.">
-    <meta property="og:description" content="D3MAS1ADØ - Brand urban-luxury multiculturale. Collezioni Intifada, Revolución, Land of Smile.">
-    <meta property="og:image" content="images/og-image.jpg">
-    <meta property="og:url" content="https://www.demasiadowear.com">
-    <meta name="twitter:card" content="summary_large_image">
+    <meta name="description" content="D3MAS1ADØ - Brand di lusso urbano italiano. Collezioni esclusive, design unico, qualità senza compromessi.">
     
     <!-- Favicon -->
-    <link rel="icon" href="assets/favicon.ico">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
     
     <!-- CSS -->
     <link rel="stylesheet" href="assets/css/reset.css">
@@ -26,114 +16,105 @@
     <link rel="stylesheet" href="assets/css/responsive.css">
     <link rel="stylesheet" href="assets/css/logo-animation.css">
     
-    <!-- Preload Video -->
-    <link rel="preload" href="assets/videos/hero-video.mp4" as="video" type="video/mp4">
+    <!-- Preload -->
+    <link rel="preload" href="assets/images/logo/logo-main.png" as="image">
+    <link rel="preload" href="assets/videos/hero-video.mp4" as="video">
 </head>
-<body>
+<body class="preload">
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+
     <!-- Header -->
     <header class="site-header">
-        <div class="header-container">
-            <div class="logo">
-                <a href="index.html" class="logo-link">D3MAS1ADØ</a>
-            </div>
+        <div class="container">
             <nav class="main-nav">
-                <ul class="nav-list">
-                    <li class="nav-item"><a href="#" class="nav-link">Shop</a></li>
-                    <li class="nav-item"><a href="#manifesto" class="nav-link">Manifesto</a></li>
-                    <li class="nav-item"><a href="#lookbook" class="nav-link">Lookbook</a></li>
-                    <li class="nav-item"><a href="#unidad310" class="nav-link">Unidad-310</a></li>
-                    <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+                <ul class="nav-menu">
+                    <li><a href="#shop" class="nav-link">Shop</a></li>
+                    <li><a href="#manifesto" class="nav-link">Manifesto</a></li>
+                    <li><a href="#lookbook" class="nav-link">Lookbook</a></li>
+                    <li><a href="#unidad-310" class="nav-link">Unidad-31Ø</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
                 </ul>
-            </nav>
-            <div class="header-actions">
-                <div class="language-switch">
-                    <a href="#" class="lang-option active" data-lang="it">IT</a>
-                    <span class="lang-separator">|</span>
-                    <a href="#" class="lang-option" data-lang="en">EN</a>
+                
+                <div class="nav-right">
+                    <div class="language-switch">
+                        <a href="#" class="lang-it active">IT</a>
+                        <span>|</span>
+                        <a href="#" class="lang-en">EN</a>
+                    </div>
+                    
+                    <div class="theme-toggle">
+                        <button class="theme-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"></path></svg>
+                        </button>
+                    </div>
+                    
+                    <div class="admin-toggle">
+                        <a href="#admin" class="admin-link">Admin</a>
+                    </div>
                 </div>
-                <button class="menu-toggle" aria-label="Toggle menu">
-                    <span class="menu-bar"></span>
-                    <span class="menu-bar"></span>
-                    <span class="menu-bar"></span>
-                </button>
-            </div>
+            </nav>
         </div>
     </header>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu">
-        <div class="mobile-menu-container">
-            <ul class="mobile-nav-list">
-                <li class="mobile-nav-item"><a href="#" class="mobile-nav-link">Shop</a></li>
-                <li class="mobile-nav-item"><a href="#manifesto" class="mobile-nav-link">Manifesto</a></li>
-                <li class="mobile-nav-item"><a href="#lookbook" class="mobile-nav-link">Lookbook</a></li>
-                <li class="mobile-nav-item"><a href="#unidad310" class="mobile-nav-link">Unidad-310</a></li>
-                <li class="mobile-nav-item"><a href="#about" class="mobile-nav-link">About</a></li>
-            </ul>
-            <div class="mobile-social">
-                <a href="https://www.facebook.com/profile.php?id=61576386110261" target="_blank" class="social-link">Facebook</a>
-                <a href="https://www.instagram.com/demasiadowear" target="_blank" class="social-link">Instagram</a>
-                <a href="https://www.tiktok.com/@demasiadowear" target="_blank" class="social-link">TikTok</a>
-            </div>
-        </div>
-    </div>
 
     <!-- Main Content -->
     <main>
         <!-- Hero Section -->
         <section class="hero-section">
-            <div class="hero-video-container">
-                <video class="hero-video" autoplay loop muted playsinline>
+            <div class="video-background">
+                <video autoplay muted loop playsinline id="hero-video">
                     <source src="assets/videos/hero-video.mp4" type="video/mp4">
                 </video>
-                <div class="hero-overlay"></div>
+                <div class="video-overlay"></div>
             </div>
             
-            <!-- Logo centrale -->
             <div class="hero-content">
                 <div class="logo-container">
-                    <img src="images/logo/logo-main.png" alt="D3MAS1ADØ Logo" class="main-logo">
+                    <img src="assets/images/logo/logo-main.png" alt="D3MAS1ADØ Logo" class="main-logo">
                 </div>
                 
                 <h1 class="hero-title">L'unico modo che conosciamo</h1>
                 
                 <div class="hero-buttons">
-                    <a href="#" class="hero-button">SHOP</a>
+                    <a href="#shop" class="hero-button">SHOP</a>
                     <a href="#lookbook" class="hero-button">LOOKBOOK</a>
                 </div>
-                
-                <div class="scroll-indicator">Scroll</div>
             </div>
         </section>
 
         <!-- Collections Section -->
-        <section id="collections" class="collections-section">
+        <section class="collections-section" id="collections">
             <div class="container">
-                <h2 class="section-title text-center">Collezioni</h2>
-                <p class="section-subtitle text-center">Tre mondi. Tre storie. Un'identità.</p>
+                <h2 class="section-title">Collezioni</h2>
+                <p class="section-subtitle">Esplora le nostre collezioni esclusive</p>
                 
                 <div class="collections-grid">
-                    <div class="collection-item fade-in-scroll">
-                        <div class="collection-overlay">
-                            <h3 class="collection-title">Intifada</h3>
-                            <p class="collection-tagline">La nostra arma è restare vivi. Vestiti per combattere.</p>
-                            <a href="#" class="collection-link">Esplora</a>
+                    <div class="collection-item" style="background-image: url('assets/images/collections/intifada.jpg');">
+                        <div class="collection-overlay"></div>
+                        <div class="collection-content">
+                            <h3 class="collection-title">INTIFADA</h3>
+                            <p class="collection-tagline">Resistenza urbana, identità senza compromessi</p>
+                            <a href="#collections/intifada" class="collection-link">ESPLORA</a>
                         </div>
                     </div>
                     
-                    <div class="collection-item fade-in-scroll">
-                        <div class="collection-overlay">
-                            <h3 class="collection-title">Revolución</h3>
-                            <p class="collection-tagline">Vestiti come se stessi scappando. O resistendo. O facendo l'amore sotto un portico.</p>
-                            <a href="#" class="collection-link">Esplora</a>
+                    <div class="collection-item" style="background-image: url('assets/images/collections/revolucion.jpg');">
+                        <div class="collection-overlay"></div>
+                        <div class="collection-content">
+                            <h3 class="collection-title">REVOLUCIÓN</h3>
+                            <p class="collection-tagline">Ribellione estetica, lusso sovversivo</p>
+                            <a href="#collections/revolucion" class="collection-link">ESPLORA</a>
                         </div>
                     </div>
                     
-                    <div class="collection-item fade-in-scroll">
-                        <div class="collection-overlay">
-                            <h3 class="collection-title">Land of Smile</h3>
-                            <p class="collection-tagline">Nel paese dei sorrisi, l'unico vero è quello di chi non si finge.</p>
-                            <a href="#" class="collection-link">Esplora</a>
+                    <div class="collection-item" style="background-image: url('assets/images/collections/land-of-smile.jpg');">
+                        <div class="collection-overlay"></div>
+                        <div class="collection-content">
+                            <h3 class="collection-title">LAND OF SMILE</h3>
+                            <p class="collection-tagline">Ironia tropicale, contrasti culturali</p>
+                            <a href="#collections/land-of-smile" class="collection-link">ESPLORA</a>
                         </div>
                     </div>
                 </div>
@@ -141,56 +122,59 @@
         </section>
 
         <!-- Lookbook Section -->
-        <section id="lookbook" class="lookbook-section">
+        <section class="lookbook-section" id="lookbook">
             <div class="container">
-                <h2 class="section-title text-center">Lookbook</h2>
-                <p class="section-subtitle text-center">Stile urbano. Attitudine globale.</p>
+                <h2 class="section-title">Lookbook</h2>
+                <p class="section-subtitle">La nostra visione, il nostro stile</p>
                 
-                <div class="lookbook-preview fade-in-scroll">
-                    <img src="assets/images/lookbook-approved/lookbook_1.png" alt="D3MAS1ADØ Lookbook" class="lookbook-image">
-                    <div class="lookbook-overlay">
-                        <a href="#" class="lookbook-link">Esplora il lookbook completo</a>
+                <div class="lookbook-gallery">
+                    <div class="lookbook-item">
+                        <img src="assets/images/lookbook-approved/lookbook_1.png" alt="D3MAS1ADØ Lookbook" class="lookbook-image">
                     </div>
+                </div>
+                
+                <div class="lookbook-nav">
+                    <a href="#lookbook/full" class="lookbook-link">VISUALIZZA LOOKBOOK COMPLETO</a>
                 </div>
             </div>
         </section>
 
         <!-- Manifesto Section -->
-        <section id="manifesto" class="manifesto-section">
+        <section class="manifesto-section" id="manifesto">
             <div class="container">
-                <h2 class="section-title text-center">Manifesto</h2>
+                <h2 class="section-title">Manifesto</h2>
                 
                 <div class="manifesto-content">
-                    <p class="manifesto-text fade-in-scroll">D3MAS1ADØ non è solo un brand. È un movimento culturale che nasce dalle strade, dalle periferie, dai margini.</p>
+                    <p class="manifesto-text fade-in-scroll">D3MAS1ADØ nasce come risposta alla standardizzazione della moda contemporanea. Siamo un collettivo di designer, artisti e attivisti uniti dalla visione di un lusso urbano autentico, che non scende a compromessi.</p>
                     
-                    <p class="manifesto-text fade-in-scroll">Creiamo capi che raccontano storie di resistenza, di orgoglio, di identità.</p>
+                    <p class="manifesto-text fade-in-scroll">Le nostre collezioni raccontano storie di resistenza culturale, di identità fluide, di orgoglio per le proprie radici. Ogni capo è un manifesto, ogni design una dichiarazione di intenti.</p>
                     
-                    <p class="manifesto-text fade-in-scroll">Unidad-31Ø è la nostra community. Un rifugio per chi cerca autenticità in un mondo di apparenze.</p>
-                    
-                    <a href="#" class="manifesto-link">Leggi il manifesto completo</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Unidad Section -->
-        <section id="unidad310" class="unidad-section">
-            <div class="container">
-                <h2 class="section-title text-center">#Unidad310</h2>
-                <p class="section-subtitle text-center">La nostra community. Il nostro movimento.</p>
-                
-                <div class="unidad-content">
-                    <div class="unidad-feed">Instagram & TikTok feed coming soon</div>
+                    <a href="#manifesto/full" class="manifesto-link">LEGGI IL MANIFESTO COMPLETO</a>
                 </div>
             </div>
         </section>
 
         <!-- Preorder Section -->
-        <section id="preorder" class="preorder-section">
+        <section class="preorder-section" id="preorder">
             <div class="container">
-                <h2 class="section-title text-center">Preorder Now</h2>
-                <p class="section-subtitle text-center">Accesso anticipato alle nuove collezioni</p>
+                <h2 class="section-title">Preordina Ora</h2>
+                <p class="section-subtitle">Accesso esclusivo alle nuove collezioni</p>
                 
-                <a href="https://tally.so/r/mRDXEp" target="_blank" class="preorder-button">Preordina ora</a>
+                <div class="preorder-content">
+                    <a href="https://tally.so/r/w4XdEp" target="_blank" class="preorder-button">PREORDER</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Unidad-310 Section -->
+        <section class="unidad-section" id="unidad-310">
+            <div class="container">
+                <h2 class="section-title">Unidad-31Ø</h2>
+                <p class="section-subtitle">La nostra community, il nostro movimento</p>
+                
+                <div class="unidad-content">
+                    <p class="unidad-text">Instagram & TikTok feed coming soon</p>
+                </div>
             </div>
         </section>
     </main>
@@ -198,90 +182,141 @@
     <!-- Footer -->
     <footer class="site-footer">
         <div class="container">
-            <div class="footer-container">
-                <div class="footer-column">
-                    <h3 class="footer-title">Naviga</h3>
-                    <ul class="footer-links">
-                        <li class="footer-link"><a href="#">Shop</a></li>
-                        <li class="footer-link"><a href="#manifesto">Manifesto</a></li>
-                        <li class="footer-link"><a href="#lookbook">Lookbook</a></li>
-                        <li class="footer-link"><a href="#unidad310">Unidad-310</a></li>
-                        <li class="footer-link"><a href="#about">About</a></li>
-                    </ul>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="assets/images/logo/logo-main.png" alt="D3MAS1ADØ Logo" class="footer-logo-img">
                 </div>
                 
-                <div class="footer-column">
-                    <h3 class="footer-title">Legal</h3>
-                    <ul class="footer-links">
-                        <li class="footer-link"><a href="#">Termini e Condizioni</a></li>
-                        <li class="footer-link"><a href="#">Privacy Policy</a></li>
-                        <li class="footer-link"><a href="#">Cookie Policy</a></li>
-                    </ul>
+                <div class="footer-social">
+                    <a href="https://facebook.com/demasiadowear" target="_blank" class="social-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                    </a>
+                    <a href="https://instagram.com/demasiadowear" target="_blank" class="social-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                    </a>
+                    <a href="https://tiktok.com/@demasiadowear" target="_blank" class="social-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"></path><path d="M15 8a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path><path d="M15 8v8a4 4 0 0 1-4 4"></path><line x1="15" y1="4" x2="15" y2="12"></line></svg>
+                    </a>
                 </div>
                 
-                <div class="footer-column">
-                    <h3 class="footer-title">Social</h3>
-                    <div class="footer-social">
-                        <a href="https://www.facebook.com/profile.php?id=61576386110261" target="_blank" class="footer-social-link">Facebook</a>
-                        <a href="https://www.instagram.com/demasiadowear" target="_blank" class="footer-social-link">Instagram</a>
-                        <a href="https://www.tiktok.com/@demasiadowear" target="_blank" class="footer-social-link">TikTok</a>
+                <div class="footer-links">
+                    <div class="footer-link">
+                        <a href="#privacy">Privacy Policy</a>
+                    </div>
+                    <div class="footer-link">
+                        <a href="#terms">Termini e Condizioni</a>
+                    </div>
+                    <div class="footer-link">
+                        <a href="#shipping">Spedizioni</a>
+                    </div>
+                    <div class="footer-link">
+                        <a href="#returns">Resi</a>
                     </div>
                 </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 D3MAS1ADØ. All rights reserved.</p>
+                
+                <div class="footer-copyright">
+                    <p>&copy; 2025 D3MAS1ADØ. Tutti i diritti riservati.</p>
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- Lana AI Chatbot -->
-    <div class="lana-toggle">
-        <div class="lana-toggle-icon">L</div>
-    </div>
-    
-    <div class="lana-chatbot">
-        <div class="lana-header">
-            <div class="lana-title">Lana AI</div>
-            <button class="lana-close">&times;</button>
-        </div>
-        
-        <div class="lana-chat-messages">
-            <div class="lana-message lana">
-                <p>Ciao, sono Lana. Stylist digitale di D3MAS1ADØ. Cosa stai cercando oggi?</p>
+    <!-- Admin Modal -->
+    <div id="admin-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="modal-title">ADMIN LOGIN</h2>
+            
+            <div class="login-form">
+                <div class="form-group">
+                    <label for="username">USERNAME</label>
+                    <input type="text" id="username" name="username">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">PASSWORD</label>
+                    <input type="password" id="password" name="password">
+                </div>
+                
+                <div class="form-error" id="login-error"></div>
+                
+                <button type="button" id="login-btn" class="login-btn">LOGIN</button>
             </div>
         </div>
-        
-        <div class="lana-input-container">
-            <input type="text" class="lana-input" placeholder="Scrivi un messaggio...">
-            <button class="lana-send">→</button>
-        </div>
     </div>
 
-    <!-- Admin Modal -->
-    <div class="admin-modal">
-        <div class="admin-modal-content">
-            <button class="admin-modal-close">&times;</button>
-            <h2 class="admin-modal-title">Admin Login</h2>
+    <!-- Admin Dashboard -->
+    <div id="admin-dashboard" class="modal">
+        <div class="modal-content dashboard-content">
+            <span class="close-dashboard">&times;</span>
+            <h2 class="modal-title">ADMIN DASHBOARD</h2>
             
-            <form class="admin-form">
-                <div class="admin-form-group">
-                    <label for="admin-username" class="admin-label">Username</label>
-                    <input type="text" id="admin-username" class="admin-input" required>
+            <div class="dashboard-sections">
+                <h3>GESTIONE CONTENUTI</h3>
+                
+                <div class="dashboard-buttons">
+                    <button id="edit-homepage" class="dashboard-btn">Modifica Homepage</button>
+                    <button id="edit-collections" class="dashboard-btn">Modifica Collezioni</button>
+                    <button id="edit-lookbook" class="dashboard-btn">Modifica Lookbook</button>
+                    <button id="edit-manifesto" class="dashboard-btn">Modifica Manifesto</button>
                 </div>
                 
-                <div class="admin-form-group">
-                    <label for="admin-password" class="admin-label">Password</label>
-                    <input type="password" id="admin-password" class="admin-input" required>
+                <h3>STATISTICHE</h3>
+                
+                <div class="dashboard-stats">
+                    <div class="stat-item">
+                        <h4>Visite oggi:</h4>
+                        <p class="stat-value">127</p>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <h4>Preordini totali:</h4>
+                        <p class="stat-value">43</p>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <h4>Utenti registrati:</h4>
+                        <p class="stat-value">215</p>
+                    </div>
                 </div>
                 
-                <button type="submit" class="admin-button">Login</button>
-            </form>
+                <h3>AZIONI RAPIDE</h3>
+                
+                <div class="dashboard-actions">
+                    <button id="clear-cache" class="action-btn">Pulisci Cache</button>
+                    <button id="backup-data" class="action-btn">Backup Dati</button>
+                    <button id="logout" class="action-btn">Logout</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Admin Link (nascosto visivamente ma accessibile) -->
-    <a href="#" class="admin-link" style="position: fixed; bottom: 10px; right: 10px; font-size: 10px; opacity: 0.3; z-index: 100;">Admin</a>
+    <!-- Lana AI Chatbot -->
+    <div class="lana-chatbot">
+        <button class="lana-toggle">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
+        </button>
+        
+        <div class="lana-chat-window">
+            <div class="lana-header">
+                <h3>Lana AI</h3>
+                <button class="lana-close">&times;</button>
+            </div>
+            
+            <div class="lana-messages">
+                <div class="lana-message lana">
+                    <p>Ciao! Sono Lana, l'assistente AI di D3MAS1ADØ. Come posso aiutarti oggi?</p>
+                </div>
+            </div>
+            
+            <div class="lana-input">
+                <input type="text" placeholder="Scrivi un messaggio...">
+                <button class="lana-send">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script src="assets/js/main.js"></script>
@@ -289,5 +324,8 @@
     <script src="assets/js/lana-ai-evolved.js"></script>
     <script src="assets/js/language-switch.js"></script>
     <script src="assets/js/admin-panel.js"></script>
+    <script src="assets/js/sanity-api.js" type="module"></script>
+    <script src="assets/js/sanity-integration.js" type="module"></script>
+    <script src="assets/js/d3masiado-fixes.js" type="module"></script>
 </body>
 </html>
