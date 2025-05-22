@@ -1,47 +1,332 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="it">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="D3MAS1ADØ - Urban-luxury multiculturale. L'unico modo che conosciamo." />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>D3MAS1ADØ - Urban-luxury</title>
-    <link rel="stylesheet" href="assets/index-Cm5uA9xI.css">
-    <link rel="stylesheet" href="assets/responsive.css">
+    <meta name="description" content="D3MAS1ADØ - Urban-luxury multiculturale. L'unico modo che conosciamo.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/animations.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/lana-chatbot.css">
+    
     <!-- Font Awesome per icone social -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  </head>
-  <body>
-    <div id="root"></div>
     
-    <!-- Script principali -->
-    <script src="assets/index-B_JaY9Qo.js"></script>
-    
-    <!-- Script ottimizzati -->
-    <script src="webp-loader.js"></script>
-    <script src="translations.js"></script>
-    <script src="language-switch.js"></script>
-    <script src="animations.js"></script>
-    <script src="shop-integration.js"></script>
-    <script src="product-catalog.js"></script>
-    <script src="stripe-config.js"></script>
-    <script src="analytics.js"></script>
-    <script src="service-worker.js"></script>
-    
-    <!-- Social Links e Attivazione Bottoni -->
-    <script src="social-links.js"></script>
-    
-    <!-- Galleria Lookbook Interattiva -->
-    <script src="lookbook-gallery.js"></script>
-    <script src="lookbook-placeholder.js"></script>
-    
-    <!-- Lana AI Chatbot Evoluto -->
-    <script src="lana-ai-evolved.js"></script>
-    
-    <!-- Backend CMS per Gestione Autonoma Shop -->
-    <script src="cms-backend.js"></script>
-    
-    <!-- Admin Guide e Documentazione Tecnica -->
-    <script src="admin-guide.js"></script>
-  </body>
+    <!-- Preload -->
+    <link rel="preload" href="assets/fonts/orbitron-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/orbitron-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/images/logo/logo-main.png" as="image">
+</head>
+<body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Language Switch -->
+    <div class="language-switch">
+        <a href="#" class="lang-it active">IT</a>
+        <span>|</span>
+        <a href="#" class="lang-en">EN</a>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section" id="hero">
+            <div class="video-background">
+                <div class="video-overlay"></div>
+            </div>
+            
+            <div class="hero-content">
+                <div class="logo-container">
+                    <img src="assets/images/logo/logo-main.png" alt="D3MAS1ADØ Logo" class="main-logo">
+                </div>
+                
+                <h1 class="hero-title">L'unico modo che conosciamo</h1>
+                
+                <div class="scroll-indicator">
+                    <span>Scroll</span>
+                    <div class="scroll-arrow"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Manifesto Section -->
+        <section class="manifesto-section" id="manifesto">
+            <div class="container">
+                <h2 class="section-title">Manifesto</h2>
+                
+                <div class="manifesto-content">
+                    <div class="manifesto-text-container">
+                        <p class="manifesto-text fade-in-scroll">D3MAS1ADØ nasce come risposta alla standardizzazione della moda contemporanea. Siamo un collettivo di designer, artisti e attivisti uniti dalla visione di un lusso urbano autentico, che non scende a compromessi.</p>
+                        
+                        <p class="manifesto-text fade-in-scroll">Le nostre collezioni raccontano storie di resistenza culturale, di identità fluide, di orgoglio per le proprie radici. Ogni capo è un manifesto, ogni design una dichiarazione di intenti.</p>
+                        
+                        <p class="manifesto-text fade-in-scroll">Crediamo in un lusso che non sia esclusione ma inclusione consapevole. Un lusso che parla il linguaggio della strada ma che non rinuncia alla qualità artigianale e alla ricerca estetica.</p>
+                        
+                        <a href="#" class="manifesto-link" id="open-manifesto">LEGGI IL MANIFESTO COMPLETO</a>
+                    </div>
+                    
+                    <div class="manifesto-image">
+                        <img src="assets/images/lana-ai.png" alt="Lana AI" class="lana-image">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Collections Section -->
+        <section class="collections-section" id="collections">
+            <div class="container">
+                <h2 class="section-title">Collezioni</h2>
+                
+                <div class="collections-slider">
+                    <div class="collection-item">
+                        <div class="collection-image-container">
+                            <img src="assets/images/collections/worldwide.jpg" alt="WorldWide Collection" class="collection-image">
+                        </div>
+                        <div class="collection-info">
+                            <h3 class="collection-title">WorldWide</h3>
+                            <p class="collection-description">Lusso urbano globale, senza confini</p>
+                            <a href="#" class="collection-link">ESPLORA</a>
+                        </div>
+                    </div>
+                    
+                    <div class="collection-item">
+                        <div class="collection-image-container">
+                            <img src="assets/images/collections/intifada.jpg" alt="Intifada Collection" class="collection-image">
+                        </div>
+                        <div class="collection-info">
+                            <h3 class="collection-title">Intifada</h3>
+                            <p class="collection-description">Resistenza urbana, identità senza compromessi</p>
+                            <a href="#" class="collection-link">ESPLORA</a>
+                        </div>
+                    </div>
+                    
+                    <div class="collection-item">
+                        <div class="collection-image-container">
+                            <img src="assets/images/collections/revolucion.jpg" alt="Revolución Collection" class="collection-image">
+                        </div>
+                        <div class="collection-info">
+                            <h3 class="collection-title">Revolución</h3>
+                            <p class="collection-description">Ribellione estetica, lusso sovversivo</p>
+                            <a href="#" class="collection-link">ESPLORA</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="collections-nav">
+                    <button class="prev-collection"><i class="fas fa-chevron-left"></i></button>
+                    <button class="next-collection"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lookbook Section -->
+        <section class="lookbook-section" id="lookbook">
+            <div class="container">
+                <h2 class="section-title">Lookbook</h2>
+                
+                <div class="lookbook-carousel">
+                    <div class="lookbook-item">
+                        <img src="assets/images/lookbook/lookbook-1.jpg" alt="D3MAS1ADØ Lookbook" class="lookbook-image">
+                    </div>
+                    <div class="lookbook-item">
+                        <img src="assets/images/lookbook/lookbook-2.jpg" alt="D3MAS1ADØ Lookbook" class="lookbook-image">
+                    </div>
+                    <div class="lookbook-item">
+                        <img src="assets/images/lookbook/lookbook-3.jpg" alt="D3MAS1ADØ Lookbook" class="lookbook-image">
+                    </div>
+                    <div class="lookbook-item">
+                        <video class="lookbook-video" muted loop>
+                            <source src="assets/videos/lookbook-video.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lookbook-nav">
+                    <button class="prev-lookbook"><i class="fas fa-chevron-left"></i></button>
+                    <button class="next-lookbook"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Unidad-31Ø Section -->
+        <section class="unidad-section" id="unidad-310">
+            <div class="container">
+                <h2 class="section-title">Unidad-31Ø</h2>
+                <p class="section-subtitle">Area privata per contenuti esclusivi</p>
+                
+                <div class="unidad-login">
+                    <form id="unidad-login-form">
+                        <div class="form-group">
+                            <input type="email" id="unidad-email" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="unidad-code" placeholder="Codice di accesso" required>
+                        </div>
+                        <button type="submit" class="unidad-submit">ACCEDI</button>
+                    </form>
+                    
+                    <p class="unidad-info">Accedi all'area riservata per contenuti esclusivi, preordini e collezioni in anteprima.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Shop Section -->
+        <section class="shop-section" id="shop">
+            <div class="container">
+                <h2 class="section-title">Shop</h2>
+                
+                <div class="shop-filters">
+                    <button class="shop-filter active" data-filter="all">Tutti</button>
+                    <button class="shop-filter" data-filter="worldwide">WorldWide</button>
+                    <button class="shop-filter" data-filter="intifada">Intifada</button>
+                    <button class="shop-filter" data-filter="revolucion">Revolución</button>
+                </div>
+                
+                <div class="shop-grid">
+                    <!-- I prodotti verranno caricati dinamicamente da shop.js -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="assets/images/logo/logo-footer.png" alt="D3MAS1ADØ Logo" class="footer-logo-img">
+                </div>
+                
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/demasiadowear" target="_blank" class="social-link">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/@demasiadowear" target="_blank" class="social-link">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="https://www.facebook.com/profile.php?id=61576386110261" target="_blank" class="social-link">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                </div>
+                
+                <div class="footer-contact">
+                    <p>Email: <a href="mailto:info@demasiadowear.com">info@demasiadowear.com</a></p>
+                </div>
+                
+                <div class="footer-links">
+                    <a href="#privacy">Privacy Policy</a>
+                    <a href="#terms">Termini e Condizioni</a>
+                    <a href="#shipping">Spedizioni</a>
+                    <a href="#returns">Resi</a>
+                </div>
+                
+                <div class="footer-copyright">
+                    <p>&copy; 2025 D3MAS1ADØ. Tutti i diritti riservati.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Manifesto Modal -->
+    <div class="manifesto-modal" id="manifesto-modal">
+        <div class="manifesto-modal-content">
+            <button class="manifesto-modal-close">&times;</button>
+            <h2 class="manifesto-modal-title">MANIFESTO D3MAS1ADØ</h2>
+            <div class="manifesto-modal-text">
+                <p>D3MAS1ADØ nasce come risposta alla standardizzazione della moda contemporanea. Siamo un collettivo di designer, artisti e attivisti uniti dalla visione di un lusso urbano autentico, che non scende a compromessi.</p>
+                
+                <p>Le nostre collezioni raccontano storie di resistenza culturale, di identità fluide, di orgoglio per le proprie radici. Ogni capo è un manifesto, ogni design una dichiarazione di intenti.</p>
+                
+                <p>Crediamo in un lusso che non sia esclusione ma inclusione consapevole. Un lusso che parla il linguaggio della strada ma che non rinuncia alla qualità artigianale e alla ricerca estetica. Un lusso che non è ostentazione ma espressione autentica di sé.</p>
+                
+                <p>Le nostre collezioni sono limitate, prodotte con materiali selezionati e processi che rispettano l'ambiente e le persone. Non seguiamo le stagioni della moda tradizionale, ma il ritmo delle nostre ispirazioni e delle storie che vogliamo raccontare.</p>
+                
+                <p>D3MAS1ADØ è più di un brand, è un movimento culturale che celebra l'eccesso come forma di resistenza, la diversità come ricchezza, l'autenticità come lusso supremo.</p>
+                
+                <p>Siamo troppo. Siamo D3MAS1ADØ.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart -->
+    <div class="cart-container" id="shopping-cart">
+        <div class="cart-header">
+            <h3>Carrello</h3>
+            <button class="cart-close">&times;</button>
+        </div>
+        
+        <div class="cart-items">
+            <!-- Gli elementi del carrello verranno caricati dinamicamente da shop.js -->
+        </div>
+        
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Totale:</span>
+                <span class="cart-total-amount">€0.00</span>
+            </div>
+            
+            <button class="cart-checkout">CHECKOUT</button>
+        </div>
+    </div>
+
+    <!-- Cart Toggle Button -->
+    <button class="cart-toggle">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count">0</span>
+    </button>
+
+    <!-- Lana AI Chatbot -->
+    <div class="lana-chatbot">
+        <button class="lana-toggle">
+            <i class="fas fa-comment"></i>
+        </button>
+        
+        <div class="lana-info">
+            Hai domande? Chiedi a Lana, la nostra AI brasitaliana ti risponde h24.
+        </div>
+        
+        <div class="lana-chat-window">
+            <div class="lana-header">
+                <h3>Lana AI</h3>
+                <button class="lana-close">&times;</button>
+            </div>
+            
+            <div class="lana-messages">
+                <div class="lana-message lana">
+                    <p>Ciao! Sono Lana, l'assistente AI di D3MAS1ADØ. Come posso aiutarti oggi?</p>
+                </div>
+            </div>
+            
+            <div class="lana-input">
+                <input type="text" placeholder="Scrivi un messaggio...">
+                <button class="lana-send">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/animations.js"></script>
+    <script src="assets/js/shop.js"></script>
+    <script src="assets/js/cart.js"></script>
+    <script src="assets/js/stripe-integration.js"></script>
+    <script src="assets/js/lana-ai-evolved.js"></script>
+    <script src="assets/js/language-switch.js"></script>
+    <script src="assets/js/unidad-310.js"></script>
+</body>
 </html>

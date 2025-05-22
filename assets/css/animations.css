@@ -1,0 +1,329 @@
+/* Animations CSS per D3MAS1ADØ */
+
+/* Logo glitch effect */
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+    filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.5));
+  }
+  20% {
+    transform: translate(-2px, 2px);
+    filter: drop-shadow(0 0 8px rgba(57, 255, 20, 0.7));
+  }
+  40% {
+    transform: translate(-2px, -2px);
+    filter: drop-shadow(0 0 10px rgba(57, 255, 20, 0.5));
+  }
+  60% {
+    transform: translate(2px, 2px);
+    filter: drop-shadow(0 0 12px rgba(57, 255, 20, 0.7));
+  }
+  80% {
+    transform: translate(2px, -2px);
+    filter: drop-shadow(0 0 8px rgba(57, 255, 20, 0.5));
+  }
+  100% {
+    transform: translate(0);
+    filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.5));
+  }
+}
+
+/* Logo breathing effect */
+@keyframes breathing {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.main-logo {
+  animation: breathing 5s infinite ease-in-out, glitch 10s infinite;
+}
+
+/* Text glitch effect */
+@keyframes textGlitch {
+  0% {
+    text-shadow: 0.05em 0 0 rgba(57, 255, 20, 0.75), -0.05em -0.025em 0 rgba(255, 255, 255, 0.75);
+  }
+  14% {
+    text-shadow: 0.05em 0 0 rgba(57, 255, 20, 0.75), -0.05em -0.025em 0 rgba(255, 255, 255, 0.75);
+  }
+  15% {
+    text-shadow: -0.05em -0.025em 0 rgba(57, 255, 20, 0.75), 0.025em 0.025em 0 rgba(255, 255, 255, 0.75);
+  }
+  49% {
+    text-shadow: -0.05em -0.025em 0 rgba(57, 255, 20, 0.75), 0.025em 0.025em 0 rgba(255, 255, 255, 0.75);
+  }
+  50% {
+    text-shadow: 0.025em 0.05em 0 rgba(57, 255, 20, 0.75), 0.05em 0 0 rgba(255, 255, 255, 0.75);
+  }
+  99% {
+    text-shadow: 0.025em 0.05em 0 rgba(57, 255, 20, 0.75), 0.05em 0 0 rgba(255, 255, 255, 0.75);
+  }
+  100% {
+    text-shadow: 0.05em 0 0 rgba(57, 255, 20, 0.75), -0.05em -0.025em 0 rgba(255, 255, 255, 0.75);
+  }
+}
+
+.hero-title {
+  animation: textGlitch 3s infinite linear alternate-reverse;
+}
+
+/* Scroll reveal animations */
+.fade-in-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s, transform 1s;
+}
+
+.fade-in-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Parallax effect */
+.parallax {
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Cinematic hover effect */
+.cinematic-hover {
+  transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.cinematic-hover:hover {
+  transform: scale(1.03);
+  filter: contrast(1.1) brightness(1.1);
+}
+
+/* Collection image hover effect */
+.collection-image-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(57, 255, 20, 0.2) 0%, rgba(0, 0, 0, 0) 100%);
+  opacity: 0;
+  z-index: 1;
+  transition: opacity 0.5s ease;
+}
+
+.collection-image-container:hover::before {
+  opacity: 1;
+}
+
+/* Neon glow effect */
+.neon-glow {
+  text-shadow: 0 0 5px rgba(57, 255, 20, 0.5), 0 0 10px rgba(57, 255, 20, 0.3), 0 0 15px rgba(57, 255, 20, 0.2);
+  transition: text-shadow 0.3s ease;
+}
+
+.neon-glow:hover {
+  text-shadow: 0 0 5px rgba(57, 255, 20, 0.8), 0 0 10px rgba(57, 255, 20, 0.5), 0 0 15px rgba(57, 255, 20, 0.3), 0 0 20px rgba(57, 255, 20, 0.2);
+}
+
+/* Button hover animation */
+.btn-hover-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-hover-effect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(57, 255, 20, 0.4), transparent);
+  transition: left 0.7s;
+}
+
+.btn-hover-effect:hover::before {
+  left: 100%;
+}
+
+/* Slow motion effect for videos */
+.slow-motion {
+  transition: all 0.8s ease;
+}
+
+.slow-motion:hover {
+  filter: contrast(1.2) brightness(1.1);
+  transform: scale(1.02);
+}
+
+/* Typing animation */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: rgba(57, 255, 20, 0.8) }
+}
+
+.typing-animation {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid rgba(57, 255, 20, 0.8);
+  animation: 
+    typing 3.5s steps(40, end),
+    blink-caret 0.75s step-end infinite;
+}
+
+/* Fade in animations with different delays */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+}
+
+.fade-in-delay-1 {
+  opacity: 0;
+  animation: fadeIn 1s forwards 0.3s;
+}
+
+.fade-in-delay-2 {
+  opacity: 0;
+  animation: fadeIn 1s forwards 0.6s;
+}
+
+.fade-in-delay-3 {
+  opacity: 0;
+  animation: fadeIn 1s forwards 0.9s;
+}
+
+/* Slide in animations */
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-in-left {
+  animation: slideInLeft 1s forwards;
+}
+
+.slide-in-right {
+  animation: slideInRight 1s forwards;
+}
+
+.slide-in-up {
+  animation: slideInUp 1s forwards;
+}
+
+/* Pulse animation */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Shake animation */
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(5px);
+  }
+}
+
+.shake {
+  animation: shake 0.8s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* Floating animation */
+@keyframes floating {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.floating {
+  animation: floating 3s ease-in-out infinite;
+}
+
+/* Rotate animation */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotate {
+  animation: rotate 10s linear infinite;
+}
+
+/* Flicker animation */
+@keyframes flicker {
+  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.5));
+  }
+  20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+    opacity: 0.5;
+    filter: drop-shadow(0 0 2px rgba(57, 255, 20, 0.3));
+  }
+}
+
+.flicker {
+  animation: flicker 5s infinite;
+}

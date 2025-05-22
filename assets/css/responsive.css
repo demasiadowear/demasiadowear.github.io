@@ -1,0 +1,353 @@
+/* Responsive CSS per D3MAS1ADØ */
+
+/* Large screens (1200px and up) */
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+  
+  .hero-title {
+    font-size: 1.8rem;
+  }
+  
+  .main-logo {
+    max-width: 450px;
+  }
+  
+  .manifesto-text {
+    font-size: 1.3rem;
+  }
+  
+  .collection-image {
+    height: 550px;
+  }
+  
+  .lookbook-image,
+  .lookbook-video {
+    height: 650px;
+  }
+}
+
+/* Medium screens (992px to 1199px) */
+@media (max-width: 1199px) {
+  .container {
+    max-width: 960px;
+    padding: 0 30px;
+  }
+  
+  .hero-title {
+    font-size: 1.5rem;
+  }
+  
+  .main-logo {
+    max-width: 380px;
+  }
+  
+  .collection-image {
+    height: 450px;
+  }
+  
+  .lookbook-image,
+  .lookbook-video {
+    height: 550px;
+  }
+  
+  .section-title {
+    font-size: 2.2rem;
+  }
+}
+
+/* Small screens (768px to 991px) */
+@media (max-width: 991px) {
+  .container {
+    max-width: 720px;
+  }
+  
+  section {
+    padding: 80px 0;
+  }
+  
+  .hero-title {
+    font-size: 1.3rem;
+  }
+  
+  .main-logo {
+    max-width: 320px;
+  }
+  
+  .manifesto-content {
+    flex-direction: column;
+  }
+  
+  .manifesto-text-container {
+    padding-right: 0;
+    margin-bottom: 40px;
+  }
+  
+  .manifesto-text {
+    font-size: 1.1rem;
+  }
+  
+  .collection-image {
+    height: 400px;
+  }
+  
+  .lookbook-image,
+  .lookbook-video {
+    height: 450px;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+    margin-bottom: 50px;
+  }
+  
+  .shop-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .footer-content {
+    gap: 30px;
+  }
+}
+
+/* Extra small screens (576px to 767px) */
+@media (max-width: 767px) {
+  .container {
+    max-width: 540px;
+    padding: 0 20px;
+  }
+  
+  section {
+    padding: 60px 0;
+  }
+  
+  .hero-title {
+    font-size: 1.1rem;
+  }
+  
+  .main-logo {
+    max-width: 280px;
+  }
+  
+  .manifesto-text {
+    font-size: 1rem;
+  }
+  
+  .collection-image {
+    height: 350px;
+  }
+  
+  .lookbook-image,
+  .lookbook-video {
+    height: 400px;
+  }
+  
+  .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 40px;
+  }
+  
+  .shop-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .footer-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  .footer-social {
+    gap: 15px;
+  }
+  
+  .cart-container {
+    max-width: 320px;
+  }
+  
+  .lana-chat-window {
+    width: 320px;
+    height: 400px;
+  }
+}
+
+/* Mobile screens (up to 575px) */
+@media (max-width: 575px) {
+  section {
+    padding: 50px 0;
+  }
+  
+  .hero-title {
+    font-size: 1rem;
+  }
+  
+  .main-logo {
+    max-width: 240px;
+  }
+  
+  .manifesto-text {
+    font-size: 0.95rem;
+  }
+  
+  .collection-image {
+    height: 300px;
+  }
+  
+  .lookbook-image,
+  .lookbook-video {
+    height: 350px;
+  }
+  
+  .section-title {
+    font-size: 1.6rem;
+    margin-bottom: 30px;
+  }
+  
+  .unidad-login {
+    padding: 30px 20px;
+  }
+  
+  .cart-container {
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  .lana-chat-window {
+    width: calc(100% - 60px);
+    left: 30px;
+    height: 400px;
+  }
+  
+  .language-switch {
+    top: 15px;
+    right: 15px;
+  }
+  
+  .cart-toggle {
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+  }
+  
+  .lana-toggle {
+    bottom: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+  }
+  
+  .footer-logo-img {
+    max-width: 150px;
+  }
+}
+
+/* Height-based media queries */
+@media (max-height: 700px) {
+  .hero-section {
+    height: auto;
+    min-height: 100vh;
+    padding: 100px 0;
+  }
+  
+  .main-logo {
+    max-width: 250px;
+  }
+  
+  .hero-title {
+    margin-bottom: 40px;
+  }
+  
+  .scroll-indicator {
+    bottom: 20px;
+  }
+  
+  .lana-chat-window {
+    height: 350px;
+  }
+}
+
+/* Print styles */
+@media print {
+  .hero-section,
+  .language-switch,
+  .cart-toggle,
+  .lana-chatbot,
+  .footer-social,
+  .footer-links,
+  .lookbook-nav,
+  .collections-nav,
+  .shop-filters,
+  .unidad-login form {
+    display: none;
+  }
+  
+  body {
+    background-color: white;
+    color: black;
+  }
+  
+  .container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+  }
+  
+  section {
+    padding: 20px 0;
+    page-break-inside: avoid;
+  }
+  
+  .manifesto-text,
+  .collection-description,
+  .footer-copyright {
+    color: black;
+  }
+  
+  .section-title::after {
+    background-color: black;
+  }
+  
+  a {
+    color: black;
+    text-decoration: underline;
+  }
+  
+  .footer-contact a {
+    color: black;
+  }
+}
+
+/* Dark mode preference */
+@media (prefers-color-scheme: dark) {
+  /* Already dark by default, no changes needed */
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .main-logo {
+    filter: drop-shadow(0 0 10px rgba(57, 255, 20, 0.5));
+  }
+  
+  .scroll-arrow {
+    animation: none;
+  }
+  
+  .fade-in-scroll {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .btn::before {
+    display: none;
+  }
+}
