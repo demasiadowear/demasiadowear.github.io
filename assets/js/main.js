@@ -1,412 +1,559 @@
-// Main JavaScript per D3MAS1ADØ
+// Main JavaScript per D3MAS1ADØ - Esperienza cinematografica
 
+/**
+ * D3MAS1ADØ - Main JavaScript
+ * 
+ * Questo file contiene le funzionalità principali del sito D3MAS1ADØ,
+ * inclusi preloader, smooth scrolling, animazioni e interazioni base.
+ * 
+ * Il codice è strutturato in modo modulare per facilitare la manutenzione
+ * e l'aggiornamento da parte del cliente.
+ */
+
+// Attendi che il DOM sia completamente caricato
 document.addEventListener('DOMContentLoaded', function() {
-    // Rimuovi preloader
-    setTimeout(function() {
-        document.body.classList.remove('preload');
-        document.getElementById('preloader').style.display = 'none';
-    }, 1500);
-
-    // Animazioni al scroll
-    const fadeElements = document.querySelectorAll('.fade-in-scroll');
+    // Inizializza il preloader
+    initPreloader();
     
-    const fadeInOnScroll = function() {
-        fadeElements.forEach(function(element) {
-            const elementTop = element.getBoundingClientRect().top;
-            const elementBottom = element.getBoundingClientRect().bottom;
-            const isVisible = (elementTop < window.innerHeight) && (elementBottom > 0);
+    // Inizializza lo smooth scrolling con Lenis
+    initSmoothScroll();
+    
+    // Inizializza le animazioni di scroll
+    initScrollAnimations();
+    
+    // Inizializza gli eventi di base
+    initBaseEvents();
+    
+    // Inizializza il carrello
+    initCart();
+    
+    // Inizializza il cambio lingua
+    initLanguageSwitch();
+});
+
+/**
+ * Inizializza il preloader
+ * Gestisce l'animazione di caricamento e la transizione alla pagina principale
+ */
+function initPreloader() {
+    const preloader = document.getElementById('preloader');
+    
+    // Simula il caricamento delle risorse
+    setTimeout(() => {
+        // Nascondi il preloader con fade out
+        if (preloader) {
+            preloader.style.opacity = '0';
             
-            if (isVisible) {
-                element.classList.add('visible');
-            }
-        });
-    };
-    
-    window.addEventListener('scroll', fadeInOnScroll);
-    fadeInOnScroll(); // Esegui al caricamento
+            // Rimuovi il preloader dal DOM dopo la transizione
+            setTimeout(() => {
+                preloader.style.display = 'none';
+                
+                // Attiva le animazioni iniziali dopo la rimozione del preloader
+                triggerInitialAnimations();
+            }, 500);
+        }
+    }, 2000); // 2 secondi di preloader per effetto cinematografico
+}
 
-    // Parallax effect
-    const parallaxElements = document.querySelectorAll('.parallax');
+/**
+ * Attiva le animazioni iniziali dopo il preloader
+ */
+function triggerInitialAnimations() {
+    // Animazioni per la hero section
+    const heroContent = document.querySelector('.hero-content');
+    if (heroContent) {
+        heroContent.classList.add('animated');
+    }
     
-    window.addEventListener('scroll', function() {
-        const scrollTop = window.pageYOffset;
-        
-        parallaxElements.forEach(function(element) {
-            const speed = element.dataset.speed || 0.5;
-            const yPos = -(scrollTop * speed);
-            element.style.transform = `translateY(${yPos}px)`;
-        });
+    // Rivela gli elementi con classe .reveal-on-scroll che sono visibili all'inizio
+    const revealElements = document.querySelectorAll('.reveal-on-scroll');
+    revealElements.forEach(element => {
+        if (isElementInViewport(element)) {
+            element.classList.add('visible');
+        }
     });
+}
 
-    // Modal Manifesto
-    const openManifestoBtn = document.getElementById('open-manifesto');
-    const manifestoModal = document.getElementById('manifesto-modal');
-    const closeManifestoBtn = document.querySelector('.manifesto-modal-close');
-    
-    if (openManifestoBtn && manifestoModal && closeManifestoBtn) {
-        openManifestoBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            manifestoModal.classList.add('active');
-            document.body.classList.add('no-scroll');
+/**
+ * Inizializza lo smooth scrolling con Lenis
+ * Richiede la libreria Lenis.js inclusa nel progetto
+ */
+function initSmoothScroll() {
+    // Verifica se la libreria Lenis è disponibile
+    if (typeof Lenis === 'function') {
+        // Inizializza Lenis con le opzioni cinematografiche
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+            infinite: false
         });
         
-        closeManifestoBtn.addEventListener('click', function() {
-            manifestoModal.classList.remove('active');
-            document.body.classList.remove('no-scroll');
-        });
+        // Funzione per aggiornare Lenis ad ogni frame
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
         
-        window.addEventListener('click', function(e) {
-            if (e.target === manifestoModal) {
-                manifestoModal.classList.remove('active');
-                document.body.classList.remove('no-scroll');
-            }
-        });
-    }
-
-    // Collections Slider
-    const collectionsSlider = document.querySelector('.collections-slider');
-    const prevCollectionBtn = document.querySelector('.prev-collection');
-    const nextCollectionBtn = document.querySelector('.next-collection');
-    const collectionItems = document.querySelectorAll('.collection-item');
-    
-    if (collectionsSlider && prevCollectionBtn && nextCollectionBtn) {
-        let currentCollectionIndex = 0;
+        // Avvia il loop di animazione
+        requestAnimationFrame(raf);
         
-        const showCollection = function(index) {
-            const scrollAmount = collectionsSlider.clientWidth * index;
-            collectionsSlider.scrollTo({
-                left: scrollAmount,
-                behavior: 'smooth'
-            });
-            currentCollectionIndex = index;
-        };
-        
-        prevCollectionBtn.addEventListener('click', function() {
-            currentCollectionIndex = (currentCollectionIndex > 0) ? currentCollectionIndex - 1 : collectionItems.length - 1;
-            showCollection(currentCollectionIndex);
-        });
-        
-        nextCollectionBtn.addEventListener('click', function() {
-            currentCollectionIndex = (currentCollectionIndex < collectionItems.length - 1) ? currentCollectionIndex + 1 : 0;
-            showCollection(currentCollectionIndex);
-        });
-        
-        // Swipe detection for mobile
-        let touchStartX = 0;
-        let touchEndX = 0;
-        
-        collectionsSlider.addEventListener('touchstart', function(e) {
-            touchStartX = e.changedTouches[0].screenX;
-        });
-        
-        collectionsSlider.addEventListener('touchend', function(e) {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        });
-        
-        const handleSwipe = function() {
-            if (touchEndX < touchStartX) {
-                // Swipe left
-                nextCollectionBtn.click();
-            } else if (touchEndX > touchStartX) {
-                // Swipe right
-                prevCollectionBtn.click();
-            }
-        };
-    }
-
-    // Lookbook Carousel
-    const lookbookCarousel = document.querySelector('.lookbook-carousel');
-    const prevLookbookBtn = document.querySelector('.prev-lookbook');
-    const nextLookbookBtn = document.querySelector('.next-lookbook');
-    const lookbookItems = document.querySelectorAll('.lookbook-item');
-    const videoPlayButtons = document.querySelectorAll('.video-play-button');
-    
-    if (lookbookCarousel && prevLookbookBtn && nextLookbookBtn) {
-        let currentLookbookIndex = 0;
-        
-        const showLookbook = function(index) {
-            const scrollAmount = lookbookCarousel.clientWidth * index;
-            lookbookCarousel.scrollTo({
-                left: scrollAmount,
-                behavior: 'smooth'
-            });
-            currentLookbookIndex = index;
-        };
-        
-        prevLookbookBtn.addEventListener('click', function() {
-            currentLookbookIndex = (currentLookbookIndex > 0) ? currentLookbookIndex - 1 : lookbookItems.length - 1;
-            showLookbook(currentLookbookIndex);
-        });
-        
-        nextLookbookBtn.addEventListener('click', function() {
-            currentLookbookIndex = (currentLookbookIndex < lookbookItems.length - 1) ? currentLookbookIndex + 1 : 0;
-            showLookbook(currentLookbookIndex);
-        });
-        
-        // Video play functionality
-        videoPlayButtons.forEach(function(button) {
-            button.addEventListener('click', function() {
-                const video = this.parentElement.querySelector('video');
-                if (video) {
-                    if (video.paused) {
-                        video.play();
-                        this.innerHTML = '<i class="fas fa-pause"></i>';
-                    } else {
-                        video.pause();
-                        this.innerHTML = '<i class="fas fa-play"></i>';
-                    }
-                }
+        // Aggiungi listener per gli anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Estrai l'id dalla href
+                const targetId = this.getAttribute('href');
+                
+                // Scorri alla sezione target
+                lenis.scrollTo(targetId, {
+                    offset: 0,
+                    duration: 1.5,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+                });
             });
         });
-        
-        // Swipe detection for mobile
-        let touchStartX = 0;
-        let touchEndX = 0;
-        
-        lookbookCarousel.addEventListener('touchstart', function(e) {
-            touchStartX = e.changedTouches[0].screenX;
-        });
-        
-        lookbookCarousel.addEventListener('touchend', function(e) {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        });
-        
-        const handleSwipe = function() {
-            if (touchEndX < touchStartX) {
-                // Swipe left
-                nextLookbookBtn.click();
-            } else if (touchEndX > touchStartX) {
-                // Swipe right
-                prevLookbookBtn.click();
-            }
-        };
+    } else {
+        console.warn('Lenis.js non è caricato. Lo smooth scrolling non funzionerà.');
     }
+}
 
-    // Unidad-31Ø Login
-    const unidadLoginForm = document.getElementById('unidad-login-form');
+/**
+ * Inizializza le animazioni di scroll
+ * Utilizza Intersection Observer per rilevare quando gli elementi entrano nel viewport
+ */
+function initScrollAnimations() {
+    // Crea un nuovo Intersection Observer
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            // Se l'elemento è visibile nel viewport
+            if (entry.isIntersecting) {
+                // Aggiungi la classe 'visible' per attivare l'animazione
+                entry.target.classList.add('visible');
+                
+                // Smetti di osservare l'elemento dopo che è stato animato
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        root: null, // Usa il viewport come container
+        rootMargin: '0px', // Nessun margine
+        threshold: 0.1 // Attiva quando almeno il 10% dell'elemento è visibile
+    });
     
-    if (unidadLoginForm) {
-        unidadLoginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('unidad-email').value;
-            const code = document.getElementById('unidad-code').value;
-            
-            // Simulazione di login (in un'app reale, qui ci sarebbe una chiamata API)
-            if (email && code) {
-                alert('Accesso effettuato con successo! Benvenuto nell\'area privata Unidad-31Ø.');
-                // Qui reindirizzare all'area privata o mostrare contenuti esclusivi
-            } else {
-                alert('Per favore, inserisci email e codice di accesso.');
-            }
-        });
-    }
+    // Osserva tutti gli elementi con la classe 'reveal-on-scroll'
+    document.querySelectorAll('.reveal-on-scroll').forEach(element => {
+        observer.observe(element);
+    });
+    
+    // Osserva anche altri elementi animati
+    document.querySelectorAll('.fade-in-stagger').forEach(element => {
+        observer.observe(element);
+    });
+}
 
-    // Shopping Cart
+/**
+ * Inizializza gli eventi di base
+ * Gestisce interazioni come apertura/chiusura menu, toggle carrello, etc.
+ */
+function initBaseEvents() {
+    // Toggle del carrello
     const cartToggle = document.querySelector('.cart-toggle');
     const cartContainer = document.getElementById('shopping-cart');
     const cartClose = document.querySelector('.cart-close');
     
     if (cartToggle && cartContainer && cartClose) {
-        cartToggle.addEventListener('click', function() {
-            cartContainer.classList.add('active');
-            document.body.classList.add('no-scroll');
+        cartToggle.addEventListener('click', () => {
+            cartContainer.classList.toggle('active');
         });
         
-        cartClose.addEventListener('click', function() {
+        cartClose.addEventListener('click', () => {
             cartContainer.classList.remove('active');
-            document.body.classList.remove('no-scroll');
-        });
-        
-        window.addEventListener('click', function(e) {
-            if (e.target === cartContainer) {
-                cartContainer.classList.remove('active');
-                document.body.classList.remove('no-scroll');
-            }
-        });
-    }
-
-    // Lana AI Chatbot
-    const lanaToggle = document.querySelector('.lana-toggle');
-    const lanaWindow = document.querySelector('.lana-chat-window');
-    const lanaClose = document.querySelector('.lana-close');
-    const lanaInput = document.querySelector('.lana-input input');
-    const lanaSend = document.querySelector('.lana-send');
-    const lanaMessages = document.querySelector('.lana-messages');
-    
-    if (lanaToggle && lanaWindow && lanaClose) {
-        lanaToggle.addEventListener('click', function() {
-            lanaWindow.classList.toggle('active');
-            if (lanaInput) {
-                setTimeout(() => lanaInput.focus(), 300);
-            }
-        });
-        
-        lanaClose.addEventListener('click', function() {
-            lanaWindow.classList.remove('active');
-        });
-        
-        if (lanaSend && lanaInput && lanaMessages) {
-            lanaSend.addEventListener('click', sendLanaMessage);
-            lanaInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    sendLanaMessage();
-                }
-            });
-        }
-    }
-    
-    function sendLanaMessage() {
-        const message = lanaInput.value.trim();
-        if (message) {
-            // Aggiungi messaggio utente
-            const userMessageEl = document.createElement('div');
-            userMessageEl.className = 'lana-message user';
-            userMessageEl.innerHTML = `<p>${message}</p>`;
-            lanaMessages.appendChild(userMessageEl);
-            
-            // Pulisci input
-            lanaInput.value = '';
-            
-            // Scroll to bottom
-            lanaMessages.scrollTop = lanaMessages.scrollHeight;
-            
-            // Simula risposta di Lana (in un'app reale, qui ci sarebbe una chiamata API)
-            setTimeout(function() {
-                const lanaResponse = getLanaResponse(message);
-                const lanaMessageEl = document.createElement('div');
-                lanaMessageEl.className = 'lana-message lana';
-                lanaMessageEl.innerHTML = `<p>${lanaResponse}</p>`;
-                lanaMessages.appendChild(lanaMessageEl);
-                
-                // Scroll to bottom
-                lanaMessages.scrollTop = lanaMessages.scrollHeight;
-            }, 1000);
-        }
-    }
-    
-    function getLanaResponse(message) {
-        message = message.toLowerCase();
-        
-        if (message.includes('ciao') || message.includes('salve') || message.includes('hey')) {
-            return "Ciao! Sono Lana, l'assistente AI di D3MAS1ADØ. Come posso aiutarti oggi?";
-        } else if (message.includes('collezione') || message.includes('worldwide') || message.includes('intifada') || message.includes('revolucion')) {
-            return "Le nostre collezioni WorldWide, Intifada e Revolución rappresentano la nostra visione di lusso urbano. Ogni capo è prodotto in edizione limitata con materiali di alta qualità. Vuoi saperne di più su una collezione specifica?";
-        } else if (message.includes('prezzo') || message.includes('costo') || message.includes('quanto costa')) {
-            return "I nostri capi hanno prezzi variabili in base alla collezione e al tipo di prodotto. Ti consiglio di visitare la sezione SHOP o fare un preordine per ricevere informazioni dettagliate sui prezzi.";
-        } else if (message.includes('spedizione') || message.includes('consegna')) {
-            return "Effettuiamo spedizioni in tutto il mondo. I tempi di consegna variano da 3-5 giorni lavorativi per l'Italia a 7-14 giorni per le spedizioni internazionali. Tutte le spedizioni sono tracciabili.";
-        } else if (message.includes('reso') || message.includes('rimborso') || message.includes('cambio')) {
-            return "Accettiamo resi entro 14 giorni dalla ricezione del prodotto. Il capo deve essere in condizioni perfette con etichette ancora attaccate. Contatta il nostro servizio clienti per avviare la procedura di reso.";
-        } else if (message.includes('manifesto')) {
-            return "Il nostro manifesto rappresenta la filosofia di D3MAS1ADØ: un lusso urbano autentico che non scende a compromessi. Puoi leggere il manifesto completo cliccando sul link nella sezione dedicata del sito.";
-        } else if (message.includes('grazie') || message.includes('thank')) {
-            return "Figurati! Sono qui per aiutarti. C'è altro di cui hai bisogno?";
-        } else {
-            return "Interessante! Posso aiutarti con informazioni sulle nostre collezioni, spedizioni, resi o preordini. Fammi sapere cosa ti interessa.";
-        }
-    }
-
-    // Shop Filters
-    const shopFilters = document.querySelectorAll('.shop-filter');
-    
-    if (shopFilters.length > 0) {
-        shopFilters.forEach(function(filter) {
-            filter.addEventListener('click', function() {
-                // Rimuovi classe active da tutti i filtri
-                shopFilters.forEach(function(f) {
-                    f.classList.remove('active');
-                });
-                
-                // Aggiungi classe active al filtro cliccato
-                this.classList.add('active');
-                
-                // Filtra i prodotti
-                const filterValue = this.getAttribute('data-filter');
-                filterProducts(filterValue);
-            });
         });
     }
     
-    function filterProducts(filter) {
-        const products = document.querySelectorAll('.product-item');
-        
-        products.forEach(function(product) {
-            if (filter === 'all') {
-                product.style.display = 'block';
-            } else {
-                const productCollection = product.getAttribute('data-collection');
-                
-                if (productCollection === filter) {
-                    product.style.display = 'block';
+    // Riproduzione video al click
+    const videoPlayButtons = document.querySelectorAll('.video-play-button');
+    videoPlayButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const videoElement = this.parentElement.querySelector('video');
+            if (videoElement) {
+                if (videoElement.paused) {
+                    videoElement.play();
+                    this.style.opacity = '0';
                 } else {
-                    product.style.display = 'none';
+                    videoElement.pause();
+                    this.style.opacity = '1';
                 }
             }
         });
-    }
-
-    // Smooth scrolling per link interni
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
+    });
+    
+    // Gestione form Unidad-31Ø
+    const unidadForm = document.getElementById('unidad-login-form');
+    if (unidadForm) {
+        unidadForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const targetId = this.getAttribute('href');
-            
-            if (targetId === '#') return;
-            
-            const targetElement = document.querySelector(targetId);
-            
-            if (targetElement) {
-                targetElement.scrollIntoView({
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-
-    // Header scroll effect
-    const header = document.querySelector('.site-header');
-    
-    if (header) {
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 100) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-    }
-
-    // Cinematic hover effects
-    const cinematicElements = document.querySelectorAll('.cinematic-hover');
-    
-    cinematicElements.forEach(function(element) {
-        element.addEventListener('mouseenter', function() {
-            this.classList.add('hover');
-        });
-        
-        element.addEventListener('mouseleave', function() {
-            this.classList.remove('hover');
-        });
-    });
-
-    // Glitch effect trigger
-    const glitchElements = document.querySelectorAll('.glitch-trigger');
-    
-    glitchElements.forEach(function(element) {
-        element.addEventListener('mouseenter', function() {
-            const target = document.querySelector(this.getAttribute('data-glitch-target'));
-            
-            if (target) {
-                target.classList.add('glitch-active');
+            // Simula un accesso negato (come richiesto nel brief)
+            const errorMessage = document.querySelector('.unidad-error');
+            if (errorMessage) {
+                errorMessage.classList.remove('hidden');
                 
-                setTimeout(function() {
-                    target.classList.remove('glitch-active');
+                // Riproduci suono di errore se disponibile
+                const errorSound = document.getElementById('error-sound');
+                if (errorSound) {
+                    errorSound.play();
+                }
+                
+                // Effetto glitch sul form
+                unidadForm.classList.add('glitch-effect');
+                setTimeout(() => {
+                    unidadForm.classList.remove('glitch-effect');
                 }, 1000);
             }
         });
-    });
-});
+    }
+    
+    // Gestione form Newsletter
+    const newsletterForm = document.getElementById('newsletter-form');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Mostra messaggio di successo
+            const successMessage = document.querySelector('.newsletter-success');
+            if (successMessage) {
+                successMessage.classList.remove('hidden');
+                newsletterForm.style.display = 'none';
+            }
+        });
+    }
+}
+
+/**
+ * Inizializza il carrello
+ * Gestisce l'aggiunta/rimozione di prodotti e il checkout
+ */
+function initCart() {
+    // Elementi del carrello
+    const cartItems = document.querySelector('.cart-items');
+    const cartTotalAmount = document.querySelector('.cart-total-amount');
+    const cartCount = document.querySelector('.cart-count');
+    const addToCartButtons = document.querySelectorAll('.add-to-cart');
+    const checkoutButton = document.querySelector('.cart-checkout');
+    
+    // Array per memorizzare gli elementi del carrello
+    let cart = [];
+    
+    // Carica il carrello dal localStorage se disponibile
+    if (localStorage.getItem('d3masiadoCart')) {
+        try {
+            cart = JSON.parse(localStorage.getItem('d3masiadoCart'));
+            updateCartUI();
+        } catch (e) {
+            console.error('Errore nel caricamento del carrello:', e);
+            localStorage.removeItem('d3masiadoCart');
+        }
+    }
+    
+    // Aggiungi event listener ai pulsanti "Aggiungi al carrello"
+    if (addToCartButtons) {
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Ottieni i dati del prodotto
+                const productId = this.getAttribute('data-product');
+                const productName = this.getAttribute('data-name');
+                const productPrice = parseFloat(this.getAttribute('data-price'));
+                
+                // Ottieni la taglia selezionata
+                const sizeElement = this.parentElement.querySelector('.size-option.selected');
+                let size = 'Unica';
+                if (sizeElement) {
+                    size = sizeElement.getAttribute('data-size');
+                }
+                
+                // Aggiungi il prodotto al carrello
+                addToCart(productId, productName, productPrice, size);
+                
+                // Mostra notifica
+                showNotification('Prodotto aggiunto al carrello');
+            });
+        });
+    }
+    
+    // Aggiungi event listener ai pulsanti delle taglie
+    const sizeOptions = document.querySelectorAll('.size-option');
+    if (sizeOptions) {
+        sizeOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                // Rimuovi la classe 'selected' da tutte le opzioni nel gruppo
+                const siblings = this.parentElement.querySelectorAll('.size-option');
+                siblings.forEach(sib => sib.classList.remove('selected'));
+                
+                // Aggiungi la classe 'selected' all'opzione cliccata
+                this.classList.add('selected');
+            });
+        });
+    }
+    
+    // Aggiungi event listener al pulsante checkout
+    if (checkoutButton) {
+        checkoutButton.addEventListener('click', function() {
+            // Qui si integrerebbe con Stripe Checkout
+            // Per ora, mostriamo solo un messaggio
+            alert('Checkout non implementato in questa versione. Integrazione Stripe richiesta.');
+        });
+    }
+    
+    /**
+     * Aggiunge un prodotto al carrello
+     */
+    function addToCart(id, name, price, size) {
+        // Controlla se il prodotto è già nel carrello
+        const existingItem = cart.find(item => item.id === id && item.size === size);
+        
+        if (existingItem) {
+            // Incrementa la quantità se il prodotto esiste già
+            existingItem.quantity += 1;
+        } else {
+            // Aggiungi un nuovo elemento al carrello
+            cart.push({
+                id: id,
+                name: name,
+                price: price,
+                size: size,
+                quantity: 1
+            });
+        }
+        
+        // Salva il carrello nel localStorage
+        localStorage.setItem('d3masiadoCart', JSON.stringify(cart));
+        
+        // Aggiorna l'interfaccia del carrello
+        updateCartUI();
+    }
+    
+    /**
+     * Rimuove un prodotto dal carrello
+     */
+    function removeFromCart(index) {
+        // Rimuovi l'elemento dall'array
+        cart.splice(index, 1);
+        
+        // Salva il carrello nel localStorage
+        localStorage.setItem('d3masiadoCart', JSON.stringify(cart));
+        
+        // Aggiorna l'interfaccia del carrello
+        updateCartUI();
+    }
+    
+    /**
+     * Aggiorna l'interfaccia del carrello
+     */
+    function updateCartUI() {
+        // Aggiorna il conteggio degli elementi
+        if (cartCount) {
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+        
+        // Aggiorna il contenuto del carrello
+        if (cartItems) {
+            // Svuota il contenuto attuale
+            cartItems.innerHTML = '';
+            
+            // Aggiungi ogni elemento del carrello
+            cart.forEach((item, index) => {
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                
+                cartItem.innerHTML = `
+                    <div class="cart-item-image" data-image="product-${item.id}"></div>
+                    <div class="cart-item-details">
+                        <div class="cart-item-title">${item.name}</div>
+                        <div class="cart-item-price">€${item.price.toFixed(2)}</div>
+                        <div class="cart-item-size">Taglia: ${item.size}</div>
+                        <div class="cart-item-quantity">
+                            <button class="quantity-btn minus" data-index="${index}">-</button>
+                            <input type="text" class="quantity-input" value="${item.quantity}" readonly>
+                            <button class="quantity-btn plus" data-index="${index}">+</button>
+                        </div>
+                    </div>
+                    <button class="cart-item-remove" data-index="${index}">&times;</button>
+                `;
+                
+                cartItems.appendChild(cartItem);
+            });
+            
+            // Aggiungi event listener ai pulsanti di quantità
+            const minusButtons = cartItems.querySelectorAll('.minus');
+            const plusButtons = cartItems.querySelectorAll('.plus');
+            const removeButtons = cartItems.querySelectorAll('.cart-item-remove');
+            
+            minusButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    if (cart[index].quantity > 1) {
+                        cart[index].quantity -= 1;
+                        localStorage.setItem('d3masiadoCart', JSON.stringify(cart));
+                        updateCartUI();
+                    }
+                });
+            });
+            
+            plusButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    cart[index].quantity += 1;
+                    localStorage.setItem('d3masiadoCart', JSON.stringify(cart));
+                    updateCartUI();
+                });
+            });
+            
+            removeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    removeFromCart(index);
+                });
+            });
+        }
+        
+        // Aggiorna il totale
+        if (cartTotalAmount) {
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartTotalAmount.textContent = `€${total.toFixed(2)}`;
+        }
+    }
+    
+    /**
+     * Mostra una notifica temporanea
+     */
+    function showNotification(message) {
+        // Crea l'elemento di notifica
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.textContent = message;
+        
+        // Aggiungi la notifica al DOM
+        document.body.appendChild(notification);
+        
+        // Mostra la notifica con animazione
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 10);
+        
+        // Rimuovi la notifica dopo 3 secondi
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 300);
+        }, 3000);
+    }
+}
+
+/**
+ * Inizializza il cambio lingua
+ */
+function initLanguageSwitch() {
+    const langIt = document.querySelector('.lang-it');
+    const langEn = document.querySelector('.lang-en');
+    
+    if (langIt && langEn) {
+        // Imposta la lingua predefinita in base al browser
+        const userLang = navigator.language || navigator.userLanguage;
+        let currentLang = userLang.startsWith('it') ? 'it' : 'en';
+        
+        // Carica la lingua dal localStorage se disponibile
+        if (localStorage.getItem('d3masiadoLang')) {
+            currentLang = localStorage.getItem('d3masiadoLang');
+        }
+        
+        // Imposta la lingua iniziale
+        setLanguage(currentLang);
+        
+        // Aggiungi event listener ai pulsanti di lingua
+        langIt.addEventListener('click', function(e) {
+            e.preventDefault();
+            setLanguage('it');
+        });
+        
+        langEn.addEventListener('click', function(e) {
+            e.preventDefault();
+            setLanguage('en');
+        });
+    }
+    
+    /**
+     * Imposta la lingua del sito
+     */
+    function setLanguage(lang) {
+        // Salva la lingua nel localStorage
+        localStorage.setItem('d3masiadoLang', lang);
+        
+        // Aggiorna la classe attiva sui pulsanti di lingua
+        if (lang === 'it') {
+            langIt.classList.add('active');
+            langEn.classList.remove('active');
+        } else {
+            langIt.classList.remove('active');
+            langEn.classList.add('active');
+        }
+        
+        // Aggiorna l'attributo lang dell'HTML
+        document.documentElement.lang = lang;
+        
+        // Aggiorna i testi in base alla lingua
+        // Nota: in una versione completa, questi testi sarebbero caricati da un file JSON
+        const translations = {
+            it: {
+                heroTitle: "L'unico modo che conosciamo",
+                manifestoTitle: "Manifesto",
+                collectionsTitle: "Collezioni",
+                lookbookTitle: "Lookbook",
+                unidadTitle: "Unidad-31Ø",
+                shopTitle: "Shop",
+                newsletterTitle: "Vuoi entrare nella familia?",
+                // Aggiungi altre traduzioni qui
+            },
+            en: {
+                heroTitle: "The only way we know",
+                manifestoTitle: "Manifesto",
+                collectionsTitle: "Collections",
+                lookbookTitle: "Lookbook",
+                unidadTitle: "Unidad-31Ø",
+                shopTitle: "Shop",
+                newsletterTitle: "Want to join the familia?",
+                // Aggiungi altre traduzioni qui
+            }
+        };
+        
+        // Applica le traduzioni
+        document.querySelectorAll('[data-translate]').forEach(element => {
+            const key = element.getAttribute('data-translate');
+            if (translations[lang][key]) {
+                element.textContent = translations[lang][key];
+            }
+        });
+    }
+}
+
+/**
+ * Verifica se un elemento è visibile nel viewport
+ */
+function isElementInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}

@@ -1,228 +1,368 @@
-// Shop JavaScript per D3MAS1ADØ
+// Shop JavaScript per D3MAS1ADØ - Esperienza cinematografica
 
+/**
+ * D3MAS1ADØ - Shop JavaScript
+ * 
+ * Questo file gestisce la funzionalità della sezione Shop,
+ * inclusi filtri, selezione taglie, carrello e checkout.
+ * 
+ * Il codice è strutturato in modo modulare per facilitare la manutenzione
+ * e l'aggiornamento da parte del cliente.
+ */
+
+// Attendi che il DOM sia completamente caricato
 document.addEventListener('DOMContentLoaded', function() {
-    // Prodotti di esempio (in un'app reale, questi dati verrebbero caricati da un JSON o API)
-    const products = [
-        {
-            id: 1,
-            name: 'T-Shirt Manifesto',
-            price: 89.00,
-            collection: 'worldwide',
-            sizes: ['S', 'M', 'L', 'XL'],
-            image: 'assets/images/shop/tshirt-manifesto.jpg',
-            description: 'T-shirt in cotone organico con stampa Manifesto D3MAS1ADØ'
-        },
-        {
-            id: 2,
-            name: 'Felpa Intifada',
-            price: 149.00,
-            collection: 'intifada',
-            sizes: ['S', 'M', 'L', 'XL'],
-            image: 'assets/images/shop/felpa-intifada.jpg',
-            description: 'Felpa oversize con grafica Intifada e dettagli ricamati'
-        },
-        {
-            id: 3,
-            name: 'Cargo Pants Revolución',
-            price: 179.00,
-            collection: 'revolucion',
-            sizes: ['S', 'M', 'L', 'XL'],
-            image: 'assets/images/shop/cargo-revolucion.jpg',
-            description: 'Pantaloni cargo con tasche multiple e dettagli Revolución'
-        },
-        {
-            id: 4,
-            name: 'Giacca WorldWide',
-            price: 249.00,
-            collection: 'worldwide',
-            sizes: ['S', 'M', 'L', 'XL'],
-            image: 'assets/images/shop/giacca-worldwide.jpg',
-            description: 'Giacca tecnica con grafica WorldWide e dettagli riflettenti'
-        },
-        {
-            id: 5,
-            name: 'Cappello Intifada',
-            price: 59.00,
-            collection: 'intifada',
-            sizes: ['Unica'],
-            image: 'assets/images/shop/cappello-intifada.jpg',
-            description: 'Cappello con logo Intifada ricamato'
-        },
-        {
-            id: 6,
-            name: 'Hoodie Revolución',
-            price: 159.00,
-            collection: 'revolucion',
-            sizes: ['S', 'M', 'L', 'XL'],
-            image: 'assets/images/shop/hoodie-revolucion.jpg',
-            description: 'Hoodie con cappuccio e grafica Revolución'
-        }
-    ];
-
-    // Carrello
-    let cart = [];
-    const cartItems = document.querySelector('.cart-items');
-    const cartCount = document.querySelector('.cart-count');
-    const cartTotal = document.querySelector('.cart-total-amount');
-    const cartCheckout = document.querySelector('.cart-checkout');
-
-    // Carica prodotti nella griglia
-    const shopGrid = document.querySelector('.shop-grid');
+    // Inizializza i filtri dello shop
+    initShopFilters();
     
-    if (shopGrid) {
-        loadProducts();
-    }
+    // Inizializza la selezione delle taglie
+    initSizeSelection();
+    
+    // Inizializza il carrello
+    initCart();
+});
 
-    function loadProducts() {
-        shopGrid.innerHTML = '';
-        
-        products.forEach(product => {
-            const productElement = createProductElement(product);
-            shopGrid.appendChild(productElement);
+/**
+ * Inizializza i filtri dello shop
+ * Gestisce il filtraggio dei prodotti per collezione
+ */
+function initShopFilters() {
+    // Elementi dei filtri
+    const filterButtons = document.querySelectorAll('.shop-filter');
+    const productCards = document.querySelectorAll('.product-card');
+    
+    // Se non ci sono filtri o prodotti, esci dalla funzione
+    if (filterButtons.length === 0 || productCards.length === 0) return;
+    
+    // Aggiungi event listener ai pulsanti di filtro
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Rimuovi la classe 'active' da tutti i pulsanti
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Aggiungi la classe 'active' al pulsante cliccato
+            this.classList.add('active');
+            
+            // Ottieni il valore del filtro
+            const filterValue = this.getAttribute('data-filter');
+            
+            // Filtra i prodotti
+            filterProducts(filterValue);
+            
+            // Riproduci suono di filtro se disponibile
+            const filterSound = document.getElementById('filter-sound');
+            if (filterSound) {
+                filterSound.currentTime = 0;
+                filterSound.play();
+            }
         });
-        
-        // Aggiungi event listeners per i pulsanti "Aggiungi al carrello"
-        document.querySelectorAll('.add-to-cart').forEach(button => {
+    });
+    
+    /**
+     * Filtra i prodotti in base al valore del filtro
+     */
+    function filterProducts(filterValue) {
+        productCards.forEach(card => {
+            // Se il filtro è 'all' o la collezione del prodotto corrisponde al filtro
+            if (filterValue === 'all' || card.getAttribute('data-collection') === filterValue) {
+                // Mostra il prodotto con animazione
+                card.style.display = 'block';
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 10);
+            } else {
+                // Nascondi il prodotto con animazione
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.display = 'none';
+                }, 300);
+            }
+        });
+    }
+}
+
+/**
+ * Inizializza la selezione delle taglie
+ * Gestisce la selezione delle taglie per i prodotti
+ */
+function initSizeSelection() {
+    // Elementi delle taglie
+    const sizeOptions = document.querySelectorAll('.size-option');
+    
+    // Se non ci sono opzioni di taglia, esci dalla funzione
+    if (sizeOptions.length === 0) return;
+    
+    // Aggiungi event listener alle opzioni di taglia
+    sizeOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            // Trova il container delle taglie
+            const sizeContainer = this.closest('.product-sizes');
+            if (!sizeContainer) return;
+            
+            // Rimuovi la classe 'selected' da tutte le opzioni nel container
+            sizeContainer.querySelectorAll('.size-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Aggiungi la classe 'selected' all'opzione cliccata
+            this.classList.add('selected');
+            
+            // Riproduci suono di selezione se disponibile
+            const selectSound = document.getElementById('select-sound');
+            if (selectSound) {
+                selectSound.currentTime = 0;
+                selectSound.play();
+            }
+        });
+    });
+}
+
+/**
+ * Inizializza il carrello
+ * Gestisce l'aggiunta/rimozione di prodotti e il checkout
+ */
+function initCart() {
+    // Elementi del carrello
+    const cartItems = document.querySelector('.cart-items');
+    const cartTotalAmount = document.querySelector('.cart-total-amount');
+    const cartCount = document.querySelector('.cart-count');
+    const addToCartButtons = document.querySelectorAll('.add-to-cart');
+    const checkoutButton = document.querySelector('.cart-checkout');
+    const cartToggle = document.querySelector('.cart-toggle');
+    const cartContainer = document.getElementById('shopping-cart');
+    const cartClose = document.querySelector('.cart-close');
+    
+    // Array per memorizzare gli elementi del carrello
+    let cart = [];
+    
+    // Carica il carrello dal localStorage se disponibile
+    if (localStorage.getItem('d3masiadoCart')) {
+        try {
+            cart = JSON.parse(localStorage.getItem('d3masiadoCart'));
+            updateCartUI();
+        } catch (e) {
+            console.error('Errore nel caricamento del carrello:', e);
+            localStorage.removeItem('d3masiadoCart');
+        }
+    }
+    
+    // Aggiungi event listener ai pulsanti "Aggiungi al carrello"
+    if (addToCartButtons) {
+        addToCartButtons.forEach(button => {
             button.addEventListener('click', function() {
-                const productId = parseInt(this.getAttribute('data-id'));
-                const selectedSize = this.parentElement.querySelector('.size-option.active');
+                // Ottieni i dati del prodotto
+                const productId = this.getAttribute('data-product');
+                const productName = this.getAttribute('data-name');
+                const productPrice = parseFloat(this.getAttribute('data-price'));
                 
-                if (!selectedSize) {
-                    alert('Seleziona una taglia prima di aggiungere al carrello');
-                    return;
+                // Ottieni la taglia selezionata
+                const sizeElement = this.parentElement.querySelector('.size-option.selected');
+                let size = 'Unica';
+                if (sizeElement) {
+                    size = sizeElement.getAttribute('data-size');
                 }
                 
-                const size = selectedSize.textContent;
-                addToCart(productId, size);
-            });
-        });
-        
-        // Aggiungi event listeners per le opzioni di taglia
-        document.querySelectorAll('.size-option').forEach(option => {
-            option.addEventListener('click', function() {
-                // Rimuovi classe active da tutte le opzioni di taglia del prodotto
-                const sizeOptions = this.parentElement.querySelectorAll('.size-option');
-                sizeOptions.forEach(opt => opt.classList.remove('active'));
+                // Aggiungi il prodotto al carrello
+                addToCart(productId, productName, productPrice, size);
                 
-                // Aggiungi classe active all'opzione selezionata
-                this.classList.add('active');
+                // Mostra notifica
+                showNotification('Prodotto aggiunto al carrello');
+                
+                // Riproduci suono di aggiunta al carrello se disponibile
+                const addSound = document.getElementById('add-to-cart-sound');
+                if (addSound) {
+                    addSound.currentTime = 0;
+                    addSound.play();
+                }
+                
+                // Mostra il carrello
+                if (cartContainer) {
+                    cartContainer.classList.add('active');
+                }
             });
         });
     }
-
-    function createProductElement(product) {
-        const productElement = document.createElement('div');
-        productElement.className = 'product-item';
-        productElement.setAttribute('data-collection', product.collection);
-        
-        let sizesHTML = '';
-        product.sizes.forEach(size => {
-            sizesHTML += `<div class="size-option">${size}</div>`;
+    
+    // Aggiungi event listener al pulsante toggle del carrello
+    if (cartToggle && cartContainer) {
+        cartToggle.addEventListener('click', function() {
+            cartContainer.classList.toggle('active');
+            
+            // Riproduci suono di apertura/chiusura se disponibile
+            const toggleSound = document.getElementById('cart-toggle-sound');
+            if (toggleSound) {
+                toggleSound.currentTime = 0;
+                toggleSound.play();
+            }
         });
-        
-        productElement.innerHTML = `
-            <div class="product-image-container">
-                <img src="${product.image}" alt="${product.name}" class="product-image">
-            </div>
-            <div class="product-info">
-                <h3 class="product-title">${product.name}</h3>
-                <p class="product-price">€${product.price.toFixed(2)}</p>
-                <div class="product-sizes">
-                    ${sizesHTML}
-                </div>
-                <button class="add-to-cart" data-id="${product.id}">
-                    <i class="fas fa-shopping-cart"></i> AGGIUNGI AL CARRELLO
-                </button>
-            </div>
-        `;
-        
-        return productElement;
     }
-
-    function addToCart(productId, size) {
-        const product = products.find(p => p.id === productId);
+    
+    // Aggiungi event listener al pulsante di chiusura del carrello
+    if (cartClose && cartContainer) {
+        cartClose.addEventListener('click', function() {
+            cartContainer.classList.remove('active');
+            
+            // Riproduci suono di chiusura se disponibile
+            const closeSound = document.getElementById('cart-close-sound');
+            if (closeSound) {
+                closeSound.currentTime = 0;
+                closeSound.play();
+            }
+        });
+    }
+    
+    // Aggiungi event listener al pulsante checkout
+    if (checkoutButton) {
+        checkoutButton.addEventListener('click', function() {
+            // Qui si integrerebbe con Stripe Checkout
+            // Per ora, mostriamo solo un messaggio
+            alert('Checkout non implementato in questa versione. Integrazione Stripe richiesta.');
+            
+            // Riproduci suono di checkout se disponibile
+            const checkoutSound = document.getElementById('checkout-sound');
+            if (checkoutSound) {
+                checkoutSound.currentTime = 0;
+                checkoutSound.play();
+            }
+        });
+    }
+    
+    /**
+     * Aggiunge un prodotto al carrello
+     */
+    function addToCart(id, name, price, size) {
+        // Controlla se il prodotto è già nel carrello
+        const existingItem = cart.find(item => item.id === id && item.size === size);
         
-        if (!product) return;
-        
-        // Controlla se il prodotto è già nel carrello con la stessa taglia
-        const existingItemIndex = cart.findIndex(item => item.id === productId && item.size === size);
-        
-        if (existingItemIndex !== -1) {
-            // Incrementa la quantità
-            cart[existingItemIndex].quantity += 1;
+        if (existingItem) {
+            // Incrementa la quantità se il prodotto esiste già
+            existingItem.quantity += 1;
         } else {
-            // Aggiungi nuovo prodotto al carrello
+            // Aggiungi un nuovo elemento al carrello
             cart.push({
-                id: product.id,
-                name: product.name,
-                price: product.price,
-                image: product.image,
+                id: id,
+                name: name,
+                price: price,
                 size: size,
                 quantity: 1
             });
         }
         
-        // Aggiorna UI del carrello
-        updateCart();
+        // Salva il carrello nel localStorage
+        localStorage.setItem('d3masiadoCart', JSON.stringify(cart));
         
-        // Mostra messaggio di conferma
-        showNotification(`${product.name} (${size}) aggiunto al carrello`);
+        // Aggiorna l'interfaccia del carrello
+        updateCartUI();
     }
-
-    function updateCart() {
-        // Aggiorna conteggio prodotti
-        const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+    
+    /**
+     * Rimuove un prodotto dal carrello
+     */
+    function removeFromCart(index) {
+        // Rimuovi l'elemento dall'array
+        cart.splice(index, 1);
+        
+        // Salva il carrello nel localStorage
+        localStorage.setItem('d3masiadoCart', JSON.stringify(cart));
+        
+        // Aggiorna l'interfaccia del carrello
+        updateCartUI();
+        
+        // Riproduci suono di rimozione se disponibile
+        const removeSound = document.getElementById('remove-from-cart-sound');
+        if (removeSound) {
+            removeSound.currentTime = 0;
+            removeSound.play();
+        }
+    }
+    
+    /**
+     * Aggiorna l'interfaccia del carrello
+     */
+    function updateCartUI() {
+        // Aggiorna il conteggio degli elementi
         if (cartCount) {
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
             cartCount.textContent = totalItems;
         }
         
-        // Aggiorna contenuto carrello
+        // Aggiorna il contenuto del carrello
         if (cartItems) {
+            // Svuota il contenuto attuale
             cartItems.innerHTML = '';
             
             if (cart.length === 0) {
-                cartItems.innerHTML = '<p class="cart-empty">Il carrello è vuoto</p>';
+                // Mostra messaggio carrello vuoto
+                const emptyMessage = document.createElement('div');
+                emptyMessage.className = 'cart-empty-message';
+                emptyMessage.textContent = 'Il tuo carrello è vuoto';
+                cartItems.appendChild(emptyMessage);
             } else {
+                // Aggiungi ogni elemento del carrello
                 cart.forEach((item, index) => {
-                    const cartItemElement = document.createElement('div');
-                    cartItemElement.className = 'cart-item';
+                    const cartItem = document.createElement('div');
+                    cartItem.className = 'cart-item';
                     
-                    cartItemElement.innerHTML = `
-                        <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                    cartItem.innerHTML = `
+                        <div class="cart-item-image" data-image="product-${item.id}"></div>
                         <div class="cart-item-details">
-                            <h4 class="cart-item-title">${item.name}</h4>
-                            <p class="cart-item-price">€${item.price.toFixed(2)}</p>
-                            <p class="cart-item-size">Taglia: ${item.size}</p>
+                            <div class="cart-item-title">${item.name}</div>
+                            <div class="cart-item-price">€${item.price.toFixed(2)}</div>
+                            <div class="cart-item-size">Taglia: ${item.size}</div>
                             <div class="cart-item-quantity">
-                                <button class="quantity-btn decrease" data-index="${index}">-</button>
-                                <span class="quantity-value">${item.quantity}</span>
-                                <button class="quantity-btn increase" data-index="${index}">+</button>
+                                <button class="quantity-btn minus" data-index="${index}">-</button>
+                                <input type="text" class="quantity-input" value="${item.quantity}" readonly>
+                                <button class="quantity-btn plus" data-index="${index}">+</button>
                             </div>
                         </div>
-                        <button class="cart-item-remove" data-index="${index}">
-                            <i class="fas fa-trash"></i>
-                        </button>
+                        <button class="cart-item-remove" data-index="${index}">&times;</button>
                     `;
                     
-                    cartItems.appendChild(cartItemElement);
+                    cartItems.appendChild(cartItem);
                 });
                 
-                // Aggiungi event listeners per i pulsanti di quantità e rimozione
-                document.querySelectorAll('.quantity-btn.decrease').forEach(button => {
+                // Aggiungi event listener ai pulsanti di quantità
+                const minusButtons = cartItems.querySelectorAll('.minus');
+                const plusButtons = cartItems.querySelectorAll('.plus');
+                const removeButtons = cartItems.querySelectorAll('.cart-item-remove');
+                
+                minusButtons.forEach(button => {
                     button.addEventListener('click', function() {
                         const index = parseInt(this.getAttribute('data-index'));
-                        decreaseQuantity(index);
+                        if (cart[index].quantity > 1) {
+                            cart[index].quantity -= 1;
+                            localStorage.setItem('d3masiadoCart', JSON.stringify(cart));
+                            updateCartUI();
+                            
+                            // Riproduci suono di aggiornamento se disponibile
+                            const updateSound = document.getElementById('update-cart-sound');
+                            if (updateSound) {
+                                updateSound.currentTime = 0;
+                                updateSound.play();
+                            }
+                        }
                     });
                 });
                 
-                document.querySelectorAll('.quantity-btn.increase').forEach(button => {
+                plusButtons.forEach(button => {
                     button.addEventListener('click', function() {
                         const index = parseInt(this.getAttribute('data-index'));
-                        increaseQuantity(index);
+                        cart[index].quantity += 1;
+                        localStorage.setItem('d3masiadoCart', JSON.stringify(cart));
+                        updateCartUI();
+                        
+                        // Riproduci suono di aggiornamento se disponibile
+                        const updateSound = document.getElementById('update-cart-sound');
+                        if (updateSound) {
+                            updateSound.currentTime = 0;
+                            updateSound.play();
+                        }
                     });
                 });
                 
-                document.querySelectorAll('.cart-item-remove').forEach(button => {
+                removeButtons.forEach(button => {
                     button.addEventListener('click', function() {
                         const index = parseInt(this.getAttribute('data-index'));
                         removeFromCart(index);
@@ -231,56 +371,31 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        // Aggiorna totale
-        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        if (cartTotal) {
-            cartTotal.textContent = `€${total.toFixed(2)}`;
+        // Aggiorna il totale
+        if (cartTotalAmount) {
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartTotalAmount.textContent = `€${total.toFixed(2)}`;
         }
-        
-        // Abilita/disabilita pulsante checkout
-        if (cartCheckout) {
-            cartCheckout.disabled = cart.length === 0;
-        }
-        
-        // Salva carrello nel localStorage
-        localStorage.setItem('d3masiadoCart', JSON.stringify(cart));
     }
-
-    function decreaseQuantity(index) {
-        if (cart[index].quantity > 1) {
-            cart[index].quantity -= 1;
-        } else {
-            removeFromCart(index);
-        }
-        
-        updateCart();
-    }
-
-    function increaseQuantity(index) {
-        cart[index].quantity += 1;
-        updateCart();
-    }
-
-    function removeFromCart(index) {
-        cart.splice(index, 1);
-        updateCart();
-    }
-
+    
+    /**
+     * Mostra una notifica temporanea
+     */
     function showNotification(message) {
-        // Crea elemento notifica
+        // Crea l'elemento di notifica
         const notification = document.createElement('div');
         notification.className = 'notification';
         notification.textContent = message;
         
-        // Aggiungi al DOM
+        // Aggiungi la notifica al DOM
         document.body.appendChild(notification);
         
-        // Mostra notifica
+        // Mostra la notifica con animazione
         setTimeout(() => {
             notification.classList.add('show');
         }, 10);
         
-        // Rimuovi notifica dopo 3 secondi
+        // Rimuovi la notifica dopo 3 secondi
         setTimeout(() => {
             notification.classList.remove('show');
             setTimeout(() => {
@@ -288,61 +403,62 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 300);
         }, 3000);
     }
+}
 
-    // Checkout con Stripe
-    if (cartCheckout) {
-        cartCheckout.addEventListener('click', function() {
-            if (cart.length === 0) return;
-            
-            // In un'app reale, qui ci sarebbe una chiamata API a Stripe
-            // Per ora, simuliamo il checkout
-            alert('Reindirizzamento al checkout Stripe...');
-            
-            // Esempio di come sarebbe il codice reale con Stripe
-            /*
-            fetch('/create-checkout-session', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    items: cart.map(item => ({
-                        id: item.id,
-                        name: item.name,
-                        price: item.price,
-                        size: item.size,
-                        quantity: item.quantity
-                    }))
-                }),
-            })
-            .then(response => response.json())
-            .then(session => {
-                // Reindirizza a Stripe Checkout
-                return stripe.redirectToCheckout({ sessionId: session.id });
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Si è verificato un errore durante il checkout. Riprova più tardi.');
-            });
-            */
-        });
+/**
+ * Funzione per aggiungere un nuovo prodotto dinamicamente
+ * Può essere utilizzata dal cliente per aggiungere prodotti in futuro
+ * 
+ * @param {Object} productData - Dati del prodotto
+ * @param {string} productData.id - ID univoco del prodotto
+ * @param {string} productData.name - Nome del prodotto
+ * @param {number} productData.price - Prezzo del prodotto
+ * @param {string} productData.collection - Collezione di appartenenza
+ * @param {string} productData.imagePath - Percorso dell'immagine
+ * @param {Array} productData.sizes - Array di taglie disponibili
+ */
+function addProduct(productData) {
+    // Verifica che i dati necessari siano presenti
+    if (!productData || !productData.id || !productData.name || !productData.price) {
+        console.error('Dati prodotto incompleti');
+        return;
     }
-
-    // Carica carrello dal localStorage
-    function loadCartFromStorage() {
-        const savedCart = localStorage.getItem('d3masiadoCart');
+    
+    // Crea l'elemento del prodotto
+    const productCard = document.createElement('div');
+    productCard.className = 'product-card';
+    productCard.setAttribute('data-collection', productData.collection || 'worldwide');
+    
+    // Struttura HTML del prodotto
+    productCard.innerHTML = `
+        <div class="product-image" data-image="product-${productData.id}">
+            <!-- Immagine da inserire qui: ${productData.imagePath || `assets/images/products/product-${productData.id}.jpg`} -->
+        </div>
+        <div class="product-info">
+            <h3 class="product-title">${productData.name}</h3>
+            <p class="product-price">€${productData.price.toFixed(2)}</p>
+            <div class="product-sizes">
+                ${(productData.sizes || ['S', 'M', 'L', 'XL']).map(size => `
+                    <button class="size-option" data-size="${size}">${size}</button>
+                `).join('')}
+            </div>
+            <button class="add-to-cart" data-product="${productData.id}" data-name="${productData.name}" data-price="${productData.price.toFixed(2)}">AGGIUNGI AL CARRELLO</button>
+        </div>
+    `;
+    
+    // Aggiungi il prodotto alla griglia
+    const shopGrid = document.querySelector('.shop-grid');
+    if (shopGrid) {
+        shopGrid.appendChild(productCard);
         
-        if (savedCart) {
-            try {
-                cart = JSON.parse(savedCart);
-                updateCart();
-            } catch (e) {
-                console.error('Errore nel caricamento del carrello:', e);
-                localStorage.removeItem('d3masiadoCart');
-            }
-        }
+        // Reinizializza la selezione delle taglie e il carrello
+        initSizeSelection();
+        initCart();
     }
+}
 
-    // Inizializza carrello
-    loadCartFromStorage();
-});
+// Esporta le funzioni per l'uso esterno
+window.d3masiado = window.d3masiado || {};
+window.d3masiado.shop = {
+    addProduct: addProduct
+};

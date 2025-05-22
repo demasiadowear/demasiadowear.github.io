@@ -1,206 +1,221 @@
-/* CSS per Lana AI Chatbot */
+/* Lana AI Chatbot CSS */
 
-#lana-chat-bubble {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 9999;
-    cursor: pointer;
-    transition: transform 0.3s ease;
+#lana-chatbot-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  font-family: 'Courier New', monospace;
 }
 
-#lana-chat-bubble:hover {
-    transform: scale(1.1);
+#lana-chat-bubble {
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 #lana-chat-bubble img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    border: 2px solid #39FF14;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 2px solid #39FF14;
+  box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
+  transition: all 0.3s ease;
+  background-color: #000;
 }
 
-.lana-info {
-    position: absolute;
-    bottom: 70px;
-    right: 0;
-    background-color: #000;
-    color: #fff;
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-size: 0.9rem;
-    width: 250px;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    border: 1px solid #39FF14;
-    font-family: 'Courier New', monospace;
+#lana-chat-bubble:hover img {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.7);
 }
 
-#lana-chat-bubble:hover .lana-info {
-    opacity: 1;
-    visibility: visible;
+.lana-tooltip {
+  position: absolute;
+  top: -60px;
+  right: 0;
+  width: 200px;
+  background-color: #000;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border: 1px solid #39FF14;
+  pointer-events: none;
+}
+
+#lana-chat-bubble:hover .lana-tooltip {
+  opacity: 1;
 }
 
 #lana-chat-window {
-    position: fixed;
-    bottom: 100px;
-    right: 20px;
-    width: 320px;
-    height: 400px;
-    background: #000;
-    color: #fff;
-    border: 1px solid #39FF14;
-    border-radius: 10px;
-    font-family: 'Courier New', monospace;
-    display: flex;
-    flex-direction: column;
-    z-index: 9998;
-    box-shadow: 0 5px 15px rgba(57, 255, 20, 0.3);
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-#lana-chat-window.hidden {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(20px);
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  width: 320px;
+  height: 400px;
+  background-color: #000;
+  border: 1px solid #39FF14;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 .lana-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 15px;
-    background: #111;
-    border-bottom: 1px solid #39FF14;
+  background-color: #000;
+  color: #39FF14;
+  padding: 10px 15px;
+  font-weight: bold;
+  border-bottom: 1px solid #39FF14;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.lana-header span {
-    font-weight: bold;
-    letter-spacing: 1px;
-    color: #39FF14;
-}
-
-#lana-close {
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 20px;
-    cursor: pointer;
-    padding: 0;
-    line-height: 1;
-}
-
-#lana-close:hover {
-    color: #39FF14;
+#lana-close-btn {
+  background: none;
+  border: none;
+  color: #39FF14;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
 }
 
 #lana-messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    scrollbar-width: thin;
-    scrollbar-color: #39FF14 #111;
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: rgba(0, 0, 0, 0.9);
+  background-image: url('../images/texture/noise.png');
+  background-blend-mode: overlay;
 }
 
-#lana-messages::-webkit-scrollbar {
-    width: 5px;
-}
-
-#lana-messages::-webkit-scrollbar-track {
-    background: #111;
-}
-
-#lana-messages::-webkit-scrollbar-thumb {
-    background-color: #39FF14;
-    border-radius: 10px;
+.lana-message, .user-message {
+  padding: 8px 12px;
+  border-radius: 5px;
+  max-width: 80%;
+  word-break: break-word;
+  line-height: 1.4;
 }
 
 .lana-message {
-    padding: 10px 12px;
-    border-radius: 8px;
-    max-width: 80%;
-    word-break: break-word;
-    line-height: 1.4;
+  background-color: #111;
+  color: #39FF14;
+  align-self: flex-start;
+  border-left: 2px solid #39FF14;
 }
 
-.lana-message.lana {
-    background: #111;
-    border-left: 2px solid #39FF14;
-    align-self: flex-start;
-}
-
-.lana-message.user {
-    background: #222;
-    border-right: 2px solid #39FF14;
-    align-self: flex-end;
+.user-message {
+  background-color: #222;
+  color: #fff;
+  align-self: flex-end;
+  border-right: 2px solid #fff;
 }
 
 .lana-input-container {
-    display: flex;
-    padding: 10px;
-    background: #111;
-    border-top: 1px solid #222;
+  display: flex;
+  padding: 10px;
+  background-color: #111;
+  border-top: 1px solid #39FF14;
 }
 
 #lana-input {
-    flex: 1;
-    background: #222;
-    border: none;
-    color: #fff;
-    padding: 10px 12px;
-    font-family: 'Courier New', monospace;
-    font-size: 14px;
-    border-radius: 5px;
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  background-color: #222;
+  color: #fff;
+  border-radius: 5px;
+  margin-right: 5px;
+  font-family: 'Courier New', monospace;
 }
 
 #lana-input:focus {
-    outline: none;
-    box-shadow: 0 0 0 1px #39FF14;
+  outline: none;
+  box-shadow: 0 0 0 1px #39FF14;
 }
 
-#lana-send {
-    background: none;
-    border: none;
-    color: #39FF14;
-    margin-left: 10px;
-    cursor: pointer;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s ease;
+#lana-send-btn {
+  background-color: #39FF14;
+  color: #000;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-#lana-send:hover {
-    transform: scale(1.2);
+#lana-send-btn:hover {
+  background-color: #4aff2a;
+  transform: scale(1.05);
 }
 
-@media (max-width: 576px) {
-    #lana-chat-window {
-        width: calc(100% - 40px);
-        right: 20px;
-        bottom: 90px;
-    }
-    
-    #lana-chat-bubble {
-        bottom: 15px;
-        right: 15px;
-    }
-    
-    #lana-chat-bubble img {
-        width: 50px;
-        height: 50px;
-    }
-    
-    .lana-info {
-        width: 200px;
-        font-size: 0.8rem;
-    }
+.hidden {
+  display: none !important;
+}
+
+/* Animazione di entrata */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#lana-chat-window:not(.hidden) {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+/* Scrollbar personalizzata */
+#lana-messages::-webkit-scrollbar {
+  width: 5px;
+}
+
+#lana-messages::-webkit-scrollbar-track {
+  background: #111;
+}
+
+#lana-messages::-webkit-scrollbar-thumb {
+  background: #39FF14;
+  border-radius: 5px;
+}
+
+/* Effetto typing */
+.lana-typing {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.lana-typing span {
+  height: 8px;
+  width: 8px;
+  background: #39FF14;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 3px;
+  animation: typing 1.5s infinite ease-in-out;
+}
+
+.lana-typing span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.lana-typing span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.5); }
+  100% { transform: scale(1); }
 }

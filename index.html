@@ -7,27 +7,28 @@
     <meta name="description" content="D3MAS1ADØ - Urban-luxury multiculturale. L'unico modo che conosciamo.">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
-    
-    <!-- CSS -->
+    <link rel="icon" type="image/svg+xml" href="assets/images/logo/favicon.svg">
+        <!-- CSS -->
     <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/animations.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/logo-animation.css">
+    <link rel="stylesheet" href="assets/css/video-background.css">
     <link rel="stylesheet" href="assets/css/lana-chatbot.css">
-    
-    <!-- Font Awesome per icone social -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Preload -->
+    <link rel="stylesheet" href="assets/css/admin-panel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">ad -->
     <link rel="preload" href="assets/fonts/orbitron-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/orbitron-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="assets/images/logo/logo-main.png" as="image">
+    <link rel="preload" href="assets/images/logo/logo-main.svg" as="image">
 </head>
 <body>
     <!-- Preloader -->
     <div id="preloader">
-        <div class="loader"></div>
+        <div class="loader">
+            <div class="glitch-text">D3MAS1ADØ</div>
+        </div>
     </div>
 
     <!-- Language Switch -->
@@ -39,89 +40,192 @@
 
     <!-- Main Content -->
     <main>
-        <!-- Hero Section -->
-        <section class="hero-section" id="hero">
+        <!-- HERO Section -->
+        <section class="section hero-section" id="hero">
             <div class="video-background">
+                <!-- Video background opzionale -->
+                <video id="hero-video" autoplay muted loop playsinline>
+                    <source src="assets/videos/hero-video.mp4" type="video/mp4">
+                </video>
                 <div class="video-overlay"></div>
             </div>
             
             <div class="hero-content">
                 <div class="logo-container">
-                    <img src="assets/images/logo/logo-main.png" alt="D3MAS1ADØ Logo" class="main-logo">
+                    <!-- Logo principale D3MAS1ADØ con effetto glitch e respiro -->
+                    <div class="logo-glitch">
+                        <img src="assets/images/logo/logo-main.svg" alt="D3MAS1ADØ Logo" class="logo-central">
+                    </div>
                 </div>
                 
                 <h1 class="hero-title">L'unico modo che conosciamo</h1>
                 
                 <div class="scroll-indicator">
-                    <span>Scroll</span>
-                    <div class="scroll-arrow"></div>
+                    <!-- Indicatore di scroll personalizzato (Ø pulsante) -->
+                    <div class="scroll-symbol">Ø</div>
                 </div>
             </div>
         </section>
 
-        <!-- Manifesto Section -->
-        <section class="manifesto-section" id="manifesto">
-            <div class="container">
-                <h2 class="section-title">Manifesto</h2>
-                
-                <div class="manifesto-content">
-                    <div class="manifesto-text-container">
-                        <p class="manifesto-text fade-in-scroll">D3MAS1ADØ nasce come risposta alla standardizzazione della moda contemporanea. Siamo un collettivo di designer, artisti e attivisti uniti dalla visione di un lusso urbano autentico, che non scende a compromessi.</p>
-                        
-                        <p class="manifesto-text fade-in-scroll">Le nostre collezioni raccontano storie di resistenza culturale, di identità fluide, di orgoglio per le proprie radici. Ogni capo è un manifesto, ogni design una dichiarazione di intenti.</p>
-                        
-                        <p class="manifesto-text fade-in-scroll">Crediamo in un lusso che non sia esclusione ma inclusione consapevole. Un lusso che parla il linguaggio della strada ma che non rinuncia alla qualità artigianale e alla ricerca estetica.</p>
-                        
-                        <a href="#" class="manifesto-link" id="open-manifesto">LEGGI IL MANIFESTO COMPLETO</a>
-                    </div>
+        <!-- MANIFESTO Section -->
+        <section class="section manifesto-section" id="manifesto">
+            <div class="container split-screen">
+                <div class="manifesto-text-container">
+                    <h2 class="section-title">Manifesto</h2>
                     
-                    <div class="manifesto-image">
-                        <img src="assets/images/lana-ai.png" alt="Lana AI" class="lana-image">
+                    <!-- Paragrafi del manifesto che si sbloccano con lo scroll -->
+                    <div class="manifesto-paragraphs">
+                        <p class="manifesto-text typing-effect">D3MAS1ADØ nasce come risposta alla standardizzazione della moda contemporanea.</p>
+                        
+                        <p class="manifesto-text reveal-on-scroll">Siamo un collettivo di designer, artisti e attivisti uniti dalla visione di un lusso urbano autentico, che non scende a compromessi.</p>
+                        
+                        <p class="manifesto-text reveal-on-scroll">Le nostre collezioni raccontano storie di resistenza culturale, di identità fluide, di orgoglio per le proprie radici. Ogni capo è un manifesto, ogni design una dichiarazione di intenti.</p>
+                        
+                        <p class="manifesto-text reveal-on-scroll">Crediamo in un lusso che non sia esclusione ma inclusione consapevole. Un lusso che parla il linguaggio della strada ma che non rinuncia alla qualità artigianale e alla ricerca estetica.</p>
+                    </div>
+                </div>
+                
+                <div class="manifesto-visual">
+                    <!-- Lana AI stilizzata (non fotografica) -->
+                    <div class="lana-symbol">
+                        <!-- Placeholder per illustrazione stilizzata di Lana -->
                     </div>
                 </div>
             </div>
         </section>
         
-        <!-- Collections Section -->
-        <section class="collections-section" id="collections">
+        <!-- COLLEZIONI Section -->
+        <section class="section collections-section" id="collections">
             <div class="container">
                 <h2 class="section-title">Collezioni</h2>
                 
-                <div class="collections-slider">
-                    <div class="collection-item">
-                        <div class="collection-image-container">
-                            <img src="assets/images/collections/worldwide.jpg" alt="WorldWide Collection" class="collection-image">
+                <!-- Collezioni come card interattive a schermo intero -->
+                <div class="collections-container">
+                    <!-- COLLEZIONE 1: WorldWide -->
+                    <div class="collection-card" data-collection="worldwide">
+                        <div class="collection-image">
+                            <!-- Placeholder per immagine collezione -->
+                            <div class="image-placeholder" data-image="worldwide">
+                                <!-- Immagine da inserire qui: assets/images/collections/worldwide.jpg -->
+                            </div>
                         </div>
                         <div class="collection-info">
                             <h3 class="collection-title">WorldWide</h3>
                             <p class="collection-description">Lusso urbano globale, senza confini</p>
                             <a href="#" class="collection-link">ESPLORA</a>
                         </div>
+                        
+                        <!-- Contenuto espanso della collezione (visibile al click) -->
+                        <div class="collection-expanded">
+                            <div class="expanded-header">
+                                <h3>WorldWide</h3>
+                                <button class="close-expanded">&times;</button>
+                            </div>
+                            <div class="expanded-content">
+                                <!-- Contenuto dettagliato della collezione -->
+                                <div class="expanded-description">
+                                    <p>Descrizione dettagliata della collezione WorldWide.</p>
+                                </div>
+                                <div class="expanded-gallery">
+                                    <!-- Gallery immagini collezione -->
+                                    <div class="gallery-item" data-image="worldwide-1">
+                                        <!-- Immagine da inserire qui: assets/images/collections/worldwide-1.jpg -->
+                                    </div>
+                                    <div class="gallery-item" data-image="worldwide-2">
+                                        <!-- Immagine da inserire qui: assets/images/collections/worldwide-2.jpg -->
+                                    </div>
+                                    <div class="gallery-item" data-image="worldwide-3">
+                                        <!-- Immagine da inserire qui: assets/images/collections/worldwide-3.jpg -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="collection-item">
-                        <div class="collection-image-container">
-                            <img src="assets/images/collections/intifada.jpg" alt="Intifada Collection" class="collection-image">
+                    <!-- COLLEZIONE 2: Intifada -->
+                    <div class="collection-card" data-collection="intifada">
+                        <div class="collection-image">
+                            <!-- Placeholder per immagine collezione -->
+                            <div class="image-placeholder" data-image="intifada">
+                                <!-- Immagine da inserire qui: assets/images/collections/intifada.jpg -->
+                            </div>
                         </div>
                         <div class="collection-info">
                             <h3 class="collection-title">Intifada</h3>
                             <p class="collection-description">Resistenza urbana, identità senza compromessi</p>
                             <a href="#" class="collection-link">ESPLORA</a>
                         </div>
+                        
+                        <!-- Contenuto espanso della collezione (visibile al click) -->
+                        <div class="collection-expanded">
+                            <div class="expanded-header">
+                                <h3>Intifada</h3>
+                                <button class="close-expanded">&times;</button>
+                            </div>
+                            <div class="expanded-content">
+                                <!-- Contenuto dettagliato della collezione -->
+                                <div class="expanded-description">
+                                    <p>Descrizione dettagliata della collezione Intifada.</p>
+                                </div>
+                                <div class="expanded-gallery">
+                                    <!-- Gallery immagini collezione -->
+                                    <div class="gallery-item" data-image="intifada-1">
+                                        <!-- Immagine da inserire qui: assets/images/collections/intifada-1.jpg -->
+                                    </div>
+                                    <div class="gallery-item" data-image="intifada-2">
+                                        <!-- Immagine da inserire qui: assets/images/collections/intifada-2.jpg -->
+                                    </div>
+                                    <div class="gallery-item" data-image="intifada-3">
+                                        <!-- Immagine da inserire qui: assets/images/collections/intifada-3.jpg -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="collection-item">
-                        <div class="collection-image-container">
-                            <img src="assets/images/collections/revolucion.jpg" alt="Revolución Collection" class="collection-image">
+                    <!-- COLLEZIONE 3: Revolución -->
+                    <div class="collection-card" data-collection="revolucion">
+                        <div class="collection-image">
+                            <!-- Placeholder per immagine collezione -->
+                            <div class="image-placeholder" data-image="revolucion">
+                                <!-- Immagine da inserire qui: assets/images/collections/revolucion.jpg -->
+                            </div>
                         </div>
                         <div class="collection-info">
                             <h3 class="collection-title">Revolución</h3>
                             <p class="collection-description">Ribellione estetica, lusso sovversivo</p>
                             <a href="#" class="collection-link">ESPLORA</a>
                         </div>
+                        
+                        <!-- Contenuto espanso della collezione (visibile al click) -->
+                        <div class="collection-expanded">
+                            <div class="expanded-header">
+                                <h3>Revolución</h3>
+                                <button class="close-expanded">&times;</button>
+                            </div>
+                            <div class="expanded-content">
+                                <!-- Contenuto dettagliato della collezione -->
+                                <div class="expanded-description">
+                                    <p>Descrizione dettagliata della collezione Revolución.</p>
+                                </div>
+                                <div class="expanded-gallery">
+                                    <!-- Gallery immagini collezione -->
+                                    <div class="gallery-item" data-image="revolucion-1">
+                                        <!-- Immagine da inserire qui: assets/images/collections/revolucion-1.jpg -->
+                                    </div>
+                                    <div class="gallery-item" data-image="revolucion-2">
+                                        <!-- Immagine da inserire qui: assets/images/collections/revolucion-2.jpg -->
+                                    </div>
+                                    <div class="gallery-item" data-image="revolucion-3">
+                                        <!-- Immagine da inserire qui: assets/images/collections/revolucion-3.jpg -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
+                <!-- Navigazione collezioni -->
                 <div class="collections-nav">
                     <button class="prev-collection"><i class="fas fa-chevron-left"></i></button>
                     <button class="next-collection"><i class="fas fa-chevron-right"></i></button>
@@ -129,65 +233,123 @@
             </div>
         </section>
 
-        <!-- Lookbook Section -->
-        <section class="lookbook-section" id="lookbook">
+        <!-- LOOKBOOK Section -->
+        <section class="section lookbook-section" id="lookbook">
             <div class="container">
                 <h2 class="section-title">Lookbook</h2>
                 
-                <div class="lookbook-carousel">
-                    <div class="lookbook-item">
-                        <img src="assets/images/lookbook/lookbook-1.jpg" alt="D3MAS1ADØ Lookbook" class="lookbook-image">
+                <!-- Slider full-screen con mockup dinamici -->
+                <div class="lookbook-slider">
+                    <!-- Slide 1 -->
+                    <div class="lookbook-slide">
+                        <div class="lookbook-image" data-image="lookbook-1">
+                            <!-- Immagine da inserire qui: assets/images/lookbook/lookbook-1.jpg -->
+                        </div>
+                        <div class="lookbook-caption">
+                            <h3>Titolo Lookbook 1</h3>
+                            <p>Descrizione breve del lookbook.</p>
+                        </div>
                     </div>
-                    <div class="lookbook-item">
-                        <img src="assets/images/lookbook/lookbook-2.jpg" alt="D3MAS1ADØ Lookbook" class="lookbook-image">
+                    
+                    <!-- Slide 2 -->
+                    <div class="lookbook-slide">
+                        <div class="lookbook-image" data-image="lookbook-2">
+                            <!-- Immagine da inserire qui: assets/images/lookbook/lookbook-2.jpg -->
+                        </div>
+                        <div class="lookbook-caption">
+                            <h3>Titolo Lookbook 2</h3>
+                            <p>Descrizione breve del lookbook.</p>
+                        </div>
                     </div>
-                    <div class="lookbook-item">
-                        <img src="assets/images/lookbook/lookbook-3.jpg" alt="D3MAS1ADØ Lookbook" class="lookbook-image">
+                    
+                    <!-- Slide 3 (Video) -->
+                    <div class="lookbook-slide video-slide">
+                        <div class="lookbook-video">
+                            <video class="video-element" muted loop data-video="lookbook-video-1">
+                                <!-- Video da inserire qui: assets/videos/lookbook-video-1.mp4 -->
+                            </video>
+                            <div class="video-play-button">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="lookbook-caption">
+                            <h3>Titolo Video Lookbook</h3>
+                            <p>Descrizione breve del video lookbook.</p>
+                        </div>
                     </div>
-                    <div class="lookbook-item">
-                        <video class="lookbook-video" muted loop>
-                            <source src="assets/videos/lookbook-video.mp4" type="video/mp4">
-                        </video>
-                        <div class="video-play-button">
-                            <i class="fas fa-play"></i>
+                    
+                    <!-- Slide 4 -->
+                    <div class="lookbook-slide">
+                        <div class="lookbook-image" data-image="lookbook-3">
+                            <!-- Immagine da inserire qui: assets/images/lookbook/lookbook-3.jpg -->
+                        </div>
+                        <div class="lookbook-caption">
+                            <h3>Titolo Lookbook 3</h3>
+                            <p>Descrizione breve del lookbook.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 5 -->
+                    <div class="lookbook-slide">
+                        <div class="lookbook-image" data-image="lookbook-4">
+                            <!-- Immagine da inserire qui: assets/images/lookbook/lookbook-4.jpg -->
+                        </div>
+                        <div class="lookbook-caption">
+                            <h3>Titolo Lookbook 4</h3>
+                            <p>Descrizione breve del lookbook.</p>
                         </div>
                     </div>
                 </div>
                 
+                <!-- Navigazione lookbook -->
                 <div class="lookbook-nav">
                     <button class="prev-lookbook"><i class="fas fa-chevron-left"></i></button>
+                    <div class="lookbook-dots">
+                        <span class="dot active" data-slide="0"></span>
+                        <span class="dot" data-slide="1"></span>
+                        <span class="dot" data-slide="2"></span>
+                        <span class="dot" data-slide="3"></span>
+                        <span class="dot" data-slide="4"></span>
+                    </div>
                     <button class="next-lookbook"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </div>
         </section>
 
-        <!-- Unidad-31Ø Section -->
-        <section class="unidad-section" id="unidad-310">
+        <!-- UNIDAD-31Ø Section -->
+        <section class="section unidad-section" id="unidad-310">
             <div class="container">
                 <h2 class="section-title">Unidad-31Ø</h2>
                 <p class="section-subtitle">Area privata per contenuti esclusivi</p>
                 
+                <!-- Form di accesso stile console hacker -->
                 <div class="unidad-login">
                     <form id="unidad-login-form">
                         <div class="form-group">
-                            <input type="email" id="unidad-email" placeholder="Email" required>
+                            <label for="unidad-email">Email</label>
+                            <input type="email" id="unidad-email" placeholder="Inserisci la tua email" required>
                         </div>
                         <div class="form-group">
-                            <input type="password" id="unidad-code" placeholder="Codice di accesso" required>
+                            <label for="unidad-code">Codice di accesso</label>
+                            <input type="password" id="unidad-code" placeholder="Inserisci il codice di accesso" required>
                         </div>
                         <button type="submit" class="unidad-submit">ACCEDI</button>
                     </form>
                     
-                    <p class="unidad-info">Accedi all'area riservata per contenuti esclusivi, preordini e collezioni in anteprima.</p>
+                    <div class="unidad-message">
+                        <p>Accedi all'area riservata per contenuti esclusivi, preordini e collezioni in anteprima.</p>
+                        <p class="unidad-error hidden">Non sei pronto. Accesso negato.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Shop Section -->
-        <section class="shop-section" id="shop">
+        <!-- SHOP Section -->
+        <section class="section shop-section" id="shop">
             <div class="container">
                 <h2 class="section-title">Shop</h2>
                 
+                <!-- Filtri shop -->
                 <div class="shop-filters">
                     <button class="shop-filter active" data-filter="all">Tutti</button>
                     <button class="shop-filter" data-filter="worldwide">WorldWide</button>
@@ -195,8 +357,132 @@
                     <button class="shop-filter" data-filter="revolucion">Revolución</button>
                 </div>
                 
+                <!-- Griglia prodotti -->
                 <div class="shop-grid">
-                    <!-- I prodotti verranno caricati dinamicamente da shop.js -->
+                    <!-- PRODOTTO 1 -->
+                    <div class="product-card" data-collection="worldwide">
+                        <div class="product-image" data-image="product-1">
+                            <!-- Immagine da inserire qui: assets/images/products/product-1.jpg -->
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">T-Shirt Manifesto</h3>
+                            <p class="product-price">€89.00</p>
+                            <div class="product-sizes">
+                                <button class="size-option" data-size="S">S</button>
+                                <button class="size-option" data-size="M">M</button>
+                                <button class="size-option" data-size="L">L</button>
+                                <button class="size-option" data-size="XL">XL</button>
+                            </div>
+                            <button class="add-to-cart" data-product="1" data-name="T-Shirt Manifesto" data-price="89.00">AGGIUNGI AL CARRELLO</button>
+                        </div>
+                    </div>
+                    
+                    <!-- PRODOTTO 2 -->
+                    <div class="product-card" data-collection="intifada">
+                        <div class="product-image" data-image="product-2">
+                            <!-- Immagine da inserire qui: assets/images/products/product-2.jpg -->
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Felpa Intifada</h3>
+                            <p class="product-price">€149.00</p>
+                            <div class="product-sizes">
+                                <button class="size-option" data-size="S">S</button>
+                                <button class="size-option" data-size="M">M</button>
+                                <button class="size-option" data-size="L">L</button>
+                                <button class="size-option" data-size="XL">XL</button>
+                            </div>
+                            <button class="add-to-cart" data-product="2" data-name="Felpa Intifada" data-price="149.00">AGGIUNGI AL CARRELLO</button>
+                        </div>
+                    </div>
+                    
+                    <!-- PRODOTTO 3 -->
+                    <div class="product-card" data-collection="revolucion">
+                        <div class="product-image" data-image="product-3">
+                            <!-- Immagine da inserire qui: assets/images/products/product-3.jpg -->
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Cargo Pants Revolución</h3>
+                            <p class="product-price">€179.00</p>
+                            <div class="product-sizes">
+                                <button class="size-option" data-size="S">S</button>
+                                <button class="size-option" data-size="M">M</button>
+                                <button class="size-option" data-size="L">L</button>
+                                <button class="size-option" data-size="XL">XL</button>
+                            </div>
+                            <button class="add-to-cart" data-product="3" data-name="Cargo Pants Revolución" data-price="179.00">AGGIUNGI AL CARRELLO</button>
+                        </div>
+                    </div>
+                    
+                    <!-- PRODOTTO 4 -->
+                    <div class="product-card" data-collection="worldwide">
+                        <div class="product-image" data-image="product-4">
+                            <!-- Immagine da inserire qui: assets/images/products/product-4.jpg -->
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Giacca WorldWide</h3>
+                            <p class="product-price">€249.00</p>
+                            <div class="product-sizes">
+                                <button class="size-option" data-size="S">S</button>
+                                <button class="size-option" data-size="M">M</button>
+                                <button class="size-option" data-size="L">L</button>
+                                <button class="size-option" data-size="XL">XL</button>
+                            </div>
+                            <button class="add-to-cart" data-product="4" data-name="Giacca WorldWide" data-price="249.00">AGGIUNGI AL CARRELLO</button>
+                        </div>
+                    </div>
+                    
+                    <!-- PRODOTTO 5 -->
+                    <div class="product-card" data-collection="intifada">
+                        <div class="product-image" data-image="product-5">
+                            <!-- Immagine da inserire qui: assets/images/products/product-5.jpg -->
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Cappello Intifada</h3>
+                            <p class="product-price">€59.00</p>
+                            <div class="product-sizes">
+                                <button class="size-option" data-size="Unica">Unica</button>
+                            </div>
+                            <button class="add-to-cart" data-product="5" data-name="Cappello Intifada" data-price="59.00">AGGIUNGI AL CARRELLO</button>
+                        </div>
+                    </div>
+                    
+                    <!-- PRODOTTO 6 -->
+                    <div class="product-card" data-collection="revolucion">
+                        <div class="product-image" data-image="product-6">
+                            <!-- Immagine da inserire qui: assets/images/products/product-6.jpg -->
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Hoodie Revolución</h3>
+                            <p class="product-price">€159.00</p>
+                            <div class="product-sizes">
+                                <button class="size-option" data-size="S">S</button>
+                                <button class="size-option" data-size="M">M</button>
+                                <button class="size-option" data-size="L">L</button>
+                                <button class="size-option" data-size="XL">XL</button>
+                            </div>
+                            <button class="add-to-cart" data-product="6" data-name="Hoodie Revolución" data-price="159.00">AGGIUNGI AL CARRELLO</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEWSLETTER Section -->
+        <section class="section newsletter-section" id="newsletter">
+            <div class="container">
+                <h2 class="section-title">Vuoi entrare nella familia?</h2>
+                
+                <div class="newsletter-form">
+                    <form id="newsletter-form">
+                        <div class="form-group">
+                            <input type="email" id="newsletter-email" placeholder="La tua email" required>
+                            <button type="submit" class="newsletter-submit">ENTRA</button>
+                        </div>
+                    </form>
+                    
+                    <div class="newsletter-success hidden">
+                        <p>Benvenuto nella familia. Sei uno di noi ora.</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -207,7 +493,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <img src="assets/images/logo/logo-footer.png" alt="D3MAS1ADØ Logo" class="footer-logo-img">
+                    <img src="assets/images/logo/logo-footer.svg" alt="D3MAS1ADØ Logo" class="logo-footer">
                 </div>
                 
                 <div class="footer-social">
@@ -222,10 +508,6 @@
                     </a>
                 </div>
                 
-                <div class="footer-contact">
-                    <p>Email: <a href="mailto:info@demasiadowear.com">info@demasiadowear.com</a></p>
-                </div>
-                
                 <div class="footer-links">
                     <a href="#privacy">Privacy Policy</a>
                     <a href="#terms">Termini e Condizioni</a>
@@ -234,32 +516,11 @@
                 </div>
                 
                 <div class="footer-copyright">
-                    <p>&copy; 2025 D3MAS1ADØ. Tutti i diritti riservati.</p>
+                    <p>Copyright © 2025 – Questa non è moda. È guerra.</p>
                 </div>
             </div>
         </div>
     </footer>
-
-    <!-- Manifesto Modal -->
-    <div class="manifesto-modal" id="manifesto-modal">
-        <div class="manifesto-modal-content">
-            <button class="manifesto-modal-close">&times;</button>
-            <h2 class="manifesto-modal-title">MANIFESTO D3MAS1ADØ</h2>
-            <div class="manifesto-modal-text">
-                <p>D3MAS1ADØ nasce come risposta alla standardizzazione della moda contemporanea. Siamo un collettivo di designer, artisti e attivisti uniti dalla visione di un lusso urbano autentico, che non scende a compromessi.</p>
-                
-                <p>Le nostre collezioni raccontano storie di resistenza culturale, di identità fluide, di orgoglio per le proprie radici. Ogni capo è un manifesto, ogni design una dichiarazione di intenti.</p>
-                
-                <p>Crediamo in un lusso che non sia esclusione ma inclusione consapevole. Un lusso che parla il linguaggio della strada ma che non rinuncia alla qualità artigianale e alla ricerca estetica. Un lusso che non è ostentazione ma espressione autentica di sé.</p>
-                
-                <p>Le nostre collezioni sono limitate, prodotte con materiali selezionati e processi che rispettano l'ambiente e le persone. Non seguiamo le stagioni della moda tradizionale, ma il ritmo delle nostre ispirazioni e delle storie che vogliamo raccontare.</p>
-                
-                <p>D3MAS1ADØ è più di un brand, è un movimento culturale che celebra l'eccesso come forma di resistenza, la diversità come ricchezza, l'autenticità come lusso supremo.</p>
-                
-                <p>Siamo troppo. Siamo D3MAS1ADØ.</p>
-            </div>
-        </div>
-    </div>
 
     <!-- Shopping Cart -->
     <div class="cart-container" id="shopping-cart">
@@ -289,43 +550,37 @@
     </button>
 
     <!-- Lana AI Chatbot -->
-    <div class="lana-chatbot">
-        <button class="lana-toggle">
-            <i class="fas fa-comment"></i>
-        </button>
-        
-        <div class="lana-info">
-            Hai domande? Chiedi a Lana, la nostra AI brasitaliana ti risponde h24.
+    <div id="lana-chat-bubble">
+        <img src="assets/images/lana/lana-bubble.png" alt="Lana AI">
+        <div class="lana-info">Hai domande? Chiedi a Lana, la nostra AI brasitaliana ti risponde h24.</div>
+    </div>
+    
+    <div id="lana-chat-window" class="hidden">
+        <div class="lana-header">
+            <span>LANA AI</span>
+            <button id="lana-close">&times;</button>
         </div>
-        
-        <div class="lana-chat-window">
-            <div class="lana-header">
-                <h3>Lana AI</h3>
-                <button class="lana-close">&times;</button>
-            </div>
-            
-            <div class="lana-messages">
-                <div class="lana-message lana">
-                    <p>Ciao! Sono Lana, l'assistente AI di D3MAS1ADØ. Come posso aiutarti oggi?</p>
-                </div>
-            </div>
-            
-            <div class="lana-input">
-                <input type="text" placeholder="Scrivi un messaggio...">
-                <button class="lana-send">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
+        <div id="lana-messages"></div>
+        <div class="lana-input-container">
+            <input type="text" id="lana-input" placeholder="Scrivi qualcosa...">
+            <button id="lana-send">
+                <i class="fas fa-paper-plane"></i>
+            </button>
         </div>
     </div>
 
     <!-- Scripts -->
+    <script src="assets/js/lenis.min.js"></script>
+    <script src="assets/js/gsap.min.js"></script>
+    <script src="assets/js/ScrollTrigger.min.js"></script>
+    <script src="assets/js/    <!-- Scripts -->
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/animations.js"></script>
+    <script src="assets/js/collections.js"></script>
+    <script src="assets/js/lookbook.js"></script>
     <script src="assets/js/shop.js"></script>
-    <script src="assets/js/cart.js"></script>
-    <script src="assets/js/stripe-integration.js"></script>
-    <script src="assets/js/lana-ai-evolved.js"></script>
+    <script src="assets/js/lana-ai-chatbot.js"></script>
+    <script src="assets/js/sanity-integration.js"></script>
+    <script src="assets/js/admin-panel.js"></script>cript src="assets/js/lana-ai.js"></script>
     <script src="assets/js/language-switch.js"></script>
     <script src="assets/js/unidad-310.js"></script>
 </body>
