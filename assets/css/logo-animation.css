@@ -1,122 +1,23 @@
 /* Logo Animation CSS per D3MAS1ADØ */
-
-/* Effetto respiro per il logo centrale */
-.logo-central {
-  animation: breathe 4s ease-in-out infinite;
-  filter: drop-shadow(0 0 8px rgba(57, 255, 20, 0.7));
-  max-width: 100%;
-  height: auto;
-  margin: 0 auto;
-  display: block;
-}
-
-@keyframes breathe {
-  0% {
-    transform: scale(1);
-    filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.5));
-  }
-  50% {
-    transform: scale(1.05);
-    filter: drop-shadow(0 0 15px rgba(57, 255, 20, 0.8));
-  }
-  100% {
-    transform: scale(1);
-    filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.5));
-  }
-}
-
-/* Effetto glitch per il logo */
-.logo-glitch {
+.logo-container {
   position: relative;
-  display: inline-block;
-}
-
-.logo-glitch::before,
-.logo-glitch::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  height: 100%;
-  background: url('../images/logo/logo-main.svg') no-repeat center center;
-  background-size: contain;
-  opacity: 0;
-  z-index: -1;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
-.logo-glitch::before {
-  animation: glitch-1 2.5s infinite;
-  transform: translateX(-5px);
-  filter: drop-shadow(2px 0 #39FF14);
+.logo-main {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.5));
+  animation: logoBreath 4s infinite ease-in-out, logoGlitch 5s infinite;
 }
 
-.logo-glitch::after {
-  animation: glitch-2 3.5s infinite;
-  transform: translateX(5px);
-  filter: drop-shadow(-2px 0 #39FF14);
-}
-
-@keyframes glitch-1 {
-  0% {
-    opacity: 0;
-  }
-  7% {
-    opacity: 0;
-  }
-  8% {
-    opacity: 0.6;
-  }
-  9% {
-    opacity: 0;
-  }
-  10% {
-    opacity: 0;
-  }
-  25% {
-    opacity: 0;
-  }
-  26% {
-    opacity: 0.6;
-  }
-  27% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes glitch-2 {
-  0% {
-    opacity: 0;
-  }
-  15% {
-    opacity: 0;
-  }
-  16% {
-    opacity: 0.6;
-  }
-  17% {
-    opacity: 0;
-  }
-  75% {
-    opacity: 0;
-  }
-  76% {
-    opacity: 0.6;
-  }
-  77% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-/* Stile per il logo nel footer */
 .logo-footer {
-  max-width: 150px;
+  width: 120px;
   height: auto;
   opacity: 0.8;
   transition: opacity 0.3s ease;
@@ -124,5 +25,51 @@
 
 .logo-footer:hover {
   opacity: 1;
-  filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.7));
+  filter: drop-shadow(0 0 3px rgba(57, 255, 20, 0.7));
+}
+
+@keyframes logoBreath {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.5));
+  }
+  50% {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 10px rgba(57, 255, 20, 0.8));
+  }
+}
+
+@keyframes logoGlitch {
+  0%, 100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  92% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  92.5% {
+    opacity: 0.8;
+    transform: translateX(-5px);
+  }
+  93% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  93.5% {
+    opacity: 0.9;
+    transform: translateX(5px);
+  }
+  94% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  94.5% {
+    opacity: 0.9;
+    transform: translateX(-3px);
+  }
+  95% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
