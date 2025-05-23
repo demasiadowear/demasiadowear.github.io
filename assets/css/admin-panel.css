@@ -1,0 +1,16 @@
+.admin-panel {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  background: #111;
+  border-bottom: 1px solid #39ff14;
+  padding: 10px;
+  z-index: 1000;
+}
+.admin-panel button {
+  background: #39ff14;
+  color: #000;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+}
