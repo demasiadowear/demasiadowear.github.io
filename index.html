@@ -4,256 +4,99 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DEM CONTROL CENTER - D3MAS1ADØ</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --neon-green: #39FF14;
-      --dark-bg: #0A0A0A;
-      --darker-bg: #050505;
-      --light-text: #E0E0E0;
-      --highlight: rgba(57, 255, 20, 0.1);
-    }
-    
-    body {
-      background: var(--dark-bg);
-      color: var(--neon-green);
-      font-family: 'Inter', sans-serif;
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@400;600&display=swap');
+
+    * {
       margin: 0;
       padding: 0;
-      min-height: 100vh;
+      box-sizing: border-box;
     }
-    
-    h1, h2 {
-      font-family: 'Orbitron', monospace;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
-    
-    h1 {
-      font-size: 2.5rem;
-      text-shadow: 0 0 10px var(--neon-green);
-      margin-bottom: 2rem;
-    }
-    
-    h2 {
-      font-size: 1.8rem;
-      border-bottom: 2px solid var(--neon-green);
-      padding-bottom: 0.5rem;
-      margin-top: 2rem;
-    }
-    
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
+
+    body {
+      background: #000;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
       padding: 20px;
     }
-    
+
+    h1, h2 {
+      color: #39FF14;
+      text-align: center;
+      margin-bottom: 20px;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    #login-box {
+      max-width: 400px;
+      margin: 100px auto;
+      background: #111;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #39FF14;
+    }
+
+    #login-box input, #login-box button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    #content {
+      display: none;
+      max-width: 1000px;
+      margin: auto;
+    }
+
     .tab-buttons {
-      display: flex;
-      gap: 15px;
-      margin: 20px 0 30px;
+      text-align: center;
+      margin-bottom: 20px;
     }
-    
+
     .tab-buttons button {
-      padding: 12px 24px;
-      font-weight: bold;
-      background-color: transparent;
-      color: var(--neon-green);
-      border: 2px solid var(--neon-green);
+      background: #222;
+      color: #39FF14;
+      padding: 10px 20px;
+      margin: 0 10px;
+      border: none;
+      font-size: 16px;
       cursor: pointer;
-      border-radius: 4px;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+      transition: background 0.3s ease;
     }
-    
+
     .tab-buttons button:hover {
-      background-color: var(--neon-green);
-      color: black;
-      box-shadow: 0 0 20px var(--neon-green);
-      transform: translateY(-2px);
+      background: #39FF14;
+      color: #000;
     }
-    
-    .tab-buttons button.active {
-      background-color: var(--neon-green);
-      color: black;
-    }
-    
+
     table {
       width: 100%;
       border-collapse: collapse;
-      background: var(--darker-bg);
-      margin: 20px 0;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      margin-top: 20px;
     }
-    
+
     th, td {
-      border: 1px solid rgba(57, 255, 20, 0.3);
-      padding: 12px 15px;
+      border: 1px solid #444;
+      padding: 10px;
       text-align: left;
     }
-    
+
     th {
-      background: rgba(57, 255, 20, 0.1);
-      color: var(--neon-green);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      background-color: #111;
     }
-    
-    td {
-      color: var(--light-text);
-      transition: background 0.2s;
-    }
-    
-    tr:hover td {
-      background: rgba(57, 255, 20, 0.05);
-    }
-    
-    td[contenteditable="true"] {
-      background: rgba(57, 255, 20, 0.05);
-    }
-    
-    td[contenteditable="true"]:focus {
-      outline: 2px solid var(--neon-green);
-      background: rgba(57, 255, 20, 0.1);
-    }
-    
-    #login-box {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: var(--dark-bg);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      background: radial-gradient(circle at center, #0A0A0A 0%, #000 100%);
-    }
-    
-    #login-box h1 {
-      animation: pulse 2s infinite alternate;
-    }
-    
-    @keyframes pulse {
-      from { text-shadow: 0 0 10px var(--neon-green); }
-      to { text-shadow: 0 0 20px var(--neon-green), 0 0 30px rgba(57, 255, 20, 0.5); }
-    }
-    
-    #login-box input {
-      padding: 12px 15px;
-      margin: 10px;
-      width: 250px;
+
+    td input {
+      width: 100%;
       background: transparent;
-      border: 1px solid var(--neon-green);
-      color: white;
-      font-family: 'Inter', sans-serif;
-      border-radius: 4px;
-      outline: none;
-      transition: all 0.3s;
+      border: none;
+      color: #fff;
     }
-    
-    #login-box input:focus {
-      box-shadow: 0 0 10px var(--neon-green);
-      border-color: white;
-    }
-    
-    #login-box input::placeholder {
-      color: rgba(255, 255, 255, 0.5);
-    }
-    
-    #login-box button {
-      padding: 12px 30px;
-      background: transparent;
-      border: 2px solid var(--neon-green);
-      color: var(--neon-green);
-      font-weight: bold;
-      margin-top: 20px;
-      cursor: pointer;
-      border-radius: 4px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      transition: all 0.3s;
-    }
-    
-    #login-box button:hover {
-      background: var(--neon-green);
-      color: black;
-      box-shadow: 0 0 20px var(--neon-green);
-      transform: translateY(-2px);
-    }
-    
+
     #login-error {
-      color: #FF3333;
-      margin-top: 15px;
+      color: red;
       text-align: center;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    
-    #login-error.show {
-      opacity: 1;
-    }
-    
-    .status-message {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      padding: 10px 20px;
-      background: var(--neon-green);
-      color: black;
-      border-radius: 4px;
-      font-weight: bold;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.3s;
-      z-index: 100;
-    }
-    
-    .status-message.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
-    .loading {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 3px solid rgba(57, 255, 20, 0.3);
-      border-radius: 50%;
-      border-top-color: var(--neon-green);
-      animation: spin 1s ease-in-out infinite;
-      margin-left: 10px;
-    }
-    
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    
-    #sheet-data {
-      overflow-x: auto;
-    }
-    
-    /* Scrollbar styling */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-    
-    ::-webkit-scrollbar-track {
-      background: #111;
-    }
-    
-    ::-webkit-scrollbar-thumb {
-      background: var(--neon-green);
-      border-radius: 4px;
-    }
-    
-    ::-webkit-scrollbar-thumb:hover {
-      background: #2ECC40;
     }
   </style>
 </head>
@@ -265,209 +108,106 @@
     <input id="username" placeholder="Username" />
     <input id="password" type="password" placeholder="Password" />
     <button onclick="doLogin()">Login</button>
-    <p id="login-error">Accesso negato</p>
+    <p id="login-error" style="display:none;">Accesso negato</p>
   </div>
 
   <!-- CONTENUTO -->
-  <div id="content" style="display:none;">
-    <div class="container">
-      <h2>DEM CONTROL CENTER</h2>
-
-      <div class="tab-buttons">
-        <button id="btn-dashboard" onclick="loadSheet('DASHBOARD')" class="active">📊 Dashboard</button>
-        <button id="btn-kanban" onclick="loadSheet('KANBAN')">📋 Kanban</button>
-        <button id="btn-creative" onclick="loadSheet('CREATIVE DUMP')">🎨 Creative</button>
-      </div>
-
-      <div id="sheet-data">
-        <div style="text-align: center; padding: 50px;">
-          <p>Caricamento dati in corso...</p>
-        </div>
-      </div>
+  <div id="content">
+    <h2>Foglio di controllo DEM</h2>
+    <div class="tab-buttons">
+      <button onclick="loadSheet('DASHBOARD')">📊 Dashboard</button>
+      <button onclick="loadSheet('KANBAN')">📋 Kanban</button>
+      <button onclick="loadSheet('CREATIVE DUMP')">🎨 Creative</button>
     </div>
+    <div id="sheet-data"></div>
   </div>
 
-  <div id="status-message" class="status-message"></div>
-
   <script>
-    // Configurazioni
     const USER = "admin";
     const PASS = "dem310";
     const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbxDObQ7ypE0fwP-UKlU-Zo-xmTFsmV31iwIgEFqzJ4d/dev";
     let currentSheet = "DASHBOARD";
-    let isLoading = false;
 
-    // Elementi DOM
-    const loginBox = document.getElementById("login-box");
-    const content = document.getElementById("content");
-    const usernameInput = document.getElementById("username");
-    const passwordInput = document.getElementById("password");
-    const loginError = document.getElementById("login-error");
-    const sheetData = document.getElementById("sheet-data");
-    const statusMessage = document.getElementById("status-message");
-    const btnDashboard = document.getElementById("btn-dashboard");
-    const btnKanban = document.getElementById("btn-kanban");
-    const btnCreative = document.getElementById("btn-creative");
-
-    // Funzione di login
     function doLogin() {
-      const u = usernameInput.value;
-      const p = passwordInput.value;
-      
+      const u = document.getElementById("username").value;
+      const p = document.getElementById("password").value;
       if (u === USER && p === PASS) {
-        loginBox.style.display = "none";
-        content.style.display = "block";
+        document.getElementById("login-box").style.display = "none";
+        document.getElementById("content").style.display = "block";
         document.body.style.overflow = "auto";
         loadSheet(currentSheet);
       } else {
-        loginError.classList.add("show");
-        passwordInput.value = "";
-        setTimeout(() => {
-          loginError.classList.remove("show");
-        }, 3000);
+        document.getElementById("login-error").style.display = "block";
       }
     }
 
-    // Carica i dati dal foglio
-    async function loadSheet(sheetName) {
-      if (isLoading) return;
-      
+    function loadSheet(sheetName) {
       currentSheet = sheetName;
-      updateActiveButton();
-      
-      isLoading = true;
-      sheetData.innerHTML = '<div style="text-align: center; padding: 50px;"><p>Caricamento dati in corso...</p></div>';
-      
-      try {
-        const response = await fetch(`${SHEET_ENDPOINT}?action=read&sheet=${encodeURIComponent(sheetName)}`);
-        
-        if (!response.ok) {
-          throw new Error("Errore nella risposta del server");
-        }
-        
-        const data = await response.json();
-        renderTable(data);
-        showStatus("✅ Dati caricati con successo", 3000);
-      } catch (error) {
-        console.error("Errore nel caricamento dati:", error);
-        sheetData.innerHTML = '<div style="text-align: center; padding: 50px; color: #FF3333;"><p>❌ Errore nel caricamento dei dati</p></div>';
-        showStatus("❌ Errore nel caricamento dati", 3000);
-      } finally {
-        isLoading = false;
-      }
-    }
+      fetch(`${SHEET_ENDPOINT}?action=read&sheet=${sheetName}`)
+        .then(res => res.json())
+        .then(data => {
+          if (!Array.isArray(data)) {
+            document.getElementById("sheet-data").innerHTML = "Errore nel caricamento dati.";
+            return;
+          }
 
-    // Renderizza la tabella con i dati
-    function renderTable(data) {
-      if (!data || data.length === 0) {
-        sheetData.innerHTML = '<div style="text-align: center; padding: 50px;"><p>Nessun dato disponibile</p></div>';
-        return;
-      }
-      
-      let html = '<div class="table-container"><table><thead><tr>';
-      
-      // Intestazioni
-      data[0].forEach(header => {
-        html += `<th>${header || ''}</th>`;
-      });
-      html += '</tr></thead><tbody>';
-      
-      // Righe dati
-      for (let i = 1; i < data.length; i++) {
-        html += `<tr data-row="${i}">`;
-        data[i].forEach((val, j) => {
-          html += `<td contenteditable="true" 
-                      onblur="updateCell(${i}, ${j}, this.innerText)"
-                      data-row="${i}" 
-                      data-col="${j}">${val || ''}</td>`;
+          const table = document.createElement("table");
+          const thead = document.createElement("thead");
+          const tbody = document.createElement("tbody");
+
+          data[0].forEach(header => {
+            const th = document.createElement("th");
+            th.textContent = header;
+            thead.appendChild(th);
+          });
+
+          for (let i = 1; i < data.length; i++) {
+            const row = document.createElement("tr");
+            data[i].forEach((cell, colIndex) => {
+              const td = document.createElement("td");
+              const input = document.createElement("input");
+              input.value = cell;
+              input.addEventListener("change", () => updateCell(sheetName, i, colIndex, input.value));
+              td.appendChild(input);
+              row.appendChild(td);
+            });
+            tbody.appendChild(row);
+          }
+
+          table.appendChild(thead);
+          table.appendChild(tbody);
+          const container = document.getElementById("sheet-data");
+          container.innerHTML = "";
+          container.appendChild(table);
+        })
+        .catch(err => {
+          console.error(err);
+          document.getElementById("sheet-data").innerHTML = "Errore nel caricamento dati.";
         });
-        html += '</tr>';
-      }
-      
-      html += '</tbody></table></div>';
-      sheetData.innerHTML = html;
     }
 
-    // Aggiorna una cella
-    async function updateCell(row, col, value) {
-      const originalValue = document.querySelector(`td[data-row="${row}"][data-col="${col}"]`).innerText;
-      
-      if (value === originalValue) return;
-      
-      showStatus("🔄 Salvataggio in corso...", 0);
-      
-      try {
-        const response = await fetch(SHEET_ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            action: "update",
-            sheet: currentSheet,
-            row: row,
-            col: col,
-            value: value
-          })
-        });
-        
-        if (!response.ok) {
-          throw new Error("Errore nell'aggiornamento");
+    function updateCell(sheet, row, col, value) {
+      fetch(SHEET_ENDPOINT, {
+        method: "POST",
+        body: JSON.stringify({
+          action: "update",
+          sheet: sheet,
+          row: row,
+          col: col,
+          value: value
+        }),
+        headers: {
+          "Content-Type": "application/json"
         }
-        
-        showStatus("✅ Modifica salvata", 2000);
-      } catch (error) {
-        console.error("Errore nell'aggiornamento:", error);
-        document.querySelector(`td[data-row="${row}"][data-col="${col}"]`).innerText = originalValue;
-        showStatus("❌ Errore nel salvataggio", 3000);
-      }
+      })
+      .then(res => res.json())
+      .then(response => {
+        if (response.result !== "ok") {
+          alert("Errore aggiornamento: " + response.error);
+        }
+      })
+      .catch(err => alert("Errore connessione"));
     }
-
-    // Mostra messaggio di stato
-    function showStatus(message, duration) {
-      statusMessage.innerText = message;
-      statusMessage.classList.add("show");
-      
-      if (duration > 0) {
-        setTimeout(() => {
-          statusMessage.classList.remove("show");
-        }, duration);
-      }
-    }
-
-    // Aggiorna il bottone attivo
-    function updateActiveButton() {
-      btnDashboard.classList.remove("active");
-      btnKanban.classList.remove("active");
-      btnCreative.classList.remove("active");
-      
-      switch(currentSheet) {
-        case "DASHBOARD":
-          btnDashboard.classList.add("active");
-          break;
-        case "KANBAN":
-          btnKanban.classList.add("active");
-          break;
-        case "CREATIVE DUMP":
-          btnCreative.classList.add("active");
-          break;
-      }
-    }
-
-    // Login con Enter
-    function handleKeyPress(e) {
-      if (e.key === "Enter") {
-        doLogin();
-      }
-    }
-
-    // Inizializzazione
-    window.onload = () => {
-      document.body.style.overflow = "hidden";
-      usernameInput.focus();
-      
-      // Aggiungi listener per il tasto Enter
-      usernameInput.addEventListener("keypress", handleKeyPress);
-      passwordInput.addEventListener("keypress", handleKeyPress);
-    };
   </script>
 </body>
 </html>
