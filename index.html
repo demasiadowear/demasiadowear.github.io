@@ -661,5 +661,13 @@
             </ul>
         </div>
     </div>
-</body>
+<script>
+  if ('serviceWorker' in navigator) {
+    const path = window.location.pathname.endsWith('/') ? `${window.location.pathname}sw.js` : `${window.location.pathname}/sw.js`;
+    navigator.serviceWorker
+      .register(path)
+      .then(reg => console.log('✅ Service Worker attivato:', reg.scope))
+      .catch(err => console.error('❌ Errore SW:', err));
+  }
+</script>
 </html>
