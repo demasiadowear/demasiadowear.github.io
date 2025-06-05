@@ -1,0 +1,665 @@
+<!DOCTYPE html> 
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEM CONTROL CENTER - D3MAS1ADØ Operations</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(57, 255, 20, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(57, 255, 20, 0.02) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(57, 255, 20, 0.01) 0%, transparent 50%);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, rgba(57, 255, 20, 0.1) 0%, rgba(0, 0, 0, 0.8) 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(57, 255, 20, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(57, 255, 20, 0.05) 50%, transparent 70%);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        
+        @keyframes shimmer {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+        }
+        
+        .header h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            color: #39FF14;
+            text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header .subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.2rem;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section {
+            background: rgba(20, 20, 20, 0.8);
+            margin: 40px 0;
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(57, 255, 20, 0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .section:hover {
+            border-color: rgba(57, 255, 20, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(57, 255, 20, 0.1);
+        }
+        
+        .section h2 {
+            font-family: 'Orbitron', monospace;
+            color: #39FF14;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .section h2::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, #39FF14, transparent);
+        }
+        
+        .copy-instructions {
+            background: rgba(57, 255, 20, 0.1);
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 4px solid #39FF14;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        /* DASHBOARD TABLE */
+        .dashboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .dashboard-table th {
+            background: linear-gradient(135deg, #39FF14, #2dd10f);
+            color: #000000;
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .dashboard-table td {
+            padding: 15px 12px;
+            border-bottom: 1px solid rgba(57, 255, 20, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+        }
+        
+        .dashboard-table tr:hover {
+            background: rgba(57, 255, 20, 0.05);
+        }
+        
+        .dashboard-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        
+        .status-todo { 
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: white;
+            box-shadow: 0 2px 10px rgba(255, 68, 68, 0.3);
+        }
+        
+        .status-progress { 
+            background: linear-gradient(135deg, #ffaa00, #ff8800);
+            color: white;
+            box-shadow: 0 2px 10px rgba(255, 170, 0, 0.3);
+        }
+        
+        .status-blocked { 
+            background: linear-gradient(135deg, #666666, #333333);
+            color: white;
+            box-shadow: 0 2px 10px rgba(102, 102, 102, 0.3);
+        }
+        
+        .status-done { 
+            background: linear-gradient(135deg, #39FF14, #2dd10f);
+            color: #000000;
+            box-shadow: 0 2px 10px rgba(57, 255, 20, 0.3);
+        }
+        
+        .status-idea { 
+            background: linear-gradient(135deg, #4169e1, #1e40af);
+            color: white;
+            box-shadow: 0 2px 10px rgba(65, 105, 225, 0.3);
+        }
+        
+        /* KANBAN BOARD */
+        .kanban {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 25px 0;
+        }
+        
+        .kanban-column {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(57, 255, 20, 0.1);
+            min-height: 300px;
+        }
+        
+        .kanban-header {
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding: 12px 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .kanban-todo { 
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: white;
+        }
+        
+        .kanban-progress { 
+            background: linear-gradient(135deg, #ffaa00, #ff8800);
+            color: white;
+        }
+        
+        .kanban-blocked { 
+            background: linear-gradient(135deg, #666666, #333333);
+            color: white;
+        }
+        
+        .kanban-done { 
+            background: linear-gradient(135deg, #39FF14, #2dd10f);
+            color: #000000;
+        }
+        
+        .kanban-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            margin: 12px 0;
+            border-radius: 10px;
+            border-left: 3px solid rgba(57, 255, 20, 0.5);
+            cursor: move;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .kanban-card:hover {
+            background: rgba(57, 255, 20, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(57, 255, 20, 0.2);
+        }
+        
+        .kanban-card strong {
+            color: #39FF14;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .kanban-card small {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+        }
+        
+        /* CREATIVE SECTION */
+        .creative-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin: 25px 0;
+        }
+        
+        .creative-card {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(57, 255, 20, 0.1);
+            border-left: 4px solid #39FF14;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .creative-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(57, 255, 20, 0.02) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .creative-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(57, 255, 20, 0.15);
+            border-color: rgba(57, 255, 20, 0.3);
+        }
+        
+        .creative-type {
+            display: inline-block;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, #39FF14, #2dd10f);
+            color: #000000;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .creative-card h4 {
+            margin: 0 0 12px 0;
+            color: #39FF14;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .creative-card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        
+        /* INSTRUCTIONS */
+        .instructions {
+            background: linear-gradient(135deg, rgba(57, 255, 20, 0.1) 0%, rgba(0, 0, 0, 0.8) 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 40px 0;
+            border: 1px solid rgba(57, 255, 20, 0.2);
+        }
+        
+        .instructions h3 {
+            color: #39FF14;
+            margin-bottom: 20px;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.4rem;
+        }
+        
+        .instructions ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .instructions li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .instructions li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: #39FF14;
+            font-size: 0.8rem;
+        }
+        
+        .copy-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #39FF14, #2dd10f);
+            color: #000000;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            margin: 15px 10px 15px 0;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem;
+            box-shadow: 0 5px 15px rgba(57, 255, 20, 0.3);
+        }
+        
+        .copy-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(57, 255, 20, 0.4);
+            background: linear-gradient(135deg, #2dd10f, #39FF14);
+        }
+        
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header {
+                padding: 30px 15px;
+                margin-bottom: 30px;
+            }
+            
+            .section {
+                padding: 20px;
+                margin: 25px 0;
+            }
+            
+            .kanban {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .creative-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .dashboard-table {
+                font-size: 0.85rem;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            .dashboard-table th,
+            .dashboard-table td {
+                padding: 10px 8px;
+                min-width: 120px;
+            }
+            
+            .status {
+                font-size: 0.75rem;
+                padding: 4px 8px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section h2 {
+                font-size: 1.4rem;
+            }
+            
+            .dashboard-table th,
+            .dashboard-table td {
+                padding: 8px 6px;
+                font-size: 0.8rem;
+            }
+        }
+        
+        /* PRINT STYLES */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            
+            .header, .section {
+                background: white;
+                border: 1px solid #ccc;
+            }
+            
+            .status {
+                border: 1px solid #ccc;
+                background: white !important;
+                color: black !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ DEM CONTROL CENTER</h1>
+            <p class="subtitle">powered by Lana • D3MAS1ADØ Operations</p>
+        </div>
+        
+        <div class="instructions">
+            <h3>🚀 Setup Google Sheets</h3>
+            <p><strong>Istruzioni per l'integrazione:</strong></p>
+            <ul>
+                <li>Apri Google Sheets e crea un nuovo documento</li>
+                <li>Crea 3 fogli: "Dashboard", "Kanban", "Creative"</li>
+                <li>Copia le tabelle qui sotto nei rispettivi fogli</li>
+                <li>Condividi con: <strong>ai@demasiadowear.com</strong></li>
+                <li>Usa l'app mobile Google Sheets per aggiornamenti rapidi</li>
+            </ul>
+            <a href="#dashboard" class="copy-button">📊 Vai al Dashboard</a>
+            <a href="#kanban" class="copy-button">📋 Vai al Kanban</a>
+            <a href="#creative" class="copy-button">🎨 Vai al Creative</a>
+        </div>
+        
+        <!-- SEZIONE 1: DASHBOARD OPERATIVA -->
+        <div class="section" id="dashboard">
+            <h2>📊 DASHBOARD OPERATIVA</h2>
+            <div class="copy-instructions">
+                <strong>📋 Copia in Google Sheets:</strong> Seleziona la tabella qui sotto, copia (Ctrl+C) e incolla nel foglio "Dashboard"
+            </div>
+            
+            <table class="dashboard-table">
+                <thead>
+                    <tr>
+                        <th>TASK</th>
+                        <th>AREA</th>
+                        <th>STATO</th>
+                        <th>DEADLINE</th>
+                        <th>CHI LO FA</th>
+                        <th>NOTE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Mockup x Nouman</td>
+                        <td>Lookbook</td>
+                        <td><span class="status status-todo">🔴 DA FARE</span></td>
+                        <td>07/06/2025</td>
+                        <td>Christian</td>
+                        <td>Almeno 3 modelli</td>
+                    </tr>
+                    <tr>
+                        <td>Generazione contenuti</td>
+                        <td>DEM-AI-OS</td>
+                        <td><span class="status status-progress">🟡 IN CORSO</span></td>
+                        <td>-</td>
+                        <td>Lana</td>
+                        <td>Script base ok</td>
+                    </tr>
+                    <tr>
+                        <td>Montaggio video "Taverna"</td>
+                        <td>Video</td>
+                        <td><span class="status status-blocked">⚫ BLOCCATO</span></td>
+                        <td>-</td>
+                        <td>Christian</td>
+                        <td>Lana pronta, manca tempo</td>
+                    </tr>
+                    <tr>
+                        <td>Intifada</td>
+                        <td>Collezioni</td>
+                        <td><span class="status status-idea">💡 IDEATO</span></td>
+                        <td>-</td>
+                        <td>Christian</td>
+                        <td>Mockup da creare</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- SEZIONE 2: KANBAN VISUALE -->
+        <div class="section" id="kanban">
+            <h2>📋 KANBAN VISUALE</h2>
+            <div class="copy-instructions">
+                <strong>📋 Organizzazione Kanban:</strong> Crea colonne nel foglio "Kanban" e organizza i task per stato
+            </div>
+            
+            <div class="kanban">
+                <div class="kanban-column">
+                    <div class="kanban-header kanban-todo">🔴 TO DO</div>
+                    <div class="kanban-card">
+                        <strong>Mockup x Nouman</strong><br>
+                        <small>Lookbook • Christian • 07/06/2025</small>
+                    </div>
+                </div>
+                
+                <div class="kanban-column">
+                    <div class="kanban-header kanban-progress">🟡 IN LAVORAZIONE</div>
+                    <div class="kanban-card">
+                        <strong>Generazione contenuti</strong><br>
+                        <small>DEM-AI-OS • Lana • Script base ok</small>
+                    </div>
+                </div>
+                
+                <div class="kanban-column">
+                    <div class="kanban-header kanban-blocked">⚫ BLOCCATO</div>
+                    <div class="kanban-card">
+                        <strong>Video "Taverna"</strong><br>
+                        <small>Video • Christian • Manca tempo</small>
+                    </div>
+                </div>
+                
+                <div class="kanban-column">
+                    <div class="kanban-header kanban-done">✅ COMPLETATO</div>
+                    <div class="kanban-card" style="opacity: 0.6;">
+                        <strong>Task completati</strong><br>
+                        <small>I task finiti vanno qui</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SEZIONE 3: CASSONETTO CREATIVO -->
+        <div class="section" id="creative">
+            <h2>🎨 CASSONETTO CREATIVO</h2>
+            <div class="copy-instructions">
+                <strong>📋 Creative Dump:</strong> Copia le idee nel foglio "Creative" per organizzare concept e prompt
+            </div>
+            
+            <div class="creative-grid">
+                <div class="creative-card">
+                    <div class="creative-type">💡 IDEA</div>
+                    <h4>Concept streetwear luxury</h4>
+                    <p>Mix tra street e lusso, colori neutri, materiali premium ma urban. Target giovane ma con potere d'acquisto.</p>
+                </div>
+                
+                <div class="creative-card">
+                    <div class="creative-type">🤖 PROMPT AI</div>
+                    <h4>Copy per social media</h4>
+                    <p>"Crea copy per post Instagram, brand urban-luxury, tono confidenziale, target 18-35, stile provocatorio ma elegante"</p>
+                </div>
+                
+                <div class="creative-card">
+                    <div class="creative-type">📝 SCRIPT</div>
+                    <h4>Video hero concept</h4>
+                    <p>Apertura: city landscape notturno, beat drop, modelli che camminano in slow motion, logo finale con effetto glitch</p>
+                </div>
+                
+                <div class="creative-card">
+                    <div class="creative-type">🏷️ NOMI COLLEZIONI</div>
+                    <h4>Possibili naming</h4>
+                    <p><strong>URBAN MYTH</strong> • <strong>STREET THRONE</strong> • <strong>CONCRETE ROYAL</strong> • <strong>ASPHALT CROWN</strong></p>
+                </div>
+                
+                <div class="creative-card">
+                    <div class="creative-type">🎯 STRATEGIA</div>
+                    <h4>Piano marketing Q2</h4>
+                    <p>Focus su TikTok e Instagram, collaborazioni con micro-influencer urban, eventi pop-up in location underground</p>
+                </div>
+                
+                <div class="creative-card">
+                    <div class="creative-type">🔮 FUTURE IDEAS</div>
+                    <h4>Progetti futuri</h4>
+                    <p>NFT collection, AR try-on, sustainable line, limited drops mensili, community Discord esclusiva</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3>📱 Ottimizzazione Mobile & Workflow</h3>
+            <p><strong>Setup consigliato:</strong></p>
+            <ul>
+                <li><strong>Desktop:</strong> Usa questo template per overview generale</li>
+                <li><strong>Mobile:</strong> App Google Sheets per aggiornamenti rapidi</li>
+                <li><strong>Notifiche:</strong> Attiva notifiche per modifiche al documento</li>
+                <li><strong>Backup:</strong> Esporta settimanalmente in Excel</li>
+                <li><strong>Collaborazione:</strong> Commenti per feedback sui task</li>
+            </ul>
+            
+            <p><strong>Formule utili per Google Sheets:</strong></p>
+            <ul>
+                <li><code>=FILTER(A:F, C:C="🔴 DA FARE")</code> - Filtra task da fare</li>
+                <li><code>=COUNTIF(C:C,"🟡 IN CORSO")</code> - Conta task in corso</li>
+                <li><code>=SORT(A:F, 4, TRUE)</code> - Ordina per deadline</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
