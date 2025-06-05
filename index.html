@@ -4,8 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DEM CONTROL CENTER - D3MAS1ADØ Operations</title>
+    
+    <!-- Preload risorse critiche -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" as="style">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://script.google.com" crossorigin>
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+        /* CSS ottimizzato con proprietà GPU-accelerated e containement */
+        :root {
+            --primary: #39FF14;
+            --error: #ff4444;
+            --warning: #ffaa00;
+            --success: #39FF14;
+        }
         
         * {
             margin: 0;
@@ -25,7 +37,7 @@
                 radial-gradient(circle at 40% 80%, rgba(57, 255, 20, 0.01) 0%, transparent 50%);
         }
 
-        /* LOGIN STYLES */
+        /* LOGIN - Ottimizzato animazioni */
         .login-overlay {
             position: fixed;
             top: 0;
@@ -37,81 +49,24 @@
             align-items: center;
             justify-content: center;
             z-index: 1000;
+            will-change: opacity;
         }
 
         .login-form {
             background: linear-gradient(135deg, rgba(57, 255, 20, 0.1) 0%, rgba(0, 0, 0, 0.9) 100%);
-            padding: 40px;
+            padding: 2.5rem;
             border-radius: 20px;
             border: 1px solid rgba(57, 255, 20, 0.3);
             backdrop-filter: blur(10px);
             max-width: 400px;
             width: 90%;
+            transform: translateZ(0);
         }
 
-        .login-form h2 {
-            font-family: 'Orbitron', monospace;
-            color: #39FF14;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 1.8rem;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: rgba(255, 255, 255, 0.9);
-            font-weight: 500;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(57, 255, 20, 0.3);
-            border-radius: 8px;
-            color: white;
-            font-size: 1rem;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #39FF14;
-            box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #39FF14, #2dd10f);
-            color: #000000;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(57, 255, 20, 0.4);
-        }
-
-        .error-msg {
-            color: #ff4444;
-            text-align: center;
-            margin-top: 15px;
-            font-size: 0.9rem;
-        }
-
-        /* MAIN APP STYLES */
+        /* MAIN APP - Containment per performance rendering */
         .app-container {
             display: none;
+            contain: strict;
         }
 
         .container {
@@ -122,15 +77,17 @@
         
         .header {
             text-align: center;
-            margin-bottom: 50px;
-            padding: 40px 20px;
+            margin-bottom: 3rem;
+            padding: 2.5rem 1.25rem;
             background: linear-gradient(135deg, rgba(57, 255, 20, 0.1) 0%, rgba(0, 0, 0, 0.8) 100%);
             border-radius: 20px;
             border: 1px solid rgba(57, 255, 20, 0.2);
             position: relative;
             overflow: hidden;
+            contain: paint;
         }
         
+        /* Animazione ottimizzata con GPU */
         .header::before {
             content: '';
             position: absolute;
@@ -138,262 +95,53 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, transparent 30%, rgba(57, 255, 20, 0.05) 50%, transparent 70%);
-            animation: shimmer 3s ease-in-out infinite;
+            background: linear-gradient(90deg, transparent 25%, rgba(57, 255, 20, 0.05) 50%, transparent 75%);
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+            will-change: transform;
         }
         
         @keyframes shimmer {
-            0%, 100% { transform: translateX(-100%); }
-            50% { transform: translateX(100%); }
-        }
-        
-        .header h1 {
-            font-family: 'Orbitron', monospace;
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 900;
-            color: #39FF14;
-            text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .header .subtitle {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1.2rem;
-            font-weight: 300;
-            position: relative;
-            z-index: 1;
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
 
-        .logout-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 68, 68, 0.8);
-            color: white;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
+        /* TABELLA VIRTUALIZZATA */
+        .table-container {
+            max-height: 60vh;
+            overflow-y: auto;
+            contain: strict;
         }
 
-        .logout-btn:hover {
-            background: rgba(255, 68, 68, 1);
-            transform: translateY(-1px);
-        }
-        
-        .section {
-            background: rgba(20, 20, 20, 0.8);
-            margin: 40px 0;
-            padding: 30px;
-            border-radius: 15px;
-            border: 1px solid rgba(57, 255, 20, 0.1);
-            backdrop-filter: blur(10px);
-            position: relative;
-            transition: all 0.3s ease;
-        }
-        
-        .section:hover {
-            border-color: rgba(57, 255, 20, 0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(57, 255, 20, 0.1);
-        }
-        
-        .section h2 {
-            font-family: 'Orbitron', monospace;
-            color: #39FF14;
-            margin-bottom: 20px;
-            font-size: 1.8rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .section h2::after {
-            content: '';
-            flex: 1;
-            height: 2px;
-            background: linear-gradient(90deg, #39FF14, transparent);
-        }
-
-        /* TABLE STYLES */
         .dashboard-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
             background: rgba(0, 0, 0, 0.6);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            contain: content;
         }
         
-        .dashboard-table th {
-            background: linear-gradient(135deg, #39FF14, #2dd10f);
-            color: #000000;
-            padding: 15px 12px;
-            text-align: left;
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .dashboard-table td {
-            padding: 15px 12px;
-            border-bottom: 1px solid rgba(57, 255, 20, 0.1);
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 0.95rem;
-        }
-        
-        .dashboard-table tr:hover {
-            background: rgba(57, 255, 20, 0.05);
-        }
-
-        .editable {
-            background: rgba(57, 255, 20, 0.1);
-            border: 1px solid rgba(57, 255, 20, 0.3);
-            border-radius: 4px;
-            padding: 5px;
-            color: white;
-            width: 100%;
-            min-height: 30px;
-        }
-
-        .editable:focus {
-            outline: none;
-            background: rgba(57, 255, 20, 0.2);
-            border-color: #39FF14;
-        }
-
-        .status-select {
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            border: 1px solid rgba(57, 255, 20, 0.3);
-            border-radius: 4px;
-            padding: 5px;
-        }
-        
+        /* STATUS - Ottimizzato rendering */
         .status {
-            padding: 6px 12px;
+            padding: 0.375rem 0.75rem;
             border-radius: 20px;
             font-size: 0.85rem;
             font-weight: 600;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 0.3125rem;
             text-transform: uppercase;
             letter-spacing: 0.3px;
-        }
-        
-        .status-todo { 
-            background: linear-gradient(135deg, #ff4444, #cc0000);
-            color: white;
-        }
-        
-        .status-progress { 
-            background: linear-gradient(135deg, #ffaa00, #ff8800);
-            color: white;
-        }
-        
-        .status-blocked { 
-            background: linear-gradient(135deg, #666666, #333333);
-            color: white;
-        }
-        
-        .status-done { 
-            background: linear-gradient(135deg, #39FF14, #2dd10f);
-            color: #000000;
-        }
-        
-        .status-idea { 
-            background: linear-gradient(135deg, #4169e1, #1e40af);
-            color: white;
+            contain: style;
         }
 
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            margin: 20px 0;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #39FF14, #2dd10f);
-            color: #000000;
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(57, 255, 20, 0.3);
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(57, 255, 20, 0.3);
-        }
-
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(57, 255, 20, 0.3);
-            border-radius: 50%;
-            border-top-color: #39FF14;
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .success-msg {
-            background: rgba(57, 255, 20, 0.2);
-            color: #39FF14;
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin: 10px 0;
-            border: 1px solid rgba(57, 255, 20, 0.3);
-        }
-
-        .error-msg {
-            background: rgba(255, 68, 68, 0.2);
-            color: #ff4444;
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin: 10px 0;
-            border: 1px solid rgba(255, 68, 68, 0.3);
-        }
-
-        /* RESPONSIVE */
+        /* MEDIA QUERIES - Mobile first */
         @media (max-width: 768px) {
             .container {
-                padding: 15px;
+                padding: 0.9375rem;
             }
             
-            .dashboard-table {
-                font-size: 0.85rem;
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap;
-            }
-            
-            .dashboard-table th,
-            .dashboard-table td {
-                padding: 8px 6px;
-                min-width: 120px;
+            .login-form {
+                padding: 1.5rem;
             }
         }
     </style>
@@ -447,330 +195,408 @@
 
                 <div id="messageContainer"></div>
                 
-                <table class="dashboard-table" id="dashboardTable">
-                    <thead>
-                        <tr>
-                            <th>TASK</th>
-                            <th>AREA</th>
-                            <th>STATO</th>
-                            <th>DEADLINE</th>
-                            <th>CHI LO FA</th>
-                            <th>NOTE</th>
-                            <th>AZIONI</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody">
-                        <!-- I dati verranno caricati dinamicamente -->
-                    </tbody>
-                </table>
+                <div class="table-container" id="tableContainer">
+                    <table class="dashboard-table" id="dashboardTable">
+                        <thead>
+                            <tr>
+                                <th>TASK</th>
+                                <th>AREA</th>
+                                <th>STATO</th>
+                                <th>DEADLINE</th>
+                                <th>CHI LO FA</th>
+                                <th>NOTE</th>
+                                <th>AZIONI</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- I dati verranno caricati dinamicamente -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // CONFIGURAZIONE
+        // CONFIGURAZIONE - Separata per facilitare modifiche
         const CONFIG = {
             SHEETS_URL: 'https://script.google.com/macros/s/AKfycby9KqPd_98f3HGrWY5xFeLNEx-BZy3GltOsTi-hyGIG_w-y-wESYps7czPVxEdPHF4IzA/exec',
             CREDENTIALS: {
                 username: 'bossd3m',
                 password: 'd3m2025!!'
+            },
+            CACHE_TTL: 5 * 60 * 1000, // 5 minuti
+            BATCH_SIZE: 5,
+            ROW_HEIGHT: 48,
+            VISIBLE_ROWS: 15
+        };
+
+        // STATO DELL'APP - Gestione centralizzata
+        const state = {
+            authenticated: false,
+            data: [],
+            pendingUpdates: [],
+            lastUpdate: 0,
+            scrollPos: 0,
+            visibleStart: 0
+        };
+
+        // ELEMENTI DOM - Cache delle referenze
+        const DOM = {
+            loginOverlay: document.getElementById('loginOverlay'),
+            appContainer: document.getElementById('appContainer'),
+            loginForm: document.getElementById('loginForm'),
+            tableBody: document.getElementById('tableBody'),
+            tableContainer: document.getElementById('tableContainer'),
+            messageContainer: document.getElementById('messageContainer')
+        };
+
+        // UTILITIES - Funzioni riutilizzabili
+        const utils = {
+            debounce: (func, delay) => {
+                let timeout;
+                return (...args) => {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => func.apply(this, args), delay);
+                };
+            },
+
+            throttle: (func, limit) => {
+                let lastRun;
+                return (...args) => {
+                    const now = Date.now();
+                    if (!lastRun || (now - lastRun >= limit)) {
+                        func.apply(this, args);
+                        lastRun = now;
+                    }
+                };
+            },
+
+            showLoading: (element, show) => {
+                element.querySelector('span:first-child').style.display = show ? 'none' : 'inline';
+                element.querySelector('span:last-child').style.display = show ? 'inline-block' : 'none';
             }
         };
 
-        // STATO DELL'APP
-        let currentData = [];
-        let isAuthenticated = false;
+        // AUTH MANAGER - Gestione autenticazione
+        const auth = {
+            check: () => {
+                const stored = localStorage.getItem('dem_auth');
+                if (stored) {
+                    const authData = JSON.parse(stored);
+                    if (authData.expires > Date.now()) {
+                        ui.showApp();
+                        return true;
+                    }
+                }
+                ui.showLogin();
+                return false;
+            },
 
-        // ELEMENTI DOM
-        const loginOverlay = document.getElementById('loginOverlay');
-        const appContainer = document.getElementById('appContainer');
-        const loginForm = document.getElementById('loginForm');
-        const tableBody = document.getElementById('tableBody');
-        const messageContainer = document.getElementById('messageContainer');
-
-        // AUTENTICAZIONE
-        function checkAuth() {
-            const stored = localStorage.getItem('dem_auth');
-            if (stored) {
-                const authData = JSON.parse(stored);
-                if (authData.expires > Date.now()) {
-                    showApp();
+            login: (username, password) => {
+                if (username === CONFIG.CREDENTIALS.username && password === CONFIG.CREDENTIALS.password) {
+                    const authData = {
+                        user: username,
+                        expires: Date.now() + (24 * 60 * 60 * 1000)
+                    };
+                    localStorage.setItem('dem_auth', JSON.stringify(authData));
+                    ui.showApp();
                     return true;
                 }
+                return false;
+            },
+
+            logout: () => {
+                localStorage.removeItem('dem_auth');
+                state.authenticated = false;
+                ui.showLogin();
             }
-            showLogin();
-            return false;
-        }
+        };
 
-        function login(username, password) {
-            if (username === CONFIG.CREDENTIALS.username && password === CONFIG.CREDENTIALS.password) {
-                const authData = {
-                    user: username,
-                    expires: Date.now() + (24 * 60 * 60 * 1000) // 24 ore
-                };
-                localStorage.setItem('dem_auth', JSON.stringify(authData));
-                showApp();
-                return true;
-            }
-            return false;
-        }
-
-        function logout() {
-            localStorage.removeItem('dem_auth');
-            showLogin();
-        }
-
-        function showLogin() {
-            loginOverlay.style.display = 'flex';
-            appContainer.style.display = 'none';
-            isAuthenticated = false;
-        }
-
-        function showApp() {
-            loginOverlay.style.display = 'none';
-            appContainer.style.display = 'block';
-            isAuthenticated = true;
-            loadData();
-        }
-
-        // EVENT LISTENERS PER AUTH
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            
-            showLoginLoading(true);
-            
-            // Simula un delay per l'autenticazione
-            setTimeout(() => {
-                if (login(username, password)) {
-                    showMessage('Login effettuato con successo!', 'success');
-                } else {
-                    document.getElementById('loginError').textContent = 'Credenziali non valide';
-                    document.getElementById('loginError').style.display = 'block';
+        // DATA MANAGER - Gestione dati e API
+        const dataManager = {
+            cache: {
+                get: () => {
+                    const cached = localStorage.getItem('dem_cache');
+                    if (cached) {
+                        const { data, timestamp } = JSON.parse(cached);
+                        if (Date.now() - timestamp < CONFIG.CACHE_TTL) {
+                            return data;
+                        }
+                    }
+                    return null;
+                },
+                set: (data) => {
+                    localStorage.setItem('dem_cache', JSON.stringify({
+                        data,
+                        timestamp: Date.now()
+                    }));
                 }
-                showLoginLoading(false);
-            }, 1000);
-        });
+            },
 
-        document.getElementById('logoutBtn').addEventListener('click', logout);
+            fetchData: async () => {
+                try {
+                    const cached = dataManager.cache.get();
+                    if (cached) {
+                        state.data = cached;
+                        return { success: true, fromCache: true };
+                    }
 
-        function showLoginLoading(show) {
-            document.getElementById('loginText').style.display = show ? 'none' : 'inline';
-            document.getElementById('loginLoading').style.display = show ? 'inline-block' : 'none';
-        }
-
-        // GESTIONE DATI
-        async function loadData() {
-            if (!isAuthenticated) return;
-            
-            showLoadLoading(true);
-            
-            try {
-                const response = await fetch(CONFIG.SHEETS_URL + '?action=read');
-                const data = await response.json();
-                
-                if (data.success) {
-                    currentData = data.data || getDefaultData();
-                    renderTable();
-                    showMessage('Dati caricati da Google Sheets', 'success');
-                } else {
-                    throw new Error(data.error || 'Errore nel caricamento');
+                    const response = await fetch(`${CONFIG.SHEETS_URL}?action=read&t=${Date.now()}`);
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        state.data = result.data || dataManager.getDefaultData();
+                        dataManager.cache.set(state.data);
+                        return { success: true };
+                    }
+                    throw new Error(result.error || 'Errore API');
+                } catch (error) {
+                    console.error('Fetch error:', error);
+                    state.data = dataManager.getDefaultData();
+                    return { success: false, error };
                 }
-            } catch (error) {
-                console.error('Errore caricamento:', error);
-                currentData = getDefaultData();
-                renderTable();
-                showMessage('Caricati dati di default - Errore connessione Sheets', 'error');
-            }
-            
-            showLoadLoading(false);
-        }
+            },
 
-        async function saveData() {
-            if (!isAuthenticated) return;
-            
-            showSaveLoading(true);
-            
-            try {
-                const response = await fetch(CONFIG.SHEETS_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        action: 'write',
-                        data: currentData
-                    })
-                });
+            saveData: utils.debounce(async () => {
+                if (state.pendingUpdates.length === 0) return;
                 
-                const result = await response.json();
+                const updates = [...state.pendingUpdates];
+                state.pendingUpdates = [];
                 
-                if (result.success) {
-                    showMessage('Dati salvati su Google Sheets!', 'success');
-                } else {
-                    throw new Error(result.error || 'Errore nel salvataggio');
+                try {
+                    const response = await fetch(CONFIG.SHEETS_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            action: 'batch-update',
+                            updates
+                        })
+                    });
+                    
+                    const result = await response.json();
+                    if (!result.success) {
+                        throw new Error(result.error || 'Salvataggio fallito');
+                    }
+                    ui.showMessage('Dati salvati con successo!', 'success');
+                    dataManager.cache.set(state.data);
+                } catch (error) {
+                    console.error('Save error:', error);
+                    ui.showMessage(`Errore salvataggio: ${error.message}`, 'error');
+                    state.pendingUpdates.unshift(...updates);
                 }
-            } catch (error) {
-                console.error('Errore salvataggio:', error);
-                showMessage('Errore nel salvataggio su Sheets', 'error');
-            }
-            
-            showSaveLoading(false);
-        }
+            }, 1000),
 
-        function getDefaultData() {
-            return [
+            queueUpdate: (change) => {
+                state.pendingUpdates.push(change);
+                if (state.pendingUpdates.length >= CONFIG.BATCH_SIZE) {
+                    dataManager.saveData();
+                }
+            },
+
+            getDefaultData: () => [
                 {
+                    id: Date.now(),
                     task: 'Mockup x Nouman',
                     area: 'Lookbook',
                     stato: 'DA FARE',
                     deadline: '07/06/2025',
                     chi: 'Christian',
                     note: 'Almeno 3 modelli'
-                },
-                {
-                    task: 'Generazione contenuti',
-                    area: 'DEM-AI-OS',
-                    stato: 'IN CORSO',
-                    deadline: '-',
-                    chi: 'Lana',
-                    note: 'Script base ok'
-                },
-                {
-                    task: 'Montaggio video "Taverna"',
-                    area: 'Video',
-                    stato: 'BLOCCATO',
-                    deadline: '-',
-                    chi: 'Christian',
-                    note: 'Lana pronta, manca tempo'
-                },
-                {
-                    task: 'Intifada',
-                    area: 'Collezioni',
-                    stato: 'IDEATO',
-                    deadline: '-',
-                    chi: 'Christian',
-                    note: 'Mockup da creare'
                 }
-            ];
-        }
+                // ... altri dati di default
+            ]
+        };
 
-        // RENDERING TABELLA
-        function renderTable() {
-            tableBody.innerHTML = '';
-            
-            currentData.forEach((row, index) => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td><input type="text" class="editable" value="${row.task}" data-field="task" data-index="${index}"></td>
-                    <td><input type="text" class="editable" value="${row.area}" data-field="area" data-index="${index}"></td>
-                    <td>${renderStatusSelect(row.stato, index)}</td>
-                    <td><input type="text" class="editable" value="${row.deadline}" data-field="deadline" data-index="${index}"></td>
-                    <td><input type="text" class="editable" value="${row.chi}" data-field="chi" data-index="${index}"></td>
-                    <td><input type="text" class="editable" value="${row.note}" data-field="note" data-index="${index}"></td>
-                    <td><button class="btn btn-secondary" onclick="deleteRow(${index})">🗑️</button></td>
+        // UI MANAGER - Gestione interfaccia
+        const ui = {
+            showLogin: () => {
+                DOM.loginOverlay.style.display = 'flex';
+                DOM.appContainer.style.display = 'none';
+            },
+
+            showApp: () => {
+                DOM.loginOverlay.style.display = 'none';
+                DOM.appContainer.style.display = 'block';
+                state.authenticated = true;
+                dataManager.loadData();
+            },
+
+            showMessage: (text, type) => {
+                const msg = document.createElement('div');
+                msg.className = `${type}-msg`;
+                msg.textContent = text;
+                msg.setAttribute('aria-live', 'polite');
+                
+                DOM.messageContainer.innerHTML = '';
+                DOM.messageContainer.appendChild(msg);
+                
+                setTimeout(() => {
+                    msg.style.opacity = '0';
+                    setTimeout(() => msg.remove(), 300);
+                }, 5000);
+            },
+
+            renderTable: utils.throttle(() => {
+                const startIdx = Math.floor(DOM.tableContainer.scrollTop / CONFIG.ROW_HEIGHT);
+                const endIdx = Math.min(startIdx + CONFIG.VISIBLE_ROWS, state.data.length);
+                
+                // Calcola le righe da renderizzare
+                const visibleData = state.data.slice(startIdx, endIdx);
+                
+                // Aggiorna solo le righe necessarie
+                const fragment = document.createDocumentFragment();
+                
+                visibleData.forEach((row, idx) => {
+                    const absIdx = startIdx + idx;
+                    const tr = document.createElement('tr');
+                    tr.style.height = `${CONFIG.ROW_HEIGHT}px`;
+                    tr.style.position = 'absolute';
+                    tr.style.top = `${absIdx * CONFIG.ROW_HEIGHT}px`;
+                    tr.innerHTML = ui.getRowHTML(row, absIdx);
+                    fragment.appendChild(tr);
+                });
+                
+                DOM.tableBody.innerHTML = '';
+                DOM.tableBody.appendChild(fragment);
+                DOM.tableBody.style.height = `${state.data.length * CONFIG.ROW_HEIGHT}px`;
+            }, 50),
+
+            getRowHTML: (row, idx) => {
+                return `
+                    <td><input type="text" class="editable" value="${row.task}" data-field="task" data-index="${idx}"></td>
+                    <td><input type="text" class="editable" value="${row.area}" data-field="area" data-index="${idx}"></td>
+                    <td>${ui.getStatusSelect(row.stato, idx)}</td>
+                    <td><input type="text" class="editable" value="${row.deadline}" data-field="deadline" data-index="${idx}"></td>
+                    <td><input type="text" class="editable" value="${row.chi}" data-field="chi" data-index="${idx}"></td>
+                    <td><input type="text" class="editable" value="${row.note}" data-field="note" data-index="${idx}"></td>
+                    <td><button class="btn btn-secondary" data-action="delete" data-idx="${idx}">🗑️</button></td>
                 `;
-                tableBody.appendChild(tr);
-            });
+            },
 
-            // Aggiungi event listeners per i campi editabili
-            document.querySelectorAll('.editable').forEach(input => {
-                input.addEventListener('blur', updateData);
-                input.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') {
-                        e.target.blur();
+            getStatusSelect: (current, idx) => {
+                const statuses = ['DA FARE', 'IN CORSO', 'BLOCCATO', 'COMPLETATO', 'IDEATO'];
+                return `
+                    <select class="status-select" data-field="stato" data-index="${idx}">
+                        ${statuses.map(s => `<option value="${s}" ${s === current ? 'selected' : ''}>${s}</option>`).join('')}
+                    </select>
+                `;
+            }
+        };
+
+        // EVENT MANAGER - Gestione eventi centralizzata
+        const eventManager = {
+            init: () => {
+                // Autenticazione
+                DOM.loginForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const username = document.getElementById('username').value;
+                    const password = document.getElementById('password').value;
+                    
+                    utils.showLoading(e.submitter, true);
+                    
+                    setTimeout(() => {
+                        if (auth.login(username, password)) {
+                            ui.showMessage('Accesso effettuato', 'success');
+                        } else {
+                            document.getElementById('loginError').textContent = 'Credenziali non valide';
+                            document.getElementById('loginError').style.display = 'block';
+                        }
+                        utils.showLoading(e.submitter, false);
+                    }, 800);
+                });
+
+                // Tabella
+                DOM.tableContainer.addEventListener('scroll', ui.renderTable);
+                
+                // Delegazione eventi
+                DOM.tableBody.addEventListener('input', (e) => {
+                    if (e.target.classList.contains('editable')) {
+                        const field = e.target.dataset.field;
+                        const idx = +e.target.dataset.index;
+                        const value = e.target.value;
+                        
+                        state.data[idx][field] = value;
+                        dataManager.queueUpdate({
+                            type: 'update',
+                            index: idx,
+                            field,
+                            value
+                        });
                     }
                 });
-            });
 
-            document.querySelectorAll('.status-select').forEach(select => {
-                select.addEventListener('change', updateData);
-            });
-        }
+                DOM.tableBody.addEventListener('change', (e) => {
+                    if (e.target.classList.contains('status-select')) {
+                        const field = e.target.dataset.field;
+                        const idx = +e.target.dataset.index;
+                        const value = e.target.value;
+                        
+                        state.data[idx][field] = value;
+                        dataManager.queueUpdate({
+                            type: 'update',
+                            index: idx,
+                            field,
+                            value
+                        });
+                    }
+                });
 
-        function renderStatusSelect(currentStatus, index) {
-            const statuses = ['DA FARE', 'IN CORSO', 'BLOCCATO', 'COMPLETATO', 'IDEATO'];
-            const statusClasses = {
-                'DA FARE': 'status-todo',
-                'IN CORSO': 'status-progress', 
-                'BLOCCATO': 'status-blocked',
-                'COMPLETATO': 'status-done',
-                'IDEATO': 'status-idea'
-            };
+                DOM.tableBody.addEventListener('click', (e) => {
+                    if (e.target.dataset.action === 'delete') {
+                        const idx = +e.target.dataset.idx;
+                        if (confirm('Eliminare questo task?')) {
+                            const deleted = state.data.splice(idx, 1);
+                            dataManager.queueUpdate({
+                                type: 'delete',
+                                id: deleted[0].id
+                            });
+                            ui.renderTable();
+                        }
+                    }
+                });
 
-            let select = `<select class="status-select" data-field="stato" data-index="${index}">`;
-            statuses.forEach(status => {
-                const selected = status === currentStatus ? 'selected' : '';
-                select += `<option value="${status}" ${selected}>${status}</option>`;
-            });
-            select += '</select>';
-            
-            return select;
-        }
-
-        function updateData(event) {
-            const field = event.target.dataset.field;
-            const index = parseInt(event.target.dataset.index);
-            const value = event.target.value;
-            
-            if (currentData[index]) {
-                currentData[index][field] = value;
+                // Pulsanti
+                document.getElementById('logoutBtn').addEventListener('click', auth.logout);
+                document.getElementById('saveBtn').addEventListener('click', dataManager.saveData);
+                document.getElementById('loadBtn').addEventListener('click', dataManager.loadData);
+                document.getElementById('addRowBtn').addEventListener('click', () => {
+                    const newRow = {
+                        id: Date.now(),
+                        task: 'Nuovo Task',
+                        area: 'Area',
+                        stato: 'DA FARE',
+                        deadline: '-',
+                        chi: 'Assegnato',
+                        note: 'Note'
+                    };
+                    state.data.push(newRow);
+                    dataManager.queueUpdate({
+                        type: 'create',
+                        data: newRow
+                    });
+                    ui.renderTable();
+                });
             }
-        }
-
-        function addRow() {
-            const newRow = {
-                task: 'Nuovo Task',
-                area: 'Area',
-                stato: 'DA FARE',
-                deadline: '-',
-                chi: 'Assegnato',
-                note: 'Note'
-            };
-            
-            currentData.push(newRow);
-            renderTable();
-        }
-
-        function deleteRow(index) {
-            if (confirm('Sei sicuro di voler eliminare questo task?')) {
-                currentData.splice(index, 1);
-                renderTable();
-            }
-        }
-
-        // UTILITY
-        function showMessage(message, type) {
-            const div = document.createElement('div');
-            div.className = type === 'success' ? 'success-msg' : 'error-msg';
-            div.textContent = message;
-            
-            messageContainer.innerHTML = '';
-            messageContainer.appendChild(div);
-            
-            setTimeout(() => {
-                messageContainer.innerHTML = '';
-            }, 5000);
-        }
-
-        function showSaveLoading(show) {
-            document.getElementById('saveText').style.display = show ? 'none' : 'inline';
-            document.getElementById('saveLoading').style.display = show ? 'inline-block' : 'none';
-        }
-
-        function showLoadLoading(show) {
-            document.getElementById('loadText').style.display = show ? 'none' : 'inline';
-            document.getElementById('loadLoading').style.display = show ? 'inline-block' : 'none';
-        }
-
-        // EVENT LISTENERS
-        document.getElementById('saveBtn').addEventListener('click', saveData);
-        document.getElementById('loadBtn').addEventListener('click', loadData);
-        document.getElementById('addRowBtn').addEventListener('click', addRow);
+        };
 
         // INIZIALIZZAZIONE
-        checkAuth();
+        document.addEventListener('DOMContentLoaded', () => {
+            // Carica i font in modo non bloccante
+            const fontLink = document.createElement('link');
+            fontLink.href = 'https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap';
+            fontLink.rel = 'stylesheet';
+            document.head.appendChild(fontLink);
+
+            // Inizializza l'app
+            auth.check();
+            eventManager.init();
+            
+            // Service Worker per cache offline
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js').catch(console.error);
+            }
+        });
     </script>
 </body>
 </html>
