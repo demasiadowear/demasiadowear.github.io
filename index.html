@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DEM CONTROL CENTER - D3MAS1ADØ</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -83,72 +83,80 @@
   </div>
 
   <!-- CONTENUTO -->
-<div id="content" style="display:none;">
-  <!-- ... tutto come già scritto sopra ... -->
-</div>
+  <div id="content" style="display:none;">
+    <h2 style="color:#39FF14;">Foglio di controllo DEM</h2>
 
-<script>
-  const USER = "admin";
-  const PASS = "dem310";
-  const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbw_fgcySlTnZyU9csGiK2jNdsZenW_aEjElXzKwVoT1eJfIqmWtz73b5N2YU9Pj3CE-Vg/exec";
-  let currentSheet = "DASHBOARD";
+    <div class="tab-buttons">
+      <button onclick="loadSheet('DASHBOARD')">📊 Dashboard</button>
+      <button onclick="loadSheet('KANBAN')">📋 Kanban</button>
+      <button onclick="loadSheet('CREATIVE DUMP')">🎨 Creative</button>
+    </div>
 
-  function doLogin() {
-    const u = document.getElementById("username").value;
-    const p = document.getElementById("password").value;
-    if (u === USER && p === PASS) {
-      document.getElementById("login-box").style.display = "none";
-      document.getElementById("content").style.display = "block";
-      document.body.style.overflow = "auto";
-      loadSheet(currentSheet);
-    } else {
-      document.getElementById("login-error").style.display = "block";
+    <div id="sheet-data"></div>
+  </div>
+
+  <script>
+    const USER = "admin";
+    const PASS = "dem310";
+    const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbxDObQ7ypE0fwP-UKlU-Zo-xmTFsmV31iwIgEFqzJ4d/dev";
+    let currentSheet = "DASHBOARD";
+
+    function doLogin() {
+      const u = document.getElementById("username").value;
+      const p = document.getElementById("password").value;
+      if (u === USER && p === PASS) {
+        document.getElementById("login-box").style.display = "none";
+        document.getElementById("content").style.display = "block";
+        document.body.style.overflow = "auto";
+        loadSheet(currentSheet);
+      } else {
+        document.getElementById("login-error").style.display = "block";
+      }
     }
-  }
 
-  function loadSheet(sheetName) {
-    currentSheet = sheetName;
-    fetch(`${SHEET_ENDPOINT}?action=read&sheet=${encodeURIComponent(sheetName)}`)
-      .then(res => res.json())
-      .then(data => renderTable(data))
-      .catch(() => alert("❌ Errore nel caricamento dati"));
-  }
+    function loadSheet(sheetName) {
+      currentSheet = sheetName;
+      fetch(`${SHEET_ENDPOINT}?action=read&sheet=${encodeURIComponent(sheetName)}`)
+        .then(res => res.json())
+        .then(data => renderTable(data))
+        .catch(() => alert("❌ Errore nel caricamento dati"));
+    }
 
-  function renderTable(data) {
-    const container = document.getElementById("sheet-data");
-    let html = "<table><thead><tr>" + data[0].map(h => `<th>${h}</th>`).join("") + "</tr></thead><tbody>";
-    for (let i = 1; i < data.length; i++) {
-      html += `<tr data-row="${i}">`;
-      data[i].forEach((val, j) => {
-        html += `<td contenteditable="true" onblur="updateCell(${i}, ${j}, this.innerText)">${val}</td>`;
+    function renderTable(data) {
+      const container = document.getElementById("sheet-data");
+      let html = "<table><thead><tr>" + data[0].map(h => `<th>${h}</th>`).join("") + "</tr></thead><tbody>";
+      for (let i = 1; i < data.length; i++) {
+        html += `<tr data-row="${i}">`;
+        data[i].forEach((val, j) => {
+          html += `<td contenteditable="true" onblur="updateCell(${i}, ${j}, this.innerText)">${val}</td>`;
+        });
+        html += "</tr>";
+      }
+      html += "</tbody></table>";
+      container.innerHTML = html;
+    }
+
+    function updateCell(row, col, value) {
+      fetch(SHEET_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "update",
+          sheet: currentSheet,
+          row: row,
+          col: col,
+          value: value
+        })
+      }).then(() => {
+        console.log("✅ Aggiornato");
+      }).catch(() => {
+        alert("❌ Errore nell'invio");
       });
-      html += "</tr>";
     }
-    html += "</tbody></table>";
-    container.innerHTML = html;
-  }
 
-  function updateCell(row, col, value) {
-    fetch(SHEET_ENDPOINT, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        action: "update",
-        sheet: currentSheet,
-        row: row,
-        col: col,
-        value: value
-      })
-    }).then(() => {
-      console.log("✅ Aggiornato");
-    }).catch(() => {
-      alert("❌ Errore nell'invio");
-    });
-  }
-
-  window.onload = () => {
-    document.body.style.overflow = "hidden";
-  };
-</script>
+    window.onload = () => {
+      document.body.style.overflow = "hidden";
+    };
+  </script>
 </body>
 </html>
