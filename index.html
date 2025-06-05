@@ -5,113 +5,772 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DEM CONTROL CENTER - D3MAS1ADØ Operations</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: 'Inter', sans-serif;
-            background: #000;
-            color: #fff;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(57, 255, 20, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(57, 255, 20, 0.02) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(57, 255, 20, 0.01) 0%, transparent 50%);
         }
-        .login-container {
+
+        /* LOGIN STYLES */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
             display: flex;
-            justify-content: center;
             align-items: center;
-            height: 100vh;
+            justify-content: center;
+            z-index: 1000;
         }
-        .login-box {
-            background: #111;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px #39FF14;
+
+        .login-form {
+            background: linear-gradient(135deg, rgba(57, 255, 20, 0.1) 0%, rgba(0, 0, 0, 0.9) 100%);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(57, 255, 20, 0.3);
+            backdrop-filter: blur(10px);
+            max-width: 400px;
+            width: 90%;
         }
-        .login-box h2 {
+
+        .login-form h2 {
+            font-family: 'Orbitron', monospace;
             color: #39FF14;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
             margin-bottom: 20px;
         }
-        .login-box input[type="text"], .login-box input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 5px;
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
         }
-        .login-box button {
+
+        .form-group input {
             width: 100%;
-            padding: 10px;
-            background: #39FF14;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(57, 255, 20, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #39FF14;
+            box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #39FF14, #2dd10f);
+            color: #000000;
             border: none;
-            border-radius: 5px;
-            color: #000;
-            font-weight: bold;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
-        #main-content {
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(57, 255, 20, 0.4);
+        }
+
+        .error-msg {
+            color: #ff4444;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        /* MAIN APP STYLES */
+        .app-container {
             display: none;
         }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, rgba(57, 255, 20, 0.1) 0%, rgba(0, 0, 0, 0.8) 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(57, 255, 20, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(57, 255, 20, 0.05) 50%, transparent 70%);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        
+        @keyframes shimmer {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+        }
+        
+        .header h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            color: #39FF14;
+            text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header .subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.2rem;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 68, 68, 0.8);
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 68, 68, 1);
+            transform: translateY(-1px);
+        }
+        
+        .section {
+            background: rgba(20, 20, 20, 0.8);
+            margin: 40px 0;
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(57, 255, 20, 0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .section:hover {
+            border-color: rgba(57, 255, 20, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(57, 255, 20, 0.1);
+        }
+        
+        .section h2 {
+            font-family: 'Orbitron', monospace;
+            color: #39FF14;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .section h2::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, #39FF14, transparent);
+        }
+
+        /* TABLE STYLES */
+        .dashboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .dashboard-table th {
+            background: linear-gradient(135deg, #39FF14, #2dd10f);
+            color: #000000;
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .dashboard-table td {
+            padding: 15px 12px;
+            border-bottom: 1px solid rgba(57, 255, 20, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+        }
+        
+        .dashboard-table tr:hover {
+            background: rgba(57, 255, 20, 0.05);
+        }
+
+        .editable {
+            background: rgba(57, 255, 20, 0.1);
+            border: 1px solid rgba(57, 255, 20, 0.3);
+            border-radius: 4px;
+            padding: 5px;
+            color: white;
+            width: 100%;
+            min-height: 30px;
+        }
+
+        .editable:focus {
+            outline: none;
+            background: rgba(57, 255, 20, 0.2);
+            border-color: #39FF14;
+        }
+
+        .status-select {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            border: 1px solid rgba(57, 255, 20, 0.3);
+            border-radius: 4px;
+            padding: 5px;
+        }
+        
+        .status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        
+        .status-todo { 
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: white;
+        }
+        
+        .status-progress { 
+            background: linear-gradient(135deg, #ffaa00, #ff8800);
+            color: white;
+        }
+        
+        .status-blocked { 
+            background: linear-gradient(135deg, #666666, #333333);
+            color: white;
+        }
+        
+        .status-done { 
+            background: linear-gradient(135deg, #39FF14, #2dd10f);
+            color: #000000;
+        }
+        
+        .status-idea { 
+            background: linear-gradient(135deg, #4169e1, #1e40af);
+            color: white;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #39FF14, #2dd10f);
+            color: #000000;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(57, 255, 20, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(57, 255, 20, 0.3);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(57, 255, 20, 0.3);
+            border-radius: 50%;
+            border-top-color: #39FF14;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .success-msg {
+            background: rgba(57, 255, 20, 0.2);
+            color: #39FF14;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border: 1px solid rgba(57, 255, 20, 0.3);
+        }
+
+        .error-msg {
+            background: rgba(255, 68, 68, 0.2);
+            color: #ff4444;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border: 1px solid rgba(255, 68, 68, 0.3);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .dashboard-table {
+                font-size: 0.85rem;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            .dashboard-table th,
+            .dashboard-table td {
+                padding: 8px 6px;
+                min-width: 120px;
+            }
+        }
     </style>
+</head>
+<body>
+    <!-- LOGIN OVERLAY -->
+    <div id="loginOverlay" class="login-overlay">
+        <div class="login-form">
+            <h2>⚡ DEM ACCESS</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="login-btn">
+                    <span id="loginText">ACCEDI</span>
+                    <span id="loginLoading" class="loading" style="display: none;"></span>
+                </button>
+                <div id="loginError" class="error-msg" style="display: none;"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div id="appContainer" class="app-container">
+        <div class="container">
+            <div class="header">
+                <button id="logoutBtn" class="logout-btn">LOGOUT</button>
+                <h1>⚡ DEM CONTROL CENTER</h1>
+                <p class="subtitle">powered by Lana • D3MAS1ADØ Operations</p>
+            </div>
+            
+            <div class="section">
+                <h2>📊 DASHBOARD OPERATIVA</h2>
+                
+                <div class="action-buttons">
+                    <button id="saveBtn" class="btn btn-primary">
+                        <span id="saveText">💾 SALVA SU SHEETS</span>
+                        <span id="saveLoading" class="loading" style="display: none;"></span>
+                    </button>
+                    <button id="loadBtn" class="btn btn-secondary">
+                        <span id="loadText">🔄 RICARICA DA SHEETS</span>
+                        <span id="loadLoading" class="loading" style="display: none;"></span>
+                    </button>
+                    <button id="addRowBtn" class="btn btn-secondary">➕ AGGIUNGI TASK</button>
+                </div>
+
+                <div id="messageContainer"></div>
+                
+                <table class="dashboard-table" id="dashboardTable">
+                    <thead>
+                        <tr>
+                            <th>TASK</th>
+                            <th>AREA</th>
+                            <th>STATO</th>
+                            <th>DEADLINE</th>
+                            <th>CHI LO FA</th>
+                            <th>NOTE</th>
+                            <th>AZIONI</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- I dati verranno caricati dinamicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <script>
-        function login() {
-            const user = document.getElementById('user').value;
-            const pass = document.getElementById('pass').value;
-            if (user === 'bossd3m' && pass === 'd3m2025!!') {
-                document.getElementById('login').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-                loadDashboard();
-            } else {
-                alert('Credenziali errate');
+        // CONFIGURAZIONE
+        const CONFIG = {
+            SHEETS_URL: 'https://script.google.com/macros/s/AKfycby9KqPd_98f3HGrWY5xFeLNEx-BZy3GltOsTi-hyGIG_w-y-wESYps7czPVxEdPHF4IzA/exec',
+            CREDENTIALS: {
+                username: 'bossd3m',
+                password: 'd3m2025!!'
+            }
+        };
+
+        // STATO DELL'APP
+        let currentData = [];
+        let isAuthenticated = false;
+
+        // ELEMENTI DOM
+        const loginOverlay = document.getElementById('loginOverlay');
+        const appContainer = document.getElementById('appContainer');
+        const loginForm = document.getElementById('loginForm');
+        const tableBody = document.getElementById('tableBody');
+        const messageContainer = document.getElementById('messageContainer');
+
+        // AUTENTICAZIONE
+        function checkAuth() {
+            const stored = localStorage.getItem('dem_auth');
+            if (stored) {
+                const authData = JSON.parse(stored);
+                if (authData.expires > Date.now()) {
+                    showApp();
+                    return true;
+                }
+            }
+            showLogin();
+            return false;
+        }
+
+        function login(username, password) {
+            if (username === CONFIG.CREDENTIALS.username && password === CONFIG.CREDENTIALS.password) {
+                const authData = {
+                    user: username,
+                    expires: Date.now() + (24 * 60 * 60 * 1000) // 24 ore
+                };
+                localStorage.setItem('dem_auth', JSON.stringify(authData));
+                showApp();
+                return true;
+            }
+            return false;
+        }
+
+        function logout() {
+            localStorage.removeItem('dem_auth');
+            showLogin();
+        }
+
+        function showLogin() {
+            loginOverlay.style.display = 'flex';
+            appContainer.style.display = 'none';
+            isAuthenticated = false;
+        }
+
+        function showApp() {
+            loginOverlay.style.display = 'none';
+            appContainer.style.display = 'block';
+            isAuthenticated = true;
+            loadData();
+        }
+
+        // EVENT LISTENERS PER AUTH
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            showLoginLoading(true);
+            
+            // Simula un delay per l'autenticazione
+            setTimeout(() => {
+                if (login(username, password)) {
+                    showMessage('Login effettuato con successo!', 'success');
+                } else {
+                    document.getElementById('loginError').textContent = 'Credenziali non valide';
+                    document.getElementById('loginError').style.display = 'block';
+                }
+                showLoginLoading(false);
+            }, 1000);
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', logout);
+
+        function showLoginLoading(show) {
+            document.getElementById('loginText').style.display = show ? 'none' : 'inline';
+            document.getElementById('loginLoading').style.display = show ? 'inline-block' : 'none';
+        }
+
+        // GESTIONE DATI
+        async function loadData() {
+            if (!isAuthenticated) return;
+            
+            showLoadLoading(true);
+            
+            try {
+                const response = await fetch(CONFIG.SHEETS_URL + '?action=read');
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentData = data.data || getDefaultData();
+                    renderTable();
+                    showMessage('Dati caricati da Google Sheets', 'success');
+                } else {
+                    throw new Error(data.error || 'Errore nel caricamento');
+                }
+            } catch (error) {
+                console.error('Errore caricamento:', error);
+                currentData = getDefaultData();
+                renderTable();
+                showMessage('Caricati dati di default - Errore connessione Sheets', 'error');
+            }
+            
+            showLoadLoading(false);
+        }
+
+        async function saveData() {
+            if (!isAuthenticated) return;
+            
+            showSaveLoading(true);
+            
+            try {
+                const response = await fetch(CONFIG.SHEETS_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'write',
+                        data: currentData
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showMessage('Dati salvati su Google Sheets!', 'success');
+                } else {
+                    throw new Error(result.error || 'Errore nel salvataggio');
+                }
+            } catch (error) {
+                console.error('Errore salvataggio:', error);
+                showMessage('Errore nel salvataggio su Sheets', 'error');
+            }
+            
+            showSaveLoading(false);
+        }
+
+        function getDefaultData() {
+            return [
+                {
+                    task: 'Mockup x Nouman',
+                    area: 'Lookbook',
+                    stato: 'DA FARE',
+                    deadline: '07/06/2025',
+                    chi: 'Christian',
+                    note: 'Almeno 3 modelli'
+                },
+                {
+                    task: 'Generazione contenuti',
+                    area: 'DEM-AI-OS',
+                    stato: 'IN CORSO',
+                    deadline: '-',
+                    chi: 'Lana',
+                    note: 'Script base ok'
+                },
+                {
+                    task: 'Montaggio video "Taverna"',
+                    area: 'Video',
+                    stato: 'BLOCCATO',
+                    deadline: '-',
+                    chi: 'Christian',
+                    note: 'Lana pronta, manca tempo'
+                },
+                {
+                    task: 'Intifada',
+                    area: 'Collezioni',
+                    stato: 'IDEATO',
+                    deadline: '-',
+                    chi: 'Christian',
+                    note: 'Mockup da creare'
+                }
+            ];
+        }
+
+        // RENDERING TABELLA
+        function renderTable() {
+            tableBody.innerHTML = '';
+            
+            currentData.forEach((row, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><input type="text" class="editable" value="${row.task}" data-field="task" data-index="${index}"></td>
+                    <td><input type="text" class="editable" value="${row.area}" data-field="area" data-index="${index}"></td>
+                    <td>${renderStatusSelect(row.stato, index)}</td>
+                    <td><input type="text" class="editable" value="${row.deadline}" data-field="deadline" data-index="${index}"></td>
+                    <td><input type="text" class="editable" value="${row.chi}" data-field="chi" data-index="${index}"></td>
+                    <td><input type="text" class="editable" value="${row.note}" data-field="note" data-index="${index}"></td>
+                    <td><button class="btn btn-secondary" onclick="deleteRow(${index})">🗑️</button></td>
+                `;
+                tableBody.appendChild(tr);
+            });
+
+            // Aggiungi event listeners per i campi editabili
+            document.querySelectorAll('.editable').forEach(input => {
+                input.addEventListener('blur', updateData);
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        e.target.blur();
+                    }
+                });
+            });
+
+            document.querySelectorAll('.status-select').forEach(select => {
+                select.addEventListener('change', updateData);
+            });
+        }
+
+        function renderStatusSelect(currentStatus, index) {
+            const statuses = ['DA FARE', 'IN CORSO', 'BLOCCATO', 'COMPLETATO', 'IDEATO'];
+            const statusClasses = {
+                'DA FARE': 'status-todo',
+                'IN CORSO': 'status-progress', 
+                'BLOCCATO': 'status-blocked',
+                'COMPLETATO': 'status-done',
+                'IDEATO': 'status-idea'
+            };
+
+            let select = `<select class="status-select" data-field="stato" data-index="${index}">`;
+            statuses.forEach(status => {
+                const selected = status === currentStatus ? 'selected' : '';
+                select += `<option value="${status}" ${selected}>${status}</option>`;
+            });
+            select += '</select>';
+            
+            return select;
+        }
+
+        function updateData(event) {
+            const field = event.target.dataset.field;
+            const index = parseInt(event.target.dataset.index);
+            const value = event.target.value;
+            
+            if (currentData[index]) {
+                currentData[index][field] = value;
             }
         }
 
-        function loadDashboard() {
-            fetch("https://script.google.com/macros/s/AKfycby9KqPd_98f3HGrWY5xFeLNEx-BZy3GltOsTi-hyGIG_w-y-wESYps7czPVxEdPHF4IzA/exec")
-                .then(res => res.json())
-                .then(data => {
-                    const table = document.getElementById('dashboard-body');
-                    table.innerHTML = '';
-                    data.forEach(row => {
-                        const tr = document.createElement('tr');
-                        tr.innerHTML = `
-                            <td>${row.TASK}</td>
-                            <td>${row.AREA}</td>
-                            <td>${row.STATO}</td>
-                            <td>${row.DEADLINE}</td>
-                            <td>${row["CHI LO FA"]}</td>
-                            <td>${row.NOTE}</td>
-                        `;
-                        table.appendChild(tr);
-                    });
-                });
+        function addRow() {
+            const newRow = {
+                task: 'Nuovo Task',
+                area: 'Area',
+                stato: 'DA FARE',
+                deadline: '-',
+                chi: 'Assegnato',
+                note: 'Note'
+            };
+            
+            currentData.push(newRow);
+            renderTable();
         }
-    </script>
-</head>
-<body>
-    <div id="login" class="login-container">
-        <div class="login-box">
-            <h2>Accesso DEM CONTROL</h2>
-            <input type="text" id="user" placeholder="Username">
-            <input type="password" id="pass" placeholder="Password">
-            <button onclick="login()">Entra</button>
-        </div>
-    </div>
 
-    <div id="main-content">
-        <div style="text-align:center; padding:20px;">
-            <h1>DEM CONTROL CENTER</h1>
-            <p>Benvenuto, Christian. Dati caricati da Google Sheets.</p>
-        </div>
-        <table border="1" cellpadding="10" cellspacing="0" style="width:100%; background:#111; color:#fff;">
-            <thead style="background:#39FF14; color:#000;">
-                <tr>
-                    <th>TASK</th>
-                    <th>AREA</th>
-                    <th>STATO</th>
-                    <th>DEADLINE</th>
-                    <th>CHI LO FA</th>
-                    <th>NOTE</th>
-                </tr>
-            </thead>
-            <tbody id="dashboard-body">
-                <!-- Dati caricati dinamicamente -->
-            </tbody>
-        </table>
-    </div>
+        function deleteRow(index) {
+            if (confirm('Sei sicuro di voler eliminare questo task?')) {
+                currentData.splice(index, 1);
+                renderTable();
+            }
+        }
+
+        // UTILITY
+        function showMessage(message, type) {
+            const div = document.createElement('div');
+            div.className = type === 'success' ? 'success-msg' : 'error-msg';
+            div.textContent = message;
+            
+            messageContainer.innerHTML = '';
+            messageContainer.appendChild(div);
+            
+            setTimeout(() => {
+                messageContainer.innerHTML = '';
+            }, 5000);
+        }
+
+        function showSaveLoading(show) {
+            document.getElementById('saveText').style.display = show ? 'none' : 'inline';
+            document.getElementById('saveLoading').style.display = show ? 'inline-block' : 'none';
+        }
+
+        function showLoadLoading(show) {
+            document.getElementById('loadText').style.display = show ? 'none' : 'inline';
+            document.getElementById('loadLoading').style.display = show ? 'inline-block' : 'none';
+        }
+
+        // EVENT LISTENERS
+        document.getElementById('saveBtn').addEventListener('click', saveData);
+        document.getElementById('loadBtn').addEventListener('click', loadData);
+        document.getElementById('addRowBtn').addEventListener('click', addRow);
+
+        // INIZIALIZZAZIONE
+        checkAuth();
+    </script>
 </body>
 </html>
