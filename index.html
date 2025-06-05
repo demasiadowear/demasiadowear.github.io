@@ -95,13 +95,10 @@
     <div id="sheet-data"></div>
   </div>
 
-  <script>
-    const USER = "admin";
-    const PASS = "dem310";
-    const SHEET_ENDPOINT = https://script.google.com/macros/s/AKfycbw_fgcySlTnZyU9csGiK2jNdsZenW_aEjElXzKwVoT1eJfIqmWtz73b5N2YU9Pj3CE-Vg/exec";
-"https://script.google.com/macros/s/AKfycbw_fgcySlTnZyU9csGiK2jNdsZenW_aEjElXzKwVoT1eJfIqmWtz73b5N2YU9Pj3CE-Vg/exec";
-    let currentSheet = "DASHBOARD";
-
+ const USER = "admin";
+const PASS = "dem310";
+const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbw_fgcySlTnZyU9csGiK2jNdsZenW_aEjElXzKwVoT1eJfIqmWtz73b5N2YU9Pj3CE-Vg/exec";
+let currentSheet = "DASHBOARD";
     function doLogin() {
       const u = document.getElementById("username").value;
       const p = document.getElementById("password").value;
